@@ -14,9 +14,13 @@
 
     /* 📱 調整手機上的 IG 浮動按鈕位置，避免與系統手勢列重疊 */
     @media (max-width: 640px) {
-      a[aria-label="Open Instagram"] {
-        top: 1.25rem !important; /* 原 top-5 微下移 */
-        right: 1.25rem !important; /* 原 right-5 微內縮 */
+      a[aria-label="Open Instagram @rotion87"]{
+        top: 1.25rem !important;
+        right: 1.25rem !important;
+      }
+      a[aria-label="Open Instagram @l72uo_"]{
+        top: 4.75rem !important; /* 第二顆往下放 */
+        right: 1.25rem !important;
       }
     }
 
@@ -31,25 +35,29 @@
       pointer-events: none;
       animation: ripple-anim 600ms ease-out forwards;
     }
-    @keyframes ripple-anim{
-      to{
-        transform: scale(12);
-        opacity: 0;
-      }
-    }
+    @keyframes ripple-anim{ to{ transform: scale(12); opacity: 0; } }
   </style>
 </head>
 <body class="text-stone-900">
   <div id="app"></div>
 
-  <!-- IG icon button -->
+  <!-- IG icon button：@rotion87 -->
   <a href="https://www.instagram.com/rotion87" target="_blank"
      class="fixed top-5 right-5 w-10 h-10 rounded-full bg-white border shadow hover:scale-105 active:scale-95 transition flex items-center justify-center"
-     aria-label="Open Instagram">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-      <path stroke-linecap="round" stroke-linejoin="round"
-            d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" />
+     aria-label="Open Instagram @rotion87">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" />
+      <circle cx="17.25" cy="6.75" r=".75" fill="currentColor" />
+    </svg>
+  </a>
+
+  <!-- IG icon button：@l72uo_ （羅）-->
+  <a href="https://www.instagram.com/l72uo_" target="_blank"
+     class="fixed top-20 right-5 w-10 h-10 rounded-full bg-white border shadow hover:scale-105 active:scale-95 transition flex items-center justify-center"
+     aria-label="Open Instagram @l72uo_">
+    <!-- 使用同款相機圖示，保持一致性 -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" />
       <circle cx="17.25" cy="6.75" r=".75" fill="currentColor" />
     </svg>
   </a>
@@ -61,7 +69,6 @@
       function createRipple(e){
         const rawTarget = e.target.closest(SELECTOR);
         if(!rawTarget) return;
-        // 如果是 IMG，改用其父層（通常是 button 或 a）
         const target = rawTarget.tagName === 'IMG' && rawTarget.parentElement ? rawTarget.parentElement : rawTarget;
         const rect = target.getBoundingClientRect();
         const x = (e.clientX || (rect.left + rect.width/2)) - rect.left;
@@ -73,12 +80,10 @@
         span.style.width = span.style.height = size + 'px';
         span.style.left = (x - size/2) + 'px';
         span.style.top  = (y - size/2) + 'px';
-        // 確保容器可顯示漣漪
         target.classList.add('ripple-parent');
         target.appendChild(span);
         span.addEventListener('animationend', ()=> span.remove(), { once: true });
       }
-      // 使用捕獲階段，確保早於其他 stopPropagation 的互動
       document.addEventListener('click', createRipple, true);
     })();
   </script>
@@ -121,7 +126,11 @@
           ]},
         ],
         concept:["關注城市中的暫居、移動與安放；以『柔軟 × 堅固』的媒材對位（紙／水泥、絲巾／鋁罐）去談記憶與身體的距離。"],
-        about:["Rotion87。攝影、書與小物件之間的創作；同時與夥伴共同經營品牌『孤芳小隊 GOOD FUN TEAM』。","本頁提供現場掃描使用，所有作品以實品與現場陳列為準。"],
+        about:[
+          "Rotion87。攝影、書與小物件之間的創作；與夥伴羅共同經營品牌『孤芳小隊 GOOD FUN TEAM』。",
+          "本頁提供現場掃描使用，所有作品以實品與現場陳列為準。",
+          "Team IG：@rotion87 ・ @l72uo_"
+        ],
       }
     };
 
@@ -242,15 +251,45 @@
                 <div className="mt-3 space-y-2 text-sm leading-relaxed">
                   {t.about.map((p,i)=>(<p key={i}>{p}</p>))}
                 </div>
+
+                {/* GOOD FUN TEAM 小卡（保留圖片位子） */}
+                <div className="mt-5 rounded-xl border bg-white/70 p-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-medium">GOOD FUN TEAM</h4>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full border">Team</span>
+                  </div>
+                  <div className="mt-3 space-y-3">
+                    {/* 成員 1：Rotion87 */}
+                    <div className="flex items-center gap-3">
+                      <img src="images/team-rotion87.jpg" alt="Rotion87" className="w-10 h-10 rounded-full object-cover border" onError={(e)=>{e.currentTarget.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'100%\' height=\'100%\' fill=\'%23eee\'/><text x=\'50%\' y=\'52%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'14\' fill=\'%23999\'>R</text></svg>';}} />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Rotion87</div>
+                        <div className="text-xs opacity-70">攝影／書籍／物件設計</div>
+                      </div>
+                      <a href="https://www.instagram.com/rotion87" target="_blank" className="text-xs underline opacity-80 hover:opacity-100">IG</a>
+                    </div>
+                    {/* 成員 2：羅（l72uo_） */}
+                    <div className="flex items-center gap-3">
+                      <img src="images/team-l72uo.jpg" alt="l72uo_" className="w-10 h-10 rounded-full object-cover border" onError={(e)=>{e.currentTarget.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'100%\' height=\'100%\' fill=\'%23eee\'/><text x=\'50%\' y=\'52%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'14\' fill=\'%23999\'>L</text></svg>';}} />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">l72uo_</div>
+                        <div className="text-xs opacity-70">造型／手作／角色設定</div>
+                      </div>
+                      <a href="https://www.instagram.com/l72uo_" target="_blank" className="text-xs underline opacity-80 hover:opacity-100">IG</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
               </div>
             </section>
 
             <footer className="mt-12 md:mt-16 py-6 text-xs opacity-70">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                 <span>© 2025 Rotion87 / GOOD FUN TEAM</span>
-                <a href="https://www.instagram.com/rotion87" target="_blank" class="underline hover:opacity-100 opacity-80 transition">
-                  IG: @rotion87
-                </a>
+                <div class="space-x-4">
+                  <a href="https://www.instagram.com/rotion87" target="_blank" class="underline hover:opacity-100 opacity-80 transition">IG: @rotion87</a>
+                  <a href="https://www.instagram.com/l72uo_" target="_blank" class="underline hover:opacity-100 opacity-80 transition">IG: @l72uo_</a>
+                </div>
               </div>
             </footer>
           </div>
