@@ -71,16 +71,14 @@
           { title:"《Hand-it 手心貼》", tag:"便利貼", cover:"images/handit.png", body:["靈感來自習慣把怕忘記的事寫在手上。讓提醒，不只留在手上，也能留在生活裡。"]},
           { title:"《Soft Drinks》", tag:"絲巾 × 鋁罐包裝", cover:"images/softdrinks.png", body:["將絲巾收納於鋁罐中，作為『情緒罐裝』的象徵。"]},
           { title:"《孤芳小隊 馬年賀卡》", tag:"孔版印刷 × 原型公仔", cover:"images/horsecard.png", body:["以搖搖馬結合兩位角色（老鼠／雪貂）與賽馬意象，手捏原型上色後拍攝成孔版印刷明信片。"]},
-          { title:"展示物系列", tag:"裝置／手作", cover:"images/exhibits.png", body:["馬年公仔、PIPO君 張子、孤芳收音機。現場展示手作原型與造型物件。"]},
+          { title:"展示物｜馬年公仔", tag:"手作／公仔", cover:"images/exhibit-horse.png", body:["對應賀卡主題的立體原型，約 15 公分高；現場展示手作質地與上色細節。"]},
+          { title:"展示物｜PIPO君 張子", tag:"紙製張子", cover:"images/exhibit-pipo.png", body:["以日本警察吉祥物為主題的張子紙偶，保留手捏肌理與日光陰影，展現輕巧與份量感的平衡。"]},
+          { title:"展示物｜孤芳收音機", tag:"造型裝置", cover:"images/exhibit-radio.png", body:["以兩位角色結構融合的造型音響，天線延伸成為視覺焦點，成為攤位的聽覺與視覺標誌。"]},
         ],
         concept:["關注城市中的暫居、移動與安放；以『柔軟 × 堅固』的媒材對位，談記憶與生活距離。"],
         about:["孤芳小隊 GOOD FUN TEAM 由 Rotion87 與羅共同經營。","Rotion87：攝影／書籍／物件設計","羅（l72uo_）：造型／手作／角色設定"]
       }
     };
-
-    const LangButton = ({ active, children, onClick }) => (
-      <button onClick={onClick} className={`px-3 py-1 rounded-full border text-sm transition hover:shadow ${active?"bg-black text-white border-black":"bg-white border-black/20"}`}>{children}</button>
-    );
 
     const Modal = ({ open, onClose, title, tag, body }) => {
       if (!open) return null;
@@ -116,9 +114,8 @@
     );
 
     function App(){
-      const [lang,setLang]=useState('zh');
-      const t=i18n[lang];
       const [modal,setModal]=useState(null);
+      const t=i18n.zh;
       return (
         <div className="max-w-6xl mx-auto px-4 py-10">
           <header className="mb-10">
