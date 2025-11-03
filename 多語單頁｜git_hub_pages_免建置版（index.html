@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>2025 作品集｜Rotion87 × GOOD FUN TEAM</title>
+  <!-- Tailwind CDN（免建置） -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React 18 + ReactDOM 18 CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel Standalone：在瀏覽器編譯 JSX（少量頁面可用） -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    /* 背景漸層 */
+    body{background:radial-gradient(ellipse at top,#fafaf7,#f3f1ec,#e7e3dc);} 
+    .line-clamp-1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+  </style>
+</head>
+<body class="text-stone-900">
+  <div id="app"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // ====== i18n（含封面圖路徑） ======
+    const i18n = { /* --- 繁中 --- */
+      zh: {
+        langName: "繁中",
+        siteTitle: "2025 作品集｜江瑋豪 Rotion87 × 孤芳小隊",
+        siteDesc: "掃描 QR 後可瀏覽作品與設計理念。支援 繁中／English／日本語／한국어。點擊作品圖片開啟介紹。",
+        nav: { overview: "總覽", works: "作品", concept: "設計理念", about: "關於" },
+        hero: { title: "In Place — 在此安放", subtitle: "一頁式展覽網站：作品影像、簡介與 POP 文案集中呈現。" },
+        works: [
+          { key:"inplace", title:"《空心 In Place》 — 2025 年作品（個人）", tag:"攝影／書籍 × 水泥物件", cover:"images/inplace.jpg", body:[
+            "《空心 In Place》誕生於我生活環境改變之後，是一場從日常延伸出的觀察與收集。為了布置新家，偶然看見以水泥空心磚堆疊的家具，從此留意街頭各種空心磚，並在拍攝與收集之間看見自己的投影。",
+            "摺頁小誌被置入特製水泥磚中；當觀者拉起摺頁，磚體會層層堆疊，象徵城市的堆砌與生活節奏的重組。水泥的重量與紙的柔軟交疊，記錄我如何在新城市中安放自己。",
+            "*In Place* 不只是『在某處』，更是持續調整、尋找安放點的過程。"
+          ]},
+          { key:"postbook", title:"《POSTBOOK – Taiwan / Japan》", tag:"貼紙簿／A5 系列", cover:"images/postbook.jpg", body:[
+            "以『護照』為靈感的貼紙簿：台灣篇記錄城市物件與生活標誌；日本篇收錄東京街頭標語與吉祥物。貼紙成為移動的語言，於不同城市留下遊走的痕跡。"
+          ]},
+          { key:"handit", title:"《Hand-it 手心貼》", tag:"便利貼／日常物件", cover:"images/handit.jpg", body:[
+            "靈感來自我習慣把怕忘記的事寫在手上。我把這個動作變成能分享的便利貼：讓提醒，不只留在手上，也能留在生活裡。",
+            "POP：怕忘記的事，寫在手心就好。"
+          ]},
+          { key:"softdrinks", title:"《Soft Drinks》", tag:"絲巾書 × 鋁罐包裝", cover:"images/softdrinks.jpg", body:[
+            "將絲巾收納於鋁罐之中，作為『情緒罐裝』的象徵。柔軟的布料與堅硬容器對比，呈現被封存卻仍在流動的感受。",
+            "POP：每一罐，都是打不開的情緒。"
+          ]},
+          { key:"horse", title:"《孤芳小隊 馬年賀卡》", tag:"孔版印刷明信片 × 原型公仔", cover:"images/horsecard.jpg", body:[
+            "以搖搖馬為概念，結合孤芳小隊兩位角色（老鼠／雪貂）與賽馬意象。手捏原型上色後拍攝，轉為孔版印刷明信片。",
+            "POP：馬上有孤芳，搖搖馬上的祝福。"
+          ]},
+          { key:"exhibits", title:"展示物系列", tag:"裝置／手作", cover:"images/exhibits.jpg", body:[
+            "《馬年公仔》：對應賀卡的立體原型，現場展示。",
+            "《PIPO君 張子》：以日本警察吉祥物為主題的張子紙偶。",
+            "《孤芳收音機》：造型音響裝置，成為攤位的聽覺與視覺焦點。"
+          ]},
+        ],
+        concept:["關注城市中的暫居、移動與安放；以『柔軟 × 堅固』的媒材對位（紙／水泥、絲巾／鋁罐）去談記憶與身體的距離。"],
+        about:["江瑋豪（Rotion87）。攝影、書與小物件之間的創作；同時與夥伴共同經營品牌『孤芳小隊 GOOD FUN TEAM』。","本頁提供現場掃描使用，所有作品以實品與現場陳列為準。"],
+      },
+      /* --- English --- */
+      en: {
+        langName: "EN",
+        siteTitle: "2025 Works — Rotion87 × GOOD FUN TEAM",
+        siteDesc: "Scan the QR to view works & concepts. Languages: ZH/EN/JA/KR. Click image to open details.",
+        nav: { overview:"Overview", works:"Works", concept:"Concept", about:"About" },
+        hero: { title:"In Place — to be here", subtitle:"A single‑page exhibition site. Switch language instantly on site." },
+        works: [
+          { key:"inplace", title:"Hollow In Place (2025)", tag:"Photo‑fold book × Concrete", cover:"images/inplace.jpg", body:[
+            "Born from a move and a new home. After seeing furniture made of hollow concrete blocks, I started noticing them in the city — different shapes and pores, becoming a mirror of myself.",
+            "A foldout zine sits inside a custom block. When pulled, the block stacks layer by layer — a gesture of building the city and reorganizing rhythms of life.",
+            "‘In Place’ is not only being somewhere, but continuously finding where to rest."
+          ]},
+          { key:"postbook", title:"POSTBOOK — Taiwan / Japan", tag:"Sticker‑book / A5", cover:"images/postbook.jpg", body:["Passport‑inspired books. Taiwan: local objects and street marks. Japan: Tokyo slogans and mascots. Stickers as a language of movement."]},
+          { key:"handit", title:"Hand‑it Palm Notes", tag:"Sticky notes / Daily", cover:"images/handit.jpg", body:["I used to write reminders on my palm. This becomes a sharable sticky‑note set — letting reminders live not only on the hand but in daily space.", "POP: Write it on your palm."]},
+          { key:"softdrinks", title:"Soft Drinks", tag:"Scarf‑book in can", cover:"images/softdrinks.jpg", body:["A scarf sealed in an aluminum can — emotional canning. Soft cloth vs. hard container; feelings stored yet flowing.", "POP: Every can holds an unopened feeling."]},
+          { key:"horse", title:"GOOD FUN TEAM — Year of the Horse Card", tag:"Riso postcard × prototype", cover:"images/horsecard.jpg", body:["Rocking‑horse motif with mouse & ferret characters. Hand‑sculpted prototype, photographed and printed as a postcard.", "POP: Blessings on a rocking horse."]},
+          { key:"exhibits", title:"Exhibits", tag:"Objects / Installations", cover:"images/exhibits.jpg", body:["Horse Prototype — on‑site display.", "PIPO‑kun Hariko — paper‑mâché mascot.", "GOOD FUN Radio — character audio object."]},
+        ],
+        concept:["Temporary dwelling, movement and placement; ‘soft × solid’ as a material dialogue (paper/concrete, scarf/can) to speak about memory and body."],
+        about:["Rotion87 (Jerry). Works between photography, books and small objects. Also co‑runs GOOD FUN TEAM.", "For on‑site reference. Actual pieces and displays prevail."],
+      },
+      /* --- 日本語 --- */
+      ja: {
+        langName: "日本語",
+        siteTitle: "2025 ワークス｜Rotion87 × GOOD FUN TEAM",
+        siteDesc: "QR をスキャンして作品とコンセプトを閲覧。画像クリックで詳細を表示。",
+        nav:{ overview:"概要", works:"作品", concept:"コンセプト", about:"プロフィール" },
+        hero:{ title:"In Place — ここに置く", subtitle:"1 ページの展示サイト。会場で即時に言語切替。" },
+        works:[
+          { key:"inplace", title:"空心 In Place（2025）", tag:"写真折本 × コンクリート", cover:"images/inplace.jpg", body:[
+            "引っ越しをきっかけに、空洞ブロックの家具を見て街中のブロックに目が行くようになった。形や孔がそれぞれ異なり、やがて自分の姿を映す鏡となった。",
+            "特製ブロックに折本を収め、引き上げると層状に積み重なる。都市の構築と生活リズムの再編を示す所作。",
+            "“In Place” は単なる所在ではなく、置き場所を探し続ける過程でもある。"
+          ]},
+          { key:"postbook", title:"POSTBOOK – 台湾／日本", tag:"ステッカーブック／A5", cover:"images/postbook.jpg", body:["パスポート発想のステッカーブック。台湾編は街の物や標識、日本編は東京の標語やマスコット。"]},
+          { key:"handit", title:"Hand‑it 手のひらメモ", tag:"付箋／デイリー", cover:"images/handit.jpg", body:["忘れそうなことを手に書く癖から。共有できる付箋に──手だけでなく、生活の中にも残すために。", "POP：忘れそうなら、手のひらに。"]},
+          { key:"softdrinks", title:"Soft Drinks", tag:"スカーフブック × 缶", cover:"images/softdrinks.jpg", body:["スカーフをアルミ缶に封入し『感情の缶詰』に。柔らかさと硬さの対置。", "POP：一本ごとに、開けられない気持ち。"]},
+          { key:"horse", title:"GOOD FUN TEAM：午年カード", tag:"孔版ポストカード × 原型", cover:"images/horsecard.jpg", body:["ロッキングホースをモチーフに、ネズミとフェレットのキャラクター。手作り原型を撮影し、孔版印刷で出力。", "POP：揺れる馬に、祝福を。"]},
+          { key:"exhibits", title:"展示物", tag:"オブジェ／インスタレーション", cover:"images/exhibits.jpg", body:["午年原型／PIPO くん張り子／GOOD FUN ラジオ"]},
+        ],
+        concept:["仮住まいと移動、安置。紙とコンクリート、スカーフと缶——『柔 × 硬』の対話で記憶と身体の距離を語る。"],
+        about:["Rotion87。写真・書物・小物のあいだで制作。チーム GOOD FUN TEAM とともに活動。","会場用ページ。実物・展示を優先。"],
+      },
+      /* --- 한국어 --- */
+      ko: {
+        langName: "한국어",
+        siteTitle: "2025 작품｜Rotion87 × GOOD FUN TEAM",
+        siteDesc: "QR로 접속하여 작품과 개념을 확인하세요. 이미지 클릭 시 상세 문구가 열립니다.",
+        nav:{ overview:"개요", works:"작품", concept:"개념", about:"소개" },
+        hero:{ title:"In Place — 여기 두기", subtitle:"원페이지 전시 사이트. 현장에서 즉시 언어 전환." },
+        works:[
+          { key:"inplace", title:"공심 In Place (2025)", tag:"사진 접지책 × 콘크리트", cover:"images/inplace.jpg", body:["이사와 새 집 꾸미기에서 출발. 공심블록 가구를 본 뒤 도시 곳곳의 블록을 의식하게 되었다.", "맞춤 블록 속에 접지책을 넣고, 잡아 올리면 층층이 쌓인다 — 도시를 세우고 삶의 리듬을 다시 맞추는 몸짓.", "‘In Place’는 단순한 위치가 아니라, 자리 찾기를 계속하는 과정이다."]},
+          { key:"postbook", title:"POSTBOOK – 대만／일본", tag:"스티커북／A5", cover:"images/postbook.jpg", body:["여권에서 착안한 스티커북. 대만판은 거리 사물과 표지, 일본판은 도쿄 표어와 마스코트."]},
+          { key:"handit", title:"Hand‑it 손바닥 메모", tag:"포스트잇／데일리", cover:"images/handit.jpg", body:["잊기 쉬운 것을 손바닥에 쓰던 습관에서. 공유 가능한 메모지로 확장했다.", "POP: 잊을 것 같다면, 손바닥에."]},
+          { key:"softdrinks", title:"Soft Drinks", tag:"스카프 북 × 캔", cover:"images/softdrinks.jpg", body:["스카프를 알루미늄 캔에 봉인. 부드러움과 단단함의 대비, 열 수 없는 감정."]},
+          { key:"horse", title:"GOOD FUN TEAM 말의 해 카드", tag:"리소 엽서 × 원형", cover:"images/horsecard.jpg", body:["시소말 모티프, 생쥐와 페럿 캐릭터. 수작 원형을 촬영해 리소 인쇄."]},
+          { key:"exhibits", title:"전시 오브제", tag:"오브제／설치", cover:"images/exhibits.jpg", body:["말의 해 원형 / PIPO 군 하리코 / GOOD FUN 라디오"]},
+        ],
+        concept:["임시 거주와 이동, 배치. ‘부드러움 × 단단함’의 재료 대화로 기억과 몸의 거리를 말하다."],
+        about:["Rotion87. 사진·책·오브제 사이에서 작업. GOOD FUN TEAM과 함께 활동.", "현장 참조용 페이지. 실제 전시 우선."],
+      },
+    };
+
+    // ====== UI 元件 ======
+    const LangButton = ({ active, children, onClick }) => (
+      <button onClick={onClick} className={`px-3 py-1 rounded-full border text-sm transition hover:shadow ${active?"bg-black text-white border-black":"bg-white border-black/20"}`}>{children}</button>
+    );
+
+    const Modal = ({ open, onClose, title, tag, body }) => {
+      if (!open) return null;
+      return (
+        <div className="fixed inset-0 z-50">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+          <div className="absolute inset-x-4 md:inset-x-0 md:left-1/2 md:-translate-x-1/2 top-16 md:top-24 md:w-[720px] bg-white rounded-2xl shadow-2xl border">
+            <div className="p-5 md:p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold">{title}</h3>
+                  {tag && <div className="text-xs mt-1 px-2 py-1 inline-block rounded-full border bg-white/70">{tag}</div>}
+                </div>
+                <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full border hover:bg-stone-50">✕</button>
+              </div>
+              <div className="mt-4 space-y-2 text-sm leading-relaxed">
+                {body?.map((p,i)=>(<p key={i}>{p}</p>))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const Card = ({ w, onImageClick }) => (
+      <div className="rounded-2xl p-0 shadow-sm border bg-white/70 backdrop-blur overflow-hidden">
+        {w.cover && (
+          <button className="block w-full" onClick={onImageClick} aria-label={`Open ${w.title}`}>
+            <img src={w.cover} alt={w.title} className="w-full h-48 md:h-64 object-cover" />
+          </button>
+        )}
+        <div className="p-5">
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-lg font-semibold leading-snug line-clamp-1">{w.title}</h3>
+            {w.tag && <span className="text-xs px-2 py-1 rounded-full border bg-white/60">{w.tag}</span>}
+          </div>
+          <div className="mt-3 space-y-2 text-sm leading-relaxed">
+            {w.body?.slice(0,1).map((p,i)=>(<p key={i}>{p}</p>))}
+          </div>
+          <div className="mt-3 text-xs opacity-70">點擊上方圖片以閱讀完整介紹</div>
+        </div>
+      </div>
+    );
+
+    function Portfolio(){
+      const [lang, setLang] = useState('zh');
+      const t = i18n[lang];
+      const [modal, setModal] = useState({ open:false, title:'', tag:'', body:[] });
+
+      const openWork = (w)=> setModal({ open:true, title:w.title, tag:w.tag, body:w.body });
+      const closeWork = ()=> setModal({ open:false, title:'', tag:'', body:[] });
+
+      return (
+        <div className="min-h-screen w-full">
+          <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
+            {/* Header */}
+            <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold">{t.siteTitle}</h1>
+                <p className="text-sm mt-1 opacity-80">{t.siteDesc}</p>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                {Object.entries(i18n).map(([code, val]) => (
+                  <LangButton key={code} active={lang===code} onClick={()=>setLang(code)}>{val.langName}</LangButton>
+                ))}
+              </div>
+            </header>
+
+            {/* Hero */}
+            <section className="mt-6 md:mt-10 grid md:grid-cols-5 gap-4 md:gap-6">
+              <div className="md:col-span-3 rounded-3xl border bg-white/70 p-6 shadow-sm">
+                <h2 className="text-xl font-semibold">{t.hero.title}</h2>
+                <p className="mt-2 text-sm opacity-80">{t.hero.subtitle}</p>
+                <div className="mt-4 grid grid-cols-3 gap-2 text-xs opacity-75">
+                  <span>QR：現場掃描直達</span>
+                  <span>Multi‑lang</span>
+                  <span>One‑page</span>
+                </div>
+              </div>
+              <div className="md:col-span-2 rounded-3xl border bg-white/70 p-6 shadow-sm">
+                <h3 className="text-sm font-medium mb-2">{t.nav.overview}</h3>
+                <ul className="text-sm leading-7 list-disc pl-5">
+                  <li>Works / {t.nav.works}</li>
+                  <li>Concept / {t.nav.concept}</li>
+                  <li>About / {t.nav.about}</li>
+                </ul>
+              </div>
+            </section>
+
+            {/* Works grid */}
+            <section className="mt-8 md:mt-12">
+              <h3 className="text-sm font-medium mb-4">{t.nav.works}</h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {t.works.map((w) => (
+                  <Card key={w.key} w={w} onImageClick={()=>openWork(w)} />
+                ))}
+              </div>
+            </section>
+
+            {/* Concept + About */}
+            <section className="mt-10 grid md:grid-cols-2 gap-4">
+              <div className="rounded-2xl p-5 shadow-sm border bg-white/70">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-semibold">{t.nav.concept}</h3>
+                  <span className="text-xs px-2 py-1 rounded-full border bg-white/60">Concept</span>
+                </div>
+                <div className="mt-3 space-y-2 text-sm leading-relaxed">
+                  {t.concept.map((p,i)=>(<p key={i}>{p}</p>))}
+                </div>
+              </div>
+              <div className="rounded-2xl p-5 shadow-sm border bg-white/70">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-semibold">{t.nav.about}</h3>
+                  <span className="text-xs px-2 py-1 rounded-full border bg-white/60">Info</span>
+                </div>
+                <div className="mt-3 space-y-2 text-sm leading-relaxed">
+                  {t.about.map((p,i)=>(<p key={i}>{p}</p>))}
+                </div>
+              </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="mt-12 md:mt-16 py-6 text-xs opacity-70">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                <span>© 2025 Rotion87 / GOOD FUN TEAM</span>
+                <span>Contact: dream850317@gmail.com · IG: @4nn8er</span>
+              </div>
+            </footer>
+          </div>
+          {/* Modal */}
+          <Modal open={modal.open} onClose={closeWork} title={modal.title} tag={modal.tag} body={modal.body} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('app')).render(<Portfolio/>);
+  </script>
+</body>
+</html>
