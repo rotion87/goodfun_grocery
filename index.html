@@ -3,134 +3,78 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>2025 作品集｜Rotion87 × GOOD FUN TEAM</title>
+  <title>2025 孤芳小隊 GOOD FUN TEAM in 草率季</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    body{background:radial-gradient(ellipse at top,#fafaf7,#f3f1ec,#e7e3dc);} 
+    body{background:radial-gradient(ellipse at top,#fafaf7,#f3f1ec,#e7e3dc);}
     .line-clamp-1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-
-    /* 📱 調整手機上的 IG 浮動按鈕位置，避免與系統手勢列重疊 */
     @media (max-width: 640px) {
-      a[aria-label="Open Instagram @rotion87"]{
-        top: 1.25rem !important;
-        right: 1.25rem !important;
-      }
-      a[aria-label="Open Instagram @l72uo_"]{
-        top: 4.75rem !important; /* 第二顆往下放 */
-        right: 1.25rem !important;
-      }
+      a[aria-label="Open Instagram @rotion87"]{top:1.25rem!important;right:1.25rem!important;}
+      a[aria-label="Open Instagram @l72uo_"]{top:4.75rem!important;right:1.25rem!important;}
     }
-
-    /* ✨ 全站 Ripple（漣漪）點擊效果 */
-    .ripple-parent{ position: relative; overflow: hidden; }
-    .ripple-effect{
-      position: absolute;
-      border-radius: 9999px;
-      transform: scale(0);
-      opacity: 0.25;
-      background: rgba(0,0,0,.18);
-      pointer-events: none;
-      animation: ripple-anim 600ms ease-out forwards;
-    }
-    @keyframes ripple-anim{ to{ transform: scale(12); opacity: 0; } }
+    .ripple-parent{position:relative;overflow:hidden;}
+    .ripple-effect{position:absolute;border-radius:9999px;transform:scale(0);opacity:0.25;background:rgba(0,0,0,.18);pointer-events:none;animation:ripple-anim 600ms ease-out forwards;}
+    @keyframes ripple-anim{to{transform:scale(12);opacity:0;}}
   </style>
 </head>
 <body class="text-stone-900">
   <div id="app"></div>
 
-  <!-- IG icon button：@rotion87 -->
-  <a href="https://www.instagram.com/rotion87" target="_blank"
-     class="fixed top-5 right-5 w-10 h-10 rounded-full bg-white border shadow hover:scale-105 active:scale-95 transition flex items-center justify-center"
-     aria-label="Open Instagram @rotion87">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" />
-      <circle cx="17.25" cy="6.75" r=".75" fill="currentColor" />
-    </svg>
+  <!-- IG Buttons -->
+  <a href="https://www.instagram.com/rotion87" target="_blank" class="fixed top-5 right-5 w-10 h-10 rounded-full bg-white border shadow hover:scale-105 active:scale-95 transition flex items-center justify-center" aria-label="Open Instagram @rotion87">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" /><circle cx="17.25" cy="6.75" r=".75" fill="currentColor" /></svg>
   </a>
 
-  <!-- IG icon button：@l72uo_ （羅）-->
-  <a href="https://www.instagram.com/l72uo_" target="_blank"
-     class="fixed top-20 right-5 w-10 h-10 rounded-full bg-white border shadow hover:scale-105 active:scale-95 transition flex items-center justify-center"
-     aria-label="Open Instagram @l72uo_">
-    <!-- 使用同款相機圖示，保持一致性 -->
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" />
-      <circle cx="17.25" cy="6.75" r=".75" fill="currentColor" />
-    </svg>
+  <a href="https://www.instagram.com/l72uo_" target="_blank" class="fixed top-20 right-5 w-10 h-10 rounded-full bg-white border shadow hover:scale-105 active:scale-95 transition flex items-center justify-center" aria-label="Open Instagram @l72uo_">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 2.25h9A5.25 5.25 0 0 1 21.75 7.5v9a5.25 5.25 0 0 1-5.25 5.25h-9A5.25 5.25 0 0 1 2.25 16.5v-9A5.25 5.25 0 0 1 7.5 2.25zm8.25 10.125a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0z" /><circle cx="17.25" cy="6.75" r=".75" fill="currentColor" /></svg>
   </a>
 
-  <!-- ⚡ Ripple 事件委派（不依賴 React，整站通用） -->
   <script>
     (function(){
-      const SELECTOR = 'button, a, img, [role="button"]';
-      function createRipple(e){
-        const rawTarget = e.target.closest(SELECTOR);
-        if(!rawTarget) return;
-        const target = rawTarget.tagName === 'IMG' && rawTarget.parentElement ? rawTarget.parentElement : rawTarget;
-        const rect = target.getBoundingClientRect();
-        const x = (e.clientX || (rect.left + rect.width/2)) - rect.left;
-        const y = (e.clientY || (rect.top + rect.height/2)) - rect.top;
-        const maxDim = Math.max(rect.width, rect.height);
-        const size = maxDim * 2;
-        const span = document.createElement('span');
-        span.className = 'ripple-effect';
-        span.style.width = span.style.height = size + 'px';
-        span.style.left = (x - size/2) + 'px';
-        span.style.top  = (y - size/2) + 'px';
-        target.classList.add('ripple-parent');
-        target.appendChild(span);
-        span.addEventListener('animationend', ()=> span.remove(), { once: true });
+      const s='button,a,img,[role="button"]';
+      function e(t){
+        const r=t.target.closest(s);
+        if(!r)return;
+        const n=r.tagName==='IMG'&&r.parentElement?r.parentElement:r,
+          o=n.getBoundingClientRect(),
+          a=(t.clientX||(o.left+o.width/2))-o.left,
+          i=(t.clientY||(o.top+o.height/2))-o.top,
+          l=Math.max(o.width,o.height),
+          c=l*2,
+          p=document.createElement('span');
+        p.className='ripple-effect';
+        p.style.width=p.style.height=c+'px';
+        p.style.left=a-c/2+'px';
+        p.style.top=i-c/2+'px';
+        n.classList.add('ripple-parent');
+        n.appendChild(p);
+        p.addEventListener('animationend',()=>p.remove(),{once:!0});
       }
-      document.addEventListener('click', createRipple, true);
+      document.addEventListener('click',e,!0);
     })();
   </script>
 
   <script type="text/babel">
     const { useState } = React;
-
     const i18n = {
       zh: {
-        langName: "繁中",
-        siteTitle: "2025 作品集｜Rotion87 × 孤芳小隊",
-        siteDesc: "掃描 QR 後可瀏覽作品與設計理念。支援 繁中／English／日本語／한국어。點擊作品圖片開啟介紹。",
-        nav: { overview: "總覽", works: "作品", concept: "設計理念", about: "關於" },
-        hero: { title: "In Place — 在此安放", subtitle: "一頁式展覽網站：作品影像、簡介與 POP 文案集中呈現。" },
+        siteTitle: "2025 孤芳小隊 GOOD FUN TEAM in 草率季",
+        siteDesc: "掃描 QR 後可瀏覽作品與設計理念。",
+        nav: { works: "作品", concept: "設計理念", about: "關於" },
+        hero: { title: "2025 孤芳小隊 GOOD FUN TEAM in 草率季", subtitle: "一頁式展覽網站：作品影像、簡介與 POP 文案集中呈現。" },
         works: [
-          { key:"inplace", title:"《空心 In Place》 — 2025 年作品（個人）", tag:"攝影／書籍 × 水泥物件", cover:"images/inplace.jpg", body:[
-            "《空心 In Place》誕生於生活環境改變之後，是一場從日常延伸出的觀察與收集。為了布置新家，偶然看見以水泥空心磚堆疊的家具，從此留意街頭各種空心磚，並在拍攝與收集之間看見自己的投影。",
-            "摺頁小誌被置入特製水泥磚中；當觀者拉起摺頁，磚體會層層堆疊，象徵城市的堆砌與生活節奏的重組。水泥的重量與紙的柔軟交疊，記錄如何在新城市中安放自己。",
-            "*In Place* 不只是『在某處』，更是持續調整、尋找安放點的過程。"
-          ]},
-          { key:"postbook", title:"《POSTBOOK – Taiwan / Japan》", tag:"貼紙簿／A5 系列", cover:"images/postbook.jpg", body:[
-            "以『護照』為靈感的貼紙簿：台灣篇記錄城市物件與生活標誌；日本篇收錄東京街頭標語與吉祥物。貼紙成為移動的語言，於不同城市留下遊走的痕跡。"
-          ]},
-          { key:"handit", title:"《Hand-it 手心貼》", tag:"便利貼／日常物件", cover:"images/handit.jpg", body:[
-            "靈感來自習慣把怕忘記的事寫在手上。我把這個動作變成能分享的便利貼：讓提醒，不只留在手上，也能留在生活裡。",
-            "POP：怕忘記的事，寫在手心就好。"
-          ]},
-          { key:"softdrinks", title:"《Soft Drinks》", tag:"絲巾書 × 鋁罐包裝", cover:"images/softdrinks.jpg", body:[
-            "將絲巾收納於鋁罐之中，作為『情緒罐裝』的象徵。柔軟的布料與堅硬容器對比，呈現被封存卻仍在流動的感受。",
-            "POP：每一罐，都是打不開的情緒。"
-          ]},
-          { key:"horse", title:"《孤芳小隊 馬年賀卡》", tag:"孔版印刷明信片 × 原型公仔", cover:"images/horsecard.jpg", body:[
-            "以搖搖馬為概念，結合孤芳小隊兩位角色（老鼠／雪貂）與賽馬意象。手捏原型上色後拍攝，轉為孔版印刷明信片。",
-            "POP：馬上有孤芳，搖搖馬上的祝福。"
-          ]},
-          { key:"exhibits", title:"展示物系列", tag:"裝置／手作", cover:"images/exhibits.jpg", body:[
-            "《馬年公仔》：對應賀卡的立體原型，現場展示。",
-            "《PIPO君 張子》：以日本警察吉祥物為主題的張子紙偶。",
-            "《孤芳收音機》：造型音響裝置，成為攤位的聽覺與視覺焦點。"
-          ]},
+          { title:"《空心 In Place》", tag:"攝影／書籍 × 水泥物件", cover:"images/inplace.png", body:["誕生於生活環境改變之後的觀察與收集。摺頁小誌被置入特製水泥磚中；當觀者拉起摺頁，磚體會層層堆疊，象徵城市的堆砌與生活節奏的重組。"]},
+          { title:"《POSTBOOK – Taiwan / Japan》", tag:"貼紙簿", cover:"images/postbook.png", body:["以護照為靈感，台灣篇記錄街頭物件；日本篇收錄東京標語與吉祥物。"]},
+          { title:"《Hand-it 手心貼》", tag:"便利貼", cover:"images/handit.png", body:["靈感來自習慣把怕忘記的事寫在手上。讓提醒，不只留在手上，也能留在生活裡。"]},
+          { title:"《Soft Drinks》", tag:"絲巾 × 鋁罐包裝", cover:"images/softdrinks.png", body:["將絲巾收納於鋁罐中，作為『情緒罐裝』的象徵。"]},
+          { title:"《孤芳小隊 馬年賀卡》", tag:"孔版印刷 × 原型公仔", cover:"images/horsecard.png", body:["以搖搖馬結合兩位角色（老鼠／雪貂）與賽馬意象，手捏原型上色後拍攝成孔版印刷明信片。"]},
+          { title:"展示物系列", tag:"裝置／手作", cover:"images/exhibits.png", body:["馬年公仔、PIPO君 張子、孤芳收音機。現場展示手作原型與造型物件。"]},
         ],
-        concept:["關注城市中的暫居、移動與安放；以『柔軟 × 堅固』的媒材對位（紙／水泥、絲巾／鋁罐）去談記憶與身體的距離。"],
-        about:[
-          "Rotion87。攝影、書與小物件之間的創作；與夥伴羅共同經營品牌『孤芳小隊 GOOD FUN TEAM』。",
-          "本頁提供現場掃描使用，所有作品以實品與現場陳列為準。",
-          "Team IG：@rotion87 ・ @l72uo_"
-        ],
+        concept:["關注城市中的暫居、移動與安放；以『柔軟 × 堅固』的媒材對位，談記憶與生活距離。"],
+        about:["孤芳小隊 GOOD FUN TEAM 由 Rotion87 與羅共同經營。","Rotion87：攝影／書籍／物件設計","羅（l72uo_）：造型／手作／角色設定"]
       }
     };
 
@@ -150,155 +94,59 @@
                   <h3 className="text-lg font-semibold">{title}</h3>
                   {tag && <div className="text-xs mt-1 px-2 py-1 inline-block rounded-full border bg-white/70">{tag}</div>}
                 </div>
-                <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full border hover:bg-stone-50">✕</button>
+                <button onClick={onClose} className="w-8 h-8 rounded-full border hover:bg-stone-50">✕</button>
               </div>
-              <div className="mt-4 space-y-2 text-sm leading-relaxed">
-                {body?.map((p,i)=>(<p key={i}>{p}</p>))}
-              </div>
+              <div className="mt-4 space-y-2 text-sm leading-relaxed">{body?.map((p,i)=>(<p key={i}>{p}</p>))}</div>
             </div>
           </div>
         </div>
       );
     };
 
-    const Card = ({ w, onImageClick }) => (
-      <div className="rounded-2xl p-0 shadow-sm border bg-white/70 backdrop-blur overflow-hidden">
-        {w.cover && (
-          <button className="block w-full" onClick={onImageClick} aria-label={`Open ${w.title}`}>
-            <img src={w.cover} alt={w.title} className="w-full h-48 md:h-64 object-cover" />
-          </button>
-        )}
+    const Card = ({ w, onClick }) => (
+      <div className="rounded-2xl shadow-sm border bg-white/70 overflow-hidden">
+        <button onClick={onClick} className="block w-full"><img src={w.cover} alt={w.title} className="w-full h-48 md:h-64 object-cover" /></button>
         <div className="p-5">
-          <div className="flex items-center justify-between gap-3">
-            <h3 className="text-lg font-semibold leading-snug line-clamp-1">{w.title}</h3>
-            {w.tag && <span className="text-xs px-2 py-1 rounded-full border bg-white/60">{w.tag}</span>}
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">{w.title}</h3>
+            <span className="text-xs px-2 py-1 rounded-full border bg-white/60">{w.tag}</span>
           </div>
-          <div className="mt-3 space-y-2 text-sm leading-relaxed">
-            {w.body?.slice(0,1).map((p,i)=>(<p key={i}>{p}</p>))}
-          </div>
-          <div className="mt-3 text-xs opacity-70">點擊上方圖片以閱讀完整介紹</div>
         </div>
       </div>
     );
 
-    function Portfolio(){
-      const [lang, setLang] = React.useState('zh');
-      const t = i18n[lang];
-      const [modal, setModal] = React.useState({ open:false, title:'', tag:'', body:[] });
-
-      const openWork = (w)=> setModal({ open:true, title:w.title, tag:w.tag, body:w.body });
-      const closeWork = ()=> setModal({ open:false, title:'', tag:'', body:[] });
-
+    function App(){
+      const [lang,setLang]=useState('zh');
+      const t=i18n[lang];
+      const [modal,setModal]=useState(null);
       return (
-        <div className="min-h-screen w-full">
-          <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
-            <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold">{t.siteTitle}</h1>
-                <p className="text-sm mt-1 opacity-80">{t.siteDesc}</p>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                {Object.entries(i18n).map(([code, val]) => (
-                  <LangButton key={code} active={lang===code} onClick={()=>setLang(code)}>{val.langName}</LangButton>
-                ))}
-              </div>
-            </header>
+        <div className="max-w-6xl mx-auto px-4 py-10">
+          <header className="mb-10">
+            <h1 className="text-3xl font-bold">{t.hero.title}</h1>
+            <p className="text-sm opacity-80 mt-2">{t.hero.subtitle}</p>
+          </header>
 
-            <section className="mt-6 md:mt-10 grid md:grid-cols-5 gap-4 md:gap-6">
-              <div className="md:col-span-3 rounded-3xl border bg-white/70 p-6 shadow-sm">
-                <h2 className="text-xl font-semibold">{t.hero.title}</h2>
-                <p className="mt-2 text-sm opacity-80">{t.hero.subtitle}</p>
-                <div className="mt-4 grid grid-cols-3 gap-2 text-xs opacity-75">
-                  <span>QR：掃描後開啟此頁</span>
-                  <span>Multi-lang</span>
-                  <span>One-page</span>
-                </div>
-              </div>
-              <div className="md:col-span-2 rounded-3xl border bg-white/70 p-6 shadow-sm">
-                <h3 className="text-sm font-medium mb-2">{t.nav.overview}</h3>
-                <ul className="text-sm leading-7 list-disc pl-5">
-                  <li>Works / {t.nav.works}</li>
-                  <li>Concept / {t.nav.concept}</li>
-                  <li>About / {t.nav.about}</li>
-                </ul>
-              </div>
-            </section>
+          <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {t.works.map((w)=><Card key={w.title} w={w} onClick={()=>setModal(w)} />)}
+          </section>
 
-            <section className="mt-8 md:mt-12">
-              <h3 className="text-sm font-medium mb-4">{t.nav.works}</h3>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {t.works.map((w) => (
-                  <Card key={w.key} w={w} onImageClick={()=>openWork(w)} />
-                ))}
-              </div>
-            </section>
+          <section className="mt-12 grid md:grid-cols-2 gap-5">
+            <div className="border rounded-2xl bg-white/70 p-5">
+              <h2 className="font-semibold mb-3">{t.nav.concept}</h2>
+              {t.concept.map((p,i)=><p key={i} className="text-sm mb-2">{p}</p>)}
+            </div>
+            <div className="border rounded-2xl bg-white/70 p-5">
+              <h2 className="font-semibold mb-3">{t.nav.about}</h2>
+              {t.about.map((p,i)=><p key={i} className="text-sm mb-2">{p}</p>)}
+            </div>
+          </section>
 
-            <section className="mt-10 grid md:grid-cols-2 gap-4">
-              <div className="rounded-2xl p-5 shadow-sm border bg-white/70">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">{t.nav.concept}</h3>
-                  <span className="text-xs px-2 py-1 rounded-full border bg-white/60">Concept</span>
-                </div>
-                <div className="mt-3 space-y-2 text-sm leading-relaxed">
-                  {t.concept.map((p,i)=>(<p key={i}>{p}</p>))}
-                </div>
-              </div>
-              <div className="rounded-2xl p-5 shadow-sm border bg-white/70">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">{t.nav.about}</h3>
-                  <span className="text-xs px-2 py-1 rounded-full border bg-white/60">Info</span>
-                </div>
-                <div className="mt-3 space-y-2 text-sm leading-relaxed">
-                  {t.about.map((p,i)=>(<p key={i}>{p}</p>))}
-                </div>
-
-                {/* GOOD FUN TEAM 小卡（保留圖片位子） */}
-                <div className="mt-5 rounded-xl border bg-white/70 p-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-medium">GOOD FUN TEAM</h4>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full border">Team</span>
-                  </div>
-                  <div className="mt-3 space-y-3">
-                    {/* 成員 1：Rotion87 */}
-                    <div className="flex items-center gap-3">
-                      <img src="images/team-rotion87.jpg" alt="Rotion87" className="w-10 h-10 rounded-full object-cover border" onError={(e)=>{e.currentTarget.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'100%\' height=\'100%\' fill=\'%23eee\'/><text x=\'50%\' y=\'52%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'14\' fill=\'%23999\'>R</text></svg>';}} />
-                      <div className="flex-1">
-                        <div className="text-sm font-medium">Rotion87</div>
-                        <div className="text-xs opacity-70">攝影／書籍／物件設計</div>
-                      </div>
-                      <a href="https://www.instagram.com/rotion87" target="_blank" className="text-xs underline opacity-80 hover:opacity-100">IG</a>
-                    </div>
-                    {/* 成員 2：羅（l72uo_） */}
-                    <div className="flex items-center gap-3">
-                      <img src="images/team-l72uo.jpg" alt="l72uo_" className="w-10 h-10 rounded-full object-cover border" onError={(e)=>{e.currentTarget.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\'><rect width=\'100%\' height=\'100%\' fill=\'%23eee\'/><text x=\'50%\' y=\'52%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'14\' fill=\'%23999\'>L</text></svg>';}} />
-                      <div className="flex-1">
-                        <div className="text-sm font-medium">l72uo_</div>
-                        <div className="text-xs opacity-70">造型／手作／角色設定</div>
-                      </div>
-                      <a href="https://www.instagram.com/l72uo_" target="_blank" className="text-xs underline opacity-80 hover:opacity-100">IG</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </section>
-
-            <footer className="mt-12 md:mt-16 py-6 text-xs opacity-70">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                <span>© 2025 Rotion87 / GOOD FUN TEAM</span>
-                <div className="space-x-4">
-                  <a href="https://www.instagram.com/rotion87" target="_blank" className="underline hover:opacity-100 opacity-80 transition">IG: @rotion87</a>
-                  <a href="https://www.instagram.com/l72uo_" target="_blank" className="underline hover:opacity-100 opacity-80 transition">IG: @l72uo_</a>
-                </div>
-              </div>
-            </footer>
-          </div>
-          <Modal open={modal.open} onClose={closeWork} title={modal.title} tag={modal.tag} body={modal.body} />
+          {modal && <Modal open={true} onClose={()=>setModal(null)} title={modal.title} tag={modal.tag} body={modal.body} />}
         </div>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('app')).render(<Portfolio/>);
+    ReactDOM.createRoot(document.getElementById('app')).render(<App />);
   </script>
 </body>
 </html>
