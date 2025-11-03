@@ -11,14 +11,11 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     :root{
-      /* Fruit shop palette */
       --red:#ff2b2b; --blue:#13a0ff; --yellow:#ffe200; --green:#00b050;
       --ink:#101010; --paper:#fffbe9; --cream:#fff5c2; --dot:#0a5bd6;
     }
     html,body{height:100%}
-    body{font-family:'Noto Sans TC', system-ui, -apple-system, Segoe UI, Roboto, 'PingFang TC', 'Microsoft JhengHei', sans-serif; color:var(--ink)}
-
-    /* Retro flyer background：大色塊 + 網點 + 放射線 */
+    body{font-family:'Noto Sans TC',system-ui,-apple-system,Segoe UI,Roboto,'PingFang TC','Microsoft JhengHei',sans-serif;color:var(--ink)}
     .bg-fruit{
       background:
         radial-gradient(circle at -10% -10%, rgba(255,255,255,.35) 0 25%, transparent 26%),
@@ -26,30 +23,20 @@
         repeating-radial-gradient(circle at 20% 10%, rgba(255,255,255,.65) 0 4px, transparent 5px 10px),
         radial-gradient(ellipse at top, #fffaf0, var(--cream) 45%, #ffeec2 85%);
     }
-    .dot-overlay{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
-      background-image: radial-gradient(var(--dot) 2px, transparent 2px);
-      background-size: 26px 26px; opacity:.12; mix-blend-multiply;
-    }
-
-    .hero-title{font-family:'Bangers', system-ui; letter-spacing:1px; text-shadow:2px 2px 0 #00000020}
-
-    /* Starburst badge (SVG as background) */
-    .burst{position:relative; display:inline-flex; align-items:center; justify-content:center; padding:.35rem .6rem; font-weight:900; color:#111; text-shadow:1px 1px 0 #fff}
-    .burst:before{content:""; position:absolute; inset:-6px; z-index:-1; background: conic-gradient(from 0deg, var(--yellow) 0 25%, #ffd100 25% 50%, var(--yellow) 50% 75%, #ffd100 75% 100%); -webkit-mask: radial-gradient(circle, transparent 38%, #000 39%) , conic-gradient(from 0deg, #000 0 100%); border-radius:50%}
-
-    .card{border:3px solid #111; box-shadow:6px 6px 0 #111; background:#ffffff; border-radius:18px; overflow:hidden}
-    .card img{width:100%; height:15rem; object-fit:cover; background: #e7e7e7}
-    .label{font-family:'Bangers'; letter-spacing:.5px}
-    .btn{border:3px solid #111; background:#fff; box-shadow:4px 4px 0 #111; font-weight:700}
+    .dot-overlay{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(var(--dot) 2px,transparent 2px);background-size:26px 26px;opacity:.12;mix-blend-multiply}
+    .hero-title{font-family:'Bangers',system-ui;letter-spacing:1px;text-shadow:2px 2px 0 #00000020}
+    .burst{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:.35rem .6rem;font-weight:900;color:#111;text-shadow:1px 1px 0 #fff}
+    .burst:before{content:"";position:absolute;inset:-6px;z-index:-1;background:conic-gradient(from 0deg, var(--yellow) 0 25%, #ffd100 25% 50%, var(--yellow) 50% 75%, #ffd100 75% 100%);-webkit-mask:radial-gradient(circle,transparent 38%,#000 39%),conic-gradient(from 0deg,#000 0 100%);border-radius:50%}
+    .card{border:3px solid #111;box-shadow:6px 6px 0 #111;background:#fff;border-radius:18px;overflow:hidden}
+    .card img{width:100%;height:15rem;object-fit:cover;background:#e7e7e7}
+    .label{font-family:'Bangers';letter-spacing:.5px}
+    .btn{border:3px solid #111;background:#fff;box-shadow:4px 4px 0 #111;font-weight:700}
     .btn:hover{transform:translate(-1px,-1px)}
-
-    .lang-pill{border:3px solid #111; background:var(--yellow); box-shadow:4px 4px 0 #111}
-
-    /* Modal */
-    .modal{position:fixed; inset:0; z-index:50}
-    .modal-back{position:absolute; inset:0; background:rgba(16,16,16,.55)}
-    .modal-body{position:absolute; left:50%; transform:translateX(-50%); top:8vh; width:min(780px,92vw); background:#fff; border:4px solid #111; box-shadow:10px 10px 0 #111; border-radius:22px}
+    .lang-pill{border:3px solid #111;background:var(--yellow);box-shadow:4px 4px 0 #111}
+    .modal{position:fixed;inset:0;z-index:50}
+    .modal-back{position:absolute;inset:0;background:rgba(16,16,16,.55)}
+    .modal-body{position:absolute;left:50%;transform:translateX(-50%);top:8vh;width:min(780px,92vw);background:#fff;border:4px solid #111;box-shadow:10px 10px 0 #111;border-radius:22px}
+    @keyframes ripple-anim{to{transform:scale(12);opacity:0}}
   </style>
 </head>
 <body class="bg-fruit">
@@ -57,7 +44,6 @@
   <div id="app" class="relative z-10"></div>
 
   <script>
-    // Ripple
     (function(){const s='button,a,img,[role="button"]';function e(t){const r=t.target.closest(s);if(!r)return;const n=r.tagName==='IMG'&&r.parentElement?r.parentElement:r,o=n.getBoundingClientRect(),a=(t.clientX||(o.left+o.width/2))-o.left,i=(t.clientY||(o.top+o.height/2))-o.top,l=Math.max(o.width,o.height),c=l*2,p=document.createElement('span');p.className='ripple-effect';p.style.cssText=`position:absolute;border-radius:9999px;transform:scale(0);opacity:.25;background:rgba(0,0,0,.18);pointer-events:none;left:${a-c/2}px;top:${i-c/2}px;width:${c}px;height:${c}px;animation:ripple-anim .6s ease-out forwards`;n.style.position='relative';n.style.overflow='hidden';n.appendChild(p);p.addEventListener('animationend',()=>p.remove(),{once:!0})}document.addEventListener('click',e,!0)})();
   </script>
 
@@ -66,37 +52,34 @@
 
     const i18n = {
       zh: {
-        flag: '🇹🇼', langLabel: '繁中',
-        siteTitle: '2025 孤芳小隊 GOOD FUN TEAM in 草率季',
-        siteDesc: '水果店風格・作品與設計理念一頁式展覽',
-        nav: { works:'作品', concept:'設計理念', about:'關於' },
-        btn: { brief:'精簡', full:'完整版', enter:'進入網站', close:'關閉' },
-        punch: { title:'打卡成功', tip:'您到訪的時間：' },
-        works: [
-          { key:'inplace', title:'《空心 In Place》', tag:'攝影／書籍 × 水泥物件', cover:'images/inplace.png',
-            brief:['摺頁小誌置入特製水泥磚；拉起摺頁時，磚體隨之層層「堆疊」。'],
-            full:[
-              '誕生於生活環境改變之後，是一場從日常延伸出的觀察與收集。為了布置新家，偶然看見以水泥空心磚堆疊的家具，從此留意街頭各式空心磚，並在拍攝與收集之間看見自己的投影。',
-              '摺頁小誌被置入特製水泥磚中；當觀者拉起摺頁，磚體會層層堆疊，象徵城市的堆砌與生活節奏的重組。In Place 不只是「在某處」，更是持續調整、尋找安放點的過程。'
-            ] },
-          { key:'postbook', title:'《POSTBOOK – Taiwan / Japan》', tag:'貼紙簿', cover:'images/postbook.png',
-            brief:['以「護照」為靈感：台灣篇記錄城市物件；日本篇收錄東京標語與吉祥物。'],
-            full:['貼紙成為移動的語言——在不同城市留下遊走的痕跡。'] },
-          { key:'handit', title:'《Hand-it 手心貼》', tag:'便利貼', cover:'images/handit.png',
-            brief:['怕忘記的事，寫在手心就好。'],
-            full:['把寫在手上的習慣，轉化成可以分享的便利貼，讓提醒不只留在手上，也能留在生活裡。'] },
-          { key:'softdrinks', title:'《Soft Drinks》', tag:'絲巾 × 鋁罐包裝', cover:'images/softdrinks.png',
-            brief:['將絲巾收納於鋁罐中，作為「情緒罐裝」的象徵。'],
-            full:['柔軟的布料與堅硬容器對比，呈現被封存卻仍在流動的感受。'] },
-          { key:'horsecard', title:'《孤芳小隊 馬年賀卡》', tag:'孔版印刷 × 原型公仔', cover:'images/horsecard.png',
-            brief:['搖搖馬 × 兩位角色（老鼠／雪貂） × 賽馬意象。'],
-            full:['手捏原型上色後拍攝，轉為孔版印刷明信片，現場亦展出原型公仔。'] },
-          { key:'exhibit-horse', title:'展示物｜馬年公仔', tag:'手作／公仔', cover:'./exhibit-horse.png',
-            brief:['對應賀卡主題的立體原型，約 15 公分高。'], full:['展示手作質地與上色細節。'] },
-          { key:'exhibit-pipo', title:'展示物｜PIPO君 張子', tag:'紙製張子', cover:'./exhibit-pipo.png',
-            brief:['以日本警察吉祥物為主題的張子紙偶。'], full:['保留手捏肌理與日光陰影，展現輕巧與份量感的平衡。'] },
-          { key:'exhibit-radio', title:'展示物｜孤芳收音機', tag:'造型裝置', cover:'./exhibit-radio.png',
-            brief:['兩位角色結構融合的造型音響，天線成為視覺焦點。'], full:['成為攤位的聽覺與視覺標誌。'] },
+        flag:'🇹🇼', langLabel:'繁中',
+        siteTitle:'2025 孤芳小隊 GOOD FUN TEAM in 草率季',
+        siteDesc:'水果店風格・作品與設計理念一頁式展覽',
+        nav:{works:'作品',concept:'設計理念',about:'關於'},
+        btn:{brief:'精簡',full:'完整版',enter:'進入網站',close:'關閉'},
+        punch:{title:'打卡成功',tip:'您到訪的時間：'},
+        works:[
+          {key:'inplace',title:'《空心 In Place》',tag:'攝影／書籍 × 水泥物件',cover:'images/inplace.png',
+           brief:['摺頁小誌置入特製水泥磚；拉起摺頁時，磚體隨之層層「堆疊」。'],
+           full:['誕生於生活環境改變之後，是一場從日常延伸出的觀察與收集。為了布置新家，偶然看見以水泥空心磚堆疊的家具，從此留意街頭各式空心磚，並在拍攝與收集之間看見自己的投影。','摺頁小誌被置入特製水泥磚中；當觀者拉起摺頁，磚體會層層堆疊，象徵城市的堆砌與生活節奏的重組。In Place 不只是「在某處」，更是持續調整、尋找安放點的過程。']},
+          {key:'postbook',title:'《POSTBOOK – Taiwan / Japan》',tag:'貼紙簿',cover:'images/postbook.png',
+           brief:['以「護照」為靈感：台灣篇記錄城市物件；日本篇收錄東京標語與吉祥物。'],
+           full:['貼紙成為移動的語言——在不同城市留下遊走的痕跡。']},
+          {key:'handit',title:'《Hand-it 手心貼》',tag:'便利貼',cover:'images/handit.png',
+           brief:['怕忘記的事，寫在手心就好。'],
+           full:['把寫在手上的習慣，轉化成可以分享的便利貼，讓提醒不只留在手上，也能留在生活裡。']},
+          {key:'softdrinks',title:'《Soft Drinks》',tag:'絲巾 × 鋁罐包裝',cover:'images/softdrinks.png',
+           brief:['將絲巾收納於鋁罐中，作為「情緒罐裝」的象徵。'],
+           full:['柔軟的布料與堅硬容器對比，呈現被封存卻仍在流動的感受。']},
+          {key:'horsecard',title:'《孤芳小隊 馬年賀卡》',tag:'孔版印刷 × 原型公仔',cover:'images/horsecard.png',
+           brief:['搖搖馬 × 兩位角色（老鼠／雪貂） × 賽馬意象。'],
+           full:['手捏原型上色後拍攝，轉為孔版印刷明信片，現場亦展出原型公仔。']},
+          {key:'exhibit-horse',title:'展示物｜馬年公仔',tag:'手作／公仔',cover:'./exhibit-horse.png',
+           brief:['對應賀卡主題的立體原型，約 15 公分高。'],full:['展示手作質地與上色細節。']},
+          {key:'exhibit-pipo',title:'展示物｜PIPO君 張子',tag:'紙製張子',cover:'./exhibit-pipo.png',
+           brief:['以日本警察吉祥物為主題的張子紙偶。'],full:['保留手捏肌理與日光陰影，展現輕巧與份量感的平衡。']},
+          {key:'exhibit-radio',title:'展示物｜孤芳收音機',tag:'造型裝置',cover:'./exhibit-radio.png',
+           brief:['兩位角色結構融合的造型音響，天線成為視覺焦點。'],full:['成為攤位的聽覺與視覺標誌。']},
         ],
         concept:['關注城市中的暫居、移動與安放；以「柔軟 × 堅固」的媒材對位，談記憶與生活距離。'],
         about:['孤芳小隊 GOOD FUN TEAM 由 Rotion87 與羅共同經營。','Rotion87：攝影／書籍／物件設計','羅（l72uo_）：造型／手作／角色設定']
@@ -119,7 +102,7 @@
       <div className="card">
         <button className="block w-full" onClick={()=>onOpen(w)} aria-label={`Open ${w.title}`}>
           <img src={w.cover} alt={w.title}
-               onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='%23f2f2f2'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='28' fill='%23999'>${w.cover} 尚未上傳</text></svg>`);}}/>
+            onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='%23f2f2f2'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='28' fill='%23999'>${w.cover} 尚未上傳</text></svg>`);}}/>
         </button>
         <div className="p-5">
           <div className="flex items-center justify-between gap-3">
@@ -133,8 +116,8 @@
     );
 
     const WorkModal = ({ open, onClose, w, t }) => {
-      const [tab,setTab]=useState('brief');
-      useEffect(()=>{setTab('brief')},[w]);
+      const [tab,setTab]=React.useState('brief');
+      React.useEffect(()=>{setTab('brief')},[w]);
       if(!open||!w) return null;
       return (
         <div className="modal">
@@ -172,7 +155,7 @@
           <div className="w-full max-w-2xl bg-white border-[4px] border-black rounded-2xl shadow-[10px_10px_0_#111] overflow-hidden">
             <div className="relative">
               <img src="punch.png" alt="打卡機" className="w-full max-h-[420px] object-contain bg-white"
-                   onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'900\' height=\'420\'><rect width=\'100%\' height=\'100%\' fill=\'#f6f6f6\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'20\' fill=\'#999\'>請上傳 punch.png</text></svg>`);}}/>
+                   onError={(e)=>{e.currentTarget.onerror=null;e.currentTarget.src='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='900' height='420'><rect width='100%' height='100%' fill='#f6f6f6'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='#999'>請上傳 punch.png</text></svg>`);}}/>
               <div className="absolute left-4 bottom-4 bg-white border-4 border-black rounded-xl shadow-[6px_6px_0_#111] p-3">
                 <div className="label text-lg">{t.punch.title}</div>
                 <div className="font-mono font-bold mt-1 text-[16px]">{ts||'—:—:—'}</div>
@@ -196,8 +179,6 @@
       return (
         <div className="min-h-screen relative z-10">
           <LangSwitcher current={lang} onChange={setLang} />
-
-          {/* IG 改為自備圖片（注意大小寫，與 repo 一致） */}
           <div className="fixed right-4 top-4 z-40 flex flex-col gap-3">
             <a href="https://www.instagram.com/rotion87" target="_blank" className="block w-12 h-12 rounded-full border-[3px] border-black bg-white shadow-[6px_6px_0_#111] overflow-hidden" aria-label="IG rotion87">
               <img src="ig-rotion.PNG" alt="IG rotion87" className="w-full h-full object-cover"/>
@@ -209,11 +190,9 @@
 
           <div className="max-w-6xl mx-auto px-4 md:px-8 py-10">
             <header className="mb-6">
-              <h1 className="hero-title text-4xl md:text-5xl text-[var(--red)] drop-shadow" style="-webkit-text-stroke:2px #111">{t.siteTitle}</h1>
+              <h1 className="hero-title text-4xl md:text-5xl text-[var(--red)] drop-shadow" style={{ WebkitTextStroke: '2px #111' }}>{t.siteTitle}</h1>
               <div className="mt-2 inline-flex items-center gap-2">
-                <Badge>QUALITY</Badge>
-                <Badge>FRESH</Badge>
-                <Badge>GOOD FUN</Badge>
+                <Badge>QUALITY</Badge><Badge>FRESH</Badge><Badge>GOOD FUN</Badge>
               </div>
               <p className="text-sm opacity-80 mt-2">{t.siteDesc}</p>
             </header>
