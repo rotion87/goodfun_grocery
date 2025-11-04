@@ -10,6 +10,12 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
+    /* 讓內容底部自動留出語言切換鈕的高度（含 iPhone 安全區） */
+.safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 96px); }
+/* 語言切換鈕固定在左下，但考慮安全區 */
+.lang-fab { bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); }
+@media (max-width: 640px){
+  .lang-fab { transform: scale(0.92); } /* 小螢幕稍微縮一點 */}
     :root{ --red:#ff2b2b; --blue:#13a0ff; --yellow:#ffe200; --green:#00b050; --ink:#101010; --paper:#fffbe9; --cream:#fff5c2; --dot:#0a5bd6; }
     html,body{height:100%}
     body{font-family:'Noto Sans TC',system-ui,-apple-system,Segoe UI,Roboto,'PingFang TC','Microsoft JhengHei',sans-serif;color:var(--ink)}
@@ -149,8 +155,7 @@
 
     /* 左下角語言切換 */
     const LangSwitcher = ({ current, onChange }) => (
-      <div className="fixed left-4 bottom-4 z-50 flex items-center gap-2 px-3 py-2 bg-white lang-pill rounded-full">
-        {Object.entries(i18n).map(([code, conf]) => (
+<div className="fixed left-4 lang-fab z-50 flex items-center gap-2 px-3 py-2 bg-white lang-pill rounded-full">        {Object.entries(i18n).map(([code, conf]) => (
           <button key={code} onClick={()=>onChange(code)} title={conf.langLabel}
             className={`text-xl leading-none px-2 py-1 rounded-full ${current===code?'bg-black text-white':'hover:bg-black/5'}`}>{conf.flag}</button>
         ))}
@@ -361,7 +366,7 @@
       return (
         <>
           <FruitLayer items={list} />
-          <div className="card p-6 mt-10">
+          <div className="card p-6 mt-10 mb-24">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-2xl label">{t.board.title}</h3><Badge>BOARD</Badge>
             </div>
@@ -385,7 +390,7 @@
       const [showPunch,setShowPunch]=useState(true);
 
       return (
-        <div className="min-h-screen relative z-10">
+        <div className="min-h-screen relative z-10 safe-bottom">
           <LangSwitcher current={lang} onChange={setLang} />
           <div className="fixed right-4 top-4 z-40 flex flex-col gap-3">
             <a href="https://www.instagram.com/rotion87" target="_blank" className="block w-12 h-12 rounded-full border-[3px] border-black bg-white shadow-[6px_6px_0_#111] overflow-hidden" aria-label="IG rotion87">
