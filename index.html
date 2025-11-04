@@ -9,6 +9,7 @@
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+
 <style>
 :root{
   --yellow:#ffe200;--ink:#111;--cream:#fff7ce;
@@ -22,106 +23,191 @@ body{
 .card{background:#fff;border:3px solid #000;border-radius:1.5rem;box-shadow:4px 4px 0 #000;}
 .lang-fab{position:fixed;left:1rem;bottom:calc(env(safe-area-inset-bottom,0px)+1rem);z-index:50;}
 .hide-lang .lang-fab{opacity:0;pointer-events:none;transform:translateY(150%);transition:.3s;}
+/* --- 打卡機樣式 --- */
+.punch-stage{position:relative;width:min(720px,92vw);margin:0 auto;}
+.punch-machine{width:100%;height:auto;display:block;}
+.punch-slot{position:absolute;left:50%;top:68%;transform:translate(-50%,-50%);width:64%;height:18px;background:#111;border-radius:6px;opacity:.9;box-shadow:0 2px 0 #0006;}
+.punch-card{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:min(58%,420px);aspect-ratio:3/2;border:4px solid #111;border-radius:12px;background:#fff;overflow:hidden;box-shadow:8px 10px 0 #111;touch-action:none;user-select:none;cursor:grab;z-index:5;}
+.punch-card:active{cursor:grabbing;}
+.punch-stamp{position:absolute;right:10px;bottom:10px;background:#fff;border:3px dashed #111;padding:.35rem .6rem;border-radius:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;letter-spacing:.5px;opacity:0;transform:scale(.8);transition:opacity .25s ease,transform .25s ease;}
+.punch-stamp.show{opacity:1;transform:scale(1);}
+.punch-fade{animation:pfade .5s ease forwards;}
+@keyframes pfade{to{opacity:0;visibility:hidden;}}
+/* 水果浮動 */
 .fruit{position:absolute;font-size:2rem;animation:float 20s linear infinite;}
-@keyframes float{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(-100vh);}
-}
+@keyframes float{0%{transform:translateY(0);}100%{transform:translateY(-100vh);}}
 </style>
 </head>
 <body class="pb-32">
 <div id="root"></div>
-
 <script type="text/babel">
-
-const LANGS={tw:"🇹🇼",en:"🇺🇸",jp:"🇯🇵",kr:"🇰🇷"};
-const TEXT={
-  tw:{concept:"設計理念",about:"關於",board:"留言板／簽到",input:"你的名字",btn:"送出",desc:"輸入名字後送出，會化身為一顆水果在頁面遊動"},
-  en:{concept:"Concept",about:"About",board:"Board",input:"Your name",btn:"Send",desc:"Enter your name and you’ll appear as a floating fruit."},
-  jp:{concept:"コンセプト",about:"紹介",board:"掲示板",input:"名前を入力",btn:"送信",desc:"名前を入力すると、フルーツとしてページに現れます。"},
-  kr:{concept:"디자인 개념",about:"소개",board:"게시판",input:"이름 입력",btn:"보내기",desc:"이름을 입력하면 과일로 페이지에 나타납니다."}
-};
 const FRUITS=["🍎","🍊","🍋","🍉","🍇","🍓","🍑","🍐","🍌"];
+const API_URL="https://script.google.com/macros/s/AKfycbyqXdNd0VsgaDg3jNIMmL3A3dSYjnovi54AC-ze1buRO0mK7AMOLeo3JquQwpSSABU/exec";
+const LANGS={tw:"🇹🇼",en:"🇺🇸",ja:"🇯🇵",ko:"🇰🇷"};
+const I18N={
+  tw:{title:"2025 孤芳小隊 GOOD FUN TEAM in 草率季",concept:"設計理念",about:"關於",board:"留言板／簽到",hint:"輸入名字後送出，會化身為一顆水果在畫面遊動",input:"你的名字",send:"簽到"},
+  en:{title:"2025 GOOD FUN TEAM @ Soft Pow",concept:"Concept",about:"About",board:"Board",hint:"Enter your name to appear as a floating fruit.",input:"Your name",send:"Sign"},
+  ja:{title:"2025 GOOD FUN TEAM in 草率季",concept:"コンセプト",about:"紹介",board:"掲示板",hint:"名前を入力すると、フルーツとして画面に漂います。",input:"お名前",send:"送信"},
+  ko:{title:"2025 굿펀팀 @ 소프트파우",concept:"디자인 개념",about:"소개",board:"게시판",hint:"이름을 입력하면 과일로 화면에 떠다닙니다.",input:"이름",send:"보내기"}
+};
 
+/* 左下語言切換 */
 function LangSwitcher({lang,setLang}){
   return (
     <div className="lang-fab bg-white border-2 border-black rounded-full px-3 py-2 flex gap-2 shadow-md">
-      {Object.keys(LANGS).map(k=>(
-        <button key={k} onClick={()=>setLang(k)} className={lang===k?"text-2xl":"text-xl"}>{LANGS[k]}</button>
+      {Object.entries(LANGS).map(([k,flag])=>(
+        <button key={k} onClick={()=>setLang(k)} className={`leading-none ${lang===k?'text-2xl':'text-xl'}`}>{flag}</button>
       ))}
     </div>
   );
 }
 
-function PunchCard({onDone}){
-  const [dragging,setDragging]=React.useState(false);
-  const [dropped,setDropped]=React.useState(false);
-  const ref=React.useRef(null);
+/* 拖曳打卡（touch+mouse 通吃） */
+function PunchOverlay({onEnter}){
+  const cardRef=React.useRef(null);
+  const slotRef=React.useRef(null);
+  const stampRef=React.useRef(null);
+  const [ts,setTs]=React.useState("");
+  const [fade,setFade]=React.useState(false);
 
-  const onDragStart=e=>{
-    setDragging(true);
-    e.dataTransfer.setData("text/plain","card");
-  };
-  const onDragEnd=()=>setDragging(false);
-  const onDrop=e=>{
-    e.preventDefault();
-    setDropped(true);
-    setTimeout(onDone,1500);
-  };
+  React.useEffect(()=>{
+    const z=n=>String(n).padStart(2,"0");
+    const d=new Date();
+    setTs(`${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`);
+  },[]);
+
+  React.useEffect(()=>{
+    const el=cardRef.current;
+    if(!el) return;
+    let startX=0,startY=0,ox=0,oy=0,drag=false;
+
+    const get=(e)=> e.touches?.[0] ? {x:e.touches[0].clientX,y:e.touches[0].clientY} : {x:e.clientX,y:e.clientY};
+    const curTranslate=()=>{
+      const m=/translate\(([-0-9.]+)px,\s*([-0-9.]+)px\)/.exec(getComputedStyle(el).transform);
+      return m?[parseFloat(m[1]),parseFloat(m[2])]:[0,0];
+    };
+    const start=(e)=>{drag=true;const p=get(e);[ox,oy]=curTranslate();startX=p.x;startY=p.y;el.style.transition="none";};
+    const move=(e)=>{
+      if(!drag) return;
+      e.preventDefault();
+      const p=get(e);
+      const dx=p.x-startX, dy=p.y-startY;
+      el.style.transform=`translate(calc(-50% + ${ox+dx}px), calc(-50% + ${oy+dy}px))`;
+    };
+    const overlap=(a,b)=>!(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom);
+    const end=()=>{
+      if(!drag) return; drag=false;
+      const a=el.getBoundingClientRect(), b=slotRef.current.getBoundingClientRect();
+      if(overlap(a,b)){
+        stampRef.current.classList.add("show");
+        try{new Audio("punch.mp3").play().catch(()=>{});}catch(_){}
+        if(navigator.vibrate) navigator.vibrate(25);
+        setTimeout(()=>{ setFade(true); setTimeout(()=>onEnter(),550); },300);
+      }else{
+        el.style.transition="transform .25s ease";
+        el.style.transform="translate(-50%, -50%)";
+      }
+    };
+
+    el.addEventListener("pointerdown",start);
+    window.addEventListener("pointermove",move,{passive:false});
+    window.addEventListener("pointerup",end);
+    el.addEventListener("touchstart",start,{passive:true});
+    window.addEventListener("touchmove",move,{passive:false});
+    window.addEventListener("touchend",end);
+    el.addEventListener("mousedown",start);
+    window.addEventListener("mousemove",move,{passive:false});
+    window.addEventListener("mouseup",end);
+
+    return()=>{
+      el.removeEventListener("pointerdown",start);
+      window.removeEventListener("pointermove",move);
+      window.removeEventListener("pointerup",end);
+      el.removeEventListener("touchstart",start);
+      window.removeEventListener("touchmove",move);
+      window.removeEventListener("touchend",end);
+      el.removeEventListener("mousedown",start);
+      window.removeEventListener("mousemove",move);
+      window.removeEventListener("mouseup",end);
+    };
+  },[onEnter]);
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen relative">
-      {!dropped && <>
-        <img src="punch.png" onDragOver={e=>e.preventDefault()} onDrop={onDrop} className="w-64 mb-8"/>
-        <img ref={ref} src="punch-card.png" draggable onDragStart={onDragStart} onDragEnd={onDragEnd} className={`w-40 cursor-grab ${dragging?"opacity-70":"opacity-100"}`}/>
-      </>}
-      {dropped && <div className="text-3xl font-bold mt-6">打卡成功！<br/>{new Date().toLocaleTimeString()}</div>}
+    <div className={`fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center p-6 ${fade?'punch-fade':''}`}>
+      <div className="punch-stage">
+        <img src="punch.png" alt="打卡機" className="punch-machine"/>
+        <div ref={slotRef} className="punch-slot" aria-hidden></div>
+
+        <div ref={cardRef} className="punch-card" aria-label="打卡紙（拖曳到槽）">
+          <img src="punch-card.png" alt="" className="absolute inset-0 w-full h-full object-cover"/>
+          <div className="absolute left-2 top-2 bg-[var(--yellow)] border-4 border-black rounded-lg shadow-[6px_6px_0_#111] px-2 py-1 font-black">GOOD FUN TEAM</div>
+          <div ref={stampRef} className="punch-stamp">{ts || '—:—:—'}</div>
+        </div>
+      </div>
+      <div className="absolute bottom-4 text-xs opacity-70">把卡片拖到黑色卡槽以進入網站</div>
     </div>
   );
 }
 
+/* 水果飄浮層 */
+function FruitLayer({items}){
+  return (
+    <div className="relative h-48 overflow-hidden mt-6">
+      {items.map((f,i)=>(
+        <div key={i} className="fruit" style={{
+          left:(5+Math.random()*90)+"%",
+          bottom:(-10+Math.random()*10)+"%",
+          animationDuration:(10+Math.random()*10)+"s"
+        }}>
+          {f.fruit} <span className="text-sm font-bold align-middle ml-1">{f.name}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* 簽到留言板（GAS 連動 + 手機送出鍵換行） */
 function SignBoard({t}){
   const [name,setName]=React.useState("");
-  const [data,setData]=React.useState([]);
+  const [list,setList]=React.useState([]);
   const [posting,setPosting]=React.useState(false);
-
-  const endpoint="https://script.google.com/macros/s/AKfycbyqXdNd0VsgaDg3jNIMmL3A3dSYjnovi54AC-ze1buRO0mK7AMOLeo3JquQwpSSABU/exec";
+  const [err,setErr]=React.useState("");
 
   React.useEffect(()=>{
-    fetch(endpoint)
-      .then(r=>r.json())
-      .then(d=>setData(d.data||[]))
-      .catch(()=>{});
+    fetch(API_URL).then(r=>r.json()).then(j=>{
+      if(j.ok&&Array.isArray(j.data)) setList(j.data);
+    }).catch(()=>setErr("無法載入留言板，稍後再試"));
   },[]);
 
-  const add=()=>{
-    if(!name.trim())return;
+  const add=async()=>{
+    const n=name.trim(); if(!n) return;
     const fruit=FRUITS[Math.floor(Math.random()*FRUITS.length)];
-    setPosting(true);
-    fetch(endpoint+`?name=${encodeURIComponent(name)}&fruit=${encodeURIComponent(fruit)}`)
-      .then(r=>r.json())
-      .then(()=>{setData(p=>[...p,{name,fruit}]);setName("");})
-      .finally(()=>setPosting(false));
+    try{
+      setPosting(true);
+      const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,fruit})});
+      const j=await res.json();
+      if(!j.ok) throw new Error(j.error||"post_failed");
+      setList(p=>[...p,{name:n,fruit}]); setName("");
+    }catch(e){ setErr("送出失敗，稍後再試"); }
+    finally{ setPosting(false); }
   };
 
   return (
     <div className="card p-6 mt-10 mb-24">
       <h2 className="text-2xl font-bold mb-2">{t.board}</h2>
-      <p className="mb-4">{t.desc}</p>
+      <p className="mb-4 opacity-80">{t.hint}（已連線雲端）</p>
+
       <div className="mt-4 flex flex-col sm:flex-row gap-2">
         <input value={name} onChange={e=>setName(e.target.value)} placeholder={t.input}
           className="flex-1 rounded-xl border-2 border-black px-3 py-3"/>
         <button onClick={add} disabled={posting}
-          className="w-full sm:w-auto px-4 py-3 rounded-xl bg-[var(--yellow)] border-2 border-black font-bold">{posting?"送出中…":t.btn}</button>
+          className="btn w-full sm:w-auto px-4 py-3 rounded-xl bg-[var(--yellow)] border-2 border-black font-bold">
+          {posting?"送出中…":t.send}
+        </button>
       </div>
 
-      <div className="relative h-48 overflow-hidden mt-6">
-        {data.map((f,i)=>(
-          <div key={i} className="fruit" style={{
-            left:Math.random()*90+"%",
-            animationDuration:10+Math.random()*10+"s"
-          }}>{f.fruit}</div>
-        ))}
-      </div>
+      {err && <div className="mt-3 text-sm text-red-600">{err}</div>}
+      <FruitLayer items={list}/>
     </div>
   );
 }
@@ -129,35 +215,55 @@ function SignBoard({t}){
 function App(){
   const [lang,setLang]=React.useState("tw");
   const [entered,setEntered]=React.useState(false);
-  const t=TEXT[lang];
+  const t=I18N[lang];
+
+  /* 打字時語言切換條淡出 */
   React.useEffect(()=>{
-    const onFocusIn=e=>{
-      if(["INPUT","TEXTAREA"].includes(e.target.tagName))document.body.classList.add("hide-lang");
+    const onIn=e=>{
+      if(["INPUT","TEXTAREA"].includes(e.target.tagName)) document.body.classList.add("hide-lang");
     };
-    const onFocusOut=()=>document.body.classList.remove("hide-lang");
-    window.addEventListener("focusin",onFocusIn);
-    window.addEventListener("focusout",onFocusOut);
-    return()=>{window.removeEventListener("focusin",onFocusIn);window.removeEventListener("focusout",onFocusOut);}
+    const onOut=()=>document.body.classList.remove("hide-lang");
+    window.addEventListener("focusin",onIn);
+    window.addEventListener("focusout",onOut);
+    return()=>{window.removeEventListener("focusin",onIn);window.removeEventListener("focusout",onOut);}
   },[]);
-  if(!entered)return <PunchCard onDone={()=>setEntered(true)}/>;
+
   return (
-    <div className="p-4 pb-32 relative">
+    <div className="p-4 pb-32">
+      {!entered && <PunchOverlay onEnter={()=>setEntered(true)}/>}
       <LangSwitcher lang={lang} setLang={setLang}/>
-      <h1 className="text-center text-4xl hero mb-6">2025 孤芳小隊 GOOD FUN TEAM in 草率季</h1>
+      <h1 className="text-center text-4xl hero mb-6">{t.title}</h1>
+
       <div className="card p-6">
         <h2 className="text-2xl font-bold mb-2">{t.concept}</h2>
         <p>關注城市中的暫居、移動與安放；以「柔軟 × 堅固」的媒材對位，談記憶與生活距離。</p>
       </div>
+
       <div className="card p-6 mt-8">
         <h2 className="text-2xl font-bold mb-2">{t.about}</h2>
-        <p>孤芳小隊 GOOD FUN TEAM 由 Rotion87 與 羅 共同經營。</p>
-        <p className="mt-2">Rotion87：攝影／書籍／物件設計</p>
-        <p>羅（l72uo_）：造型／手作／角色設定</p>
+        <p>孤芳小隊 GOOD FUN TEAM 由 Rotion87 與羅共同經營。</p>
         <div className="flex gap-3 mt-4">
-          <a href="https://www.instagram.com/rotion87" target="_blank"><img src="ig-rotion.png" className="w-10"/></a>
-          <a href="https://www.instagram.com/l72uo_" target="_blank"><img src="ig-l72uo.png" className="w-10"/></a>
+          <a href="https://www.instagram.com/rotion87" target="_blank" rel="noreferrer">
+            <img src="ig-rotion.png" alt="IG rotion87" className="w-10 h-10 object-cover rounded-full border-2 border-black"/>
+          </a>
+          <a href="https://www.instagram.com/l72uo_" target="_blank" rel="noreferrer">
+            <img src="ig-l72uo.png" alt="IG l72uo_" className="w-10 h-10 object-cover rounded-full border-2 border-black"/>
+          </a>
         </div>
       </div>
+
+      {/* 作品展示（示範兩張，你可自行加更多卡片） */}
+      <div className="grid sm:grid-cols-2 gap-6 mt-8">
+        <div className="card p-3">
+          <img src="./exhibit-radio.png" alt="展示物｜孤芳收音機" className="w-full h-52 object-cover bg-gray-100"/>
+          <div className="p-2 text-sm font-bold mt-1">展示物｜孤芳收音機</div>
+        </div>
+        <div className="card p-3">
+          <img src="./exhibit-pipo.png" alt="展示物｜PIPO君 張子" className="w-full h-52 object-cover bg-gray-100"/>
+          <div className="p-2 text-sm font-bold mt-1">展示物｜PIPO君 張子</div>
+        </div>
+      </div>
+
       <SignBoard t={t}/>
     </div>
   );
