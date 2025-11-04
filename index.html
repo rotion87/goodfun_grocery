@@ -11,38 +11,59 @@
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 
 <style>
-:root{
-  --yellow:#ffe200;--ink:#111;--cream:#fff7ce;
-}
+:root{ --yellow:#ffe200; --ink:#111; --cream:#fff7ce; }
+html,body{height:100%}
 body{
-  font-family:'Noto Sans TC',sans-serif;background:var(--cream);
+  font-family:'Noto Sans TC',system-ui,-apple-system,Segoe UI,Roboto,'PingFang TC','Microsoft JhengHei',sans-serif;
+  background:var(--cream);
   background-image:repeating-radial-gradient(circle at center,#fff 0 2px,transparent 3px 40px);
-  color:var(--ink);overflow-x:hidden;
+  color:var(--ink); overflow-x:hidden;
 }
 .hero{font-family:'Bangers';color:#111;text-shadow:2px 2px 0 #fff;}
 .card{background:#fff;border:3px solid #000;border-radius:1.5rem;box-shadow:4px 4px 0 #000;}
+/* 左下語言切換：遵守安全區；打字時自動淡出 */
 .lang-fab{position:fixed;left:1rem;bottom:calc(env(safe-area-inset-bottom,0px)+1rem);z-index:50;}
-.hide-lang .lang-fab{opacity:0;pointer-events:none;transform:translateY(150%);transition:.3s;}
-/* --- 打卡機樣式 --- */
+.hide-lang .lang-fab{opacity:0;pointer-events:none;transform:translateY(150%);transition:.25s;}
+/* 手機底部留白，避免被語言切換遮住 */
+.safe-bottom{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 108px);}
+@supports (height:100dvh){ .vh-screen{min-height:100dvh;} }
+
+/* --- 打卡機樣式（pointer/touch/mouse 通吃） --- */
 .punch-stage{position:relative;width:min(720px,92vw);margin:0 auto;}
 .punch-machine{width:100%;height:auto;display:block;}
-.punch-slot{position:absolute;left:50%;top:68%;transform:translate(-50%,-50%);width:64%;height:18px;background:#111;border-radius:6px;opacity:.9;box-shadow:0 2px 0 #0006;}
-.punch-card{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:min(58%,420px);aspect-ratio:3/2;border:4px solid #111;border-radius:12px;background:#fff;overflow:hidden;box-shadow:8px 10px 0 #111;touch-action:none;user-select:none;cursor:grab;z-index:5;}
+.punch-slot{
+  position:absolute;left:50%;top:68%;transform:translate(-50%,-50%);
+  width:64%;height:18px;background:#111;border-radius:6px;opacity:.9;box-shadow:0 2px 0 #0006;
+}
+.punch-card{
+  position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);
+  width:min(58%,420px);aspect-ratio:3/2;border:4px solid #111;border-radius:12px;background:#fff;overflow:hidden;
+  box-shadow:8px 10px 0 #111; touch-action:none; user-select:none; cursor:grab; z-index:5;
+}
 .punch-card:active{cursor:grabbing;}
-.punch-stamp{position:absolute;right:10px;bottom:10px;background:#fff;border:3px dashed #111;padding:.35rem .6rem;border-radius:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:800;letter-spacing:.5px;opacity:0;transform:scale(.8);transition:opacity .25s ease,transform .25s ease;}
-.punch-stamp.show{opacity:1;transform:scale(1);}
+.punch-stamp{
+  position:absolute; right:10px; bottom:10px; background:#fff; border:3px dashed #111;
+  padding:.35rem .6rem; border-radius:8px; font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-weight:800; letter-spacing:.5px; opacity:0; transform:scale(.8);
+  transition:opacity .25s ease, transform .25s ease;
+}
+.punch-stamp.show{opacity:1; transform:scale(1);}
 .punch-fade{animation:pfade .5s ease forwards;}
 @keyframes pfade{to{opacity:0;visibility:hidden;}}
+
 /* 水果浮動 */
-.fruit{position:absolute;font-size:2rem;animation:float 20s linear infinite;}
-@keyframes float{0%{transform:translateY(0);}100%{transform:translateY(-100vh);}}
+.fruit{position:absolute;font-size:2rem;animation:float 20s linear infinite;white-space:nowrap;}
+@keyframes float{0%{transform:translateY(0)}100%{transform:translateY(-100vh)}}
 </style>
 </head>
-<body class="pb-32">
+<body class="safe-bottom">
 <div id="root"></div>
+
 <script type="text/babel">
-const FRUITS=["🍎","🍊","🍋","🍉","🍇","🍓","🍑","🍐","🍌"];
-const API_URL="https://script.google.com/macros/s/AKfycbyjS9jCYZ8fbtfdENPQW20iulMdQEE7cNuw5hrfafywId6zoCzgQgLmng1SrLJFxAc/exec";
+/* ==== 設定 ==== */
+const API_URL = "https://script.google.com/macros/s/AKfycbyqXdNd0VsgaDg3jNIMmL3A3dSYjnovi54AC-ze1buRO0mK7AMOLeo3JquQwpSSABU/exec";
+const FRUITS = ["🍎","🍊","🍋","🍉","🍇","🍓","🍑","🍐","🍌"];
+
 const LANGS={tw:"🇹🇼",en:"🇺🇸",ja:"🇯🇵",ko:"🇰🇷"};
 const I18N={
   tw:{title:"2025 孤芳小隊 GOOD FUN TEAM in 草率季",concept:"設計理念",about:"關於",board:"留言板／簽到",hint:"輸入名字後送出，會化身為一顆水果在畫面遊動",input:"你的名字",send:"簽到"},
@@ -62,7 +83,7 @@ function LangSwitcher({lang,setLang}){
   );
 }
 
-/* 拖曳打卡（touch+mouse 通吃） */
+/* 打卡：拖曳卡片到卡槽 → 顯示時間 → 淡出離場 */
 function PunchOverlay({onEnter}){
   const cardRef=React.useRef(null);
   const slotRef=React.useRef(null);
@@ -77,8 +98,7 @@ function PunchOverlay({onEnter}){
   },[]);
 
   React.useEffect(()=>{
-    const el=cardRef.current;
-    if(!el) return;
+    const el=cardRef.current; if(!el) return;
     let startX=0,startY=0,ox=0,oy=0,drag=false;
 
     const get=(e)=> e.touches?.[0] ? {x:e.touches[0].clientX,y:e.touches[0].clientY} : {x:e.clientX,y:e.clientY};
@@ -86,12 +106,11 @@ function PunchOverlay({onEnter}){
       const m=/translate\(([-0-9.]+)px,\s*([-0-9.]+)px\)/.exec(getComputedStyle(el).transform);
       return m?[parseFloat(m[1]),parseFloat(m[2])]:[0,0];
     };
-    const start=(e)=>{drag=true;const p=get(e);[ox,oy]=curTranslate();startX=p.x;startY=p.y;el.style.transition="none";};
+    const start=(e)=>{drag=true; const p=get(e); [ox,oy]=curTranslate(); startX=p.x; startY=p.y; el.style.transition="none";};
     const move=(e)=>{
       if(!drag) return;
       e.preventDefault();
-      const p=get(e);
-      const dx=p.x-startX, dy=p.y-startY;
+      const p=get(e); const dx=p.x-startX, dy=p.y-startY;
       el.style.transform=`translate(calc(-50% + ${ox+dx}px), calc(-50% + ${oy+dy}px))`;
     };
     const overlap=(a,b)=>!(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom);
@@ -100,7 +119,7 @@ function PunchOverlay({onEnter}){
       const a=el.getBoundingClientRect(), b=slotRef.current.getBoundingClientRect();
       if(overlap(a,b)){
         stampRef.current.classList.add("show");
-        try{new Audio("punch.mp3").play().catch(()=>{});}catch(_){}
+        try{ new Audio("punch.mp3").play().catch(()=>{});}catch(_){}
         if(navigator.vibrate) navigator.vibrate(25);
         setTimeout(()=>{ setFade(true); setTimeout(()=>onEnter(),550); },300);
       }else{
@@ -109,6 +128,7 @@ function PunchOverlay({onEnter}){
       }
     };
 
+    // 綁定 pointer + touch + mouse（全面保險）
     el.addEventListener("pointerdown",start);
     window.addEventListener("pointermove",move,{passive:false});
     window.addEventListener("pointerup",end);
@@ -149,7 +169,7 @@ function PunchOverlay({onEnter}){
   );
 }
 
-/* 水果飄浮層 */
+/* 水果飄浮層（資料 → 水果+名稱上浮） */
 function FruitLayer({items}){
   return (
     <div className="relative h-48 overflow-hidden mt-6">
@@ -166,8 +186,8 @@ function FruitLayer({items}){
   );
 }
 
-/* 簽到留言板（GAS 連動 + 手機送出鍵換行） */
-function function SignBoard({t}){
+/* 簽到留言板：先 POST，失敗 fallback GET 寫入；錯誤顯示 */
+function SignBoard({t}){
   const [name,setName]=React.useState("");
   const [list,setList]=React.useState([]);
   const [posting,setPosting]=React.useState(false);
@@ -177,7 +197,7 @@ function function SignBoard({t}){
     fetch(API_URL).then(r=>r.json()).then(j=>{
       if(j.ok && Array.isArray(j.data)) setList(j.data);
       else setErr("讀取失敗（" + (j.error || 'unknown') + "）");
-    }).catch((e)=>setErr("讀取失敗（網路）"));
+    }).catch(()=>setErr("讀取失敗（網路）"));
   },[]);
 
   const add=async()=>{
@@ -187,25 +207,17 @@ function function SignBoard({t}){
 
     // 先用 POST
     try{
-      const res=await fetch(API_URL,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({name:n,fruit})
-      });
+      const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,fruit})});
       const j=await res.json();
-      if(j.ok){
-        setList(p=>[...p,{name:n,fruit}]); setName(""); setPosting(false); return;
-      }
+      if(j.ok){ setList(p=>[...p,{name:n,fruit}]); setName(""); setPosting(false); return; }
       throw new Error(j.error || "post_failed");
     }catch(_){
-      // 退路：用 GET 寫入（對應後端 doGet 也能 append）
+      // 退路：GET 寫入（對應後端 doGet 可 append）
       try{
         const url = API_URL + `?name=${encodeURIComponent(n)}&fruit=${encodeURIComponent(fruit)}`;
         const res=await fetch(url,{method:"GET"});
         const j=await res.json();
-        if(j.ok){
-          setList(p=>[...p,{name:n,fruit}]); setName(""); setPosting(false); return;
-        }
+        if(j.ok){ setList(p=>[...p,{name:n,fruit}]); setName(""); setPosting(false); return; }
         throw new Error(j.error || "get_write_failed");
       }catch(e2){
         setPosting(false);
@@ -233,16 +245,15 @@ function function SignBoard({t}){
     </div>
   );
 }
+
 function App(){
   const [lang,setLang]=React.useState("tw");
   const [entered,setEntered]=React.useState(false);
   const t=I18N[lang];
 
-  /* 打字時語言切換條淡出 */
+  /* 打字時語言切換條淡出（避免擋輸入） */
   React.useEffect(()=>{
-    const onIn=e=>{
-      if(["INPUT","TEXTAREA"].includes(e.target.tagName)) document.body.classList.add("hide-lang");
-    };
+    const onIn=e=>{ if(["INPUT","TEXTAREA"].includes(e.target.tagName)) document.body.classList.add("hide-lang"); };
     const onOut=()=>document.body.classList.remove("hide-lang");
     window.addEventListener("focusin",onIn);
     window.addEventListener("focusout",onOut);
@@ -250,9 +261,10 @@ function App(){
   },[]);
 
   return (
-    <div className="p-4 pb-32">
+    <div className="p-4 safe-bottom">
       {!entered && <PunchOverlay onEnter={()=>setEntered(true)}/>}
       <LangSwitcher lang={lang} setLang={setLang}/>
+
       <h1 className="text-center text-4xl hero mb-6">{t.title}</h1>
 
       <div className="card p-6">
@@ -273,7 +285,7 @@ function App(){
         </div>
       </div>
 
-      {/* 作品展示（示範兩張，你可自行加更多卡片） */}
+      <!-- 作品示範卡片：可再自行擴充 -->
       <div className="grid sm:grid-cols-2 gap-6 mt-8">
         <div className="card p-3">
           <img src="./exhibit-radio.png" alt="展示物｜孤芳收音機" className="w-full h-52 object-cover bg-gray-100"/>
