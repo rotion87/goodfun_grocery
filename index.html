@@ -1,308 +1,343 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>2025 孤芳小隊 GOOD FUN TEAM in 草率季</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet"/>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GOOD FUN TEAM｜Works</title>
 <style>
-:root{ --yellow:#ffe200; --ink:#111; --cream:#fff7ce; }
-html,body{height:100%}
-body{
-  font-family:'Noto Sans TC',system-ui,-apple-system,Segoe UI,Roboto,'PingFang TC','Microsoft JhengHei',sans-serif;
-  background:var(--cream);
-  background-image:repeating-radial-gradient(circle at center,#fff 0 2px,transparent 3px 40px);
-  color:var(--ink); overflow-x:hidden;
-}
-.hero{font-family:'Bangers';color:#111;text-shadow:2px 2px 0 #fff;}
-.card{background:#fff;border:3px solid #000;border-radius:1.5rem;box-shadow:4px 4px 0 #000;}
-/* 左下語言切換：遵守安全區；打字時自動淡出 */
-.lang-fab{position:fixed;left:1rem;bottom:calc(env(safe-area-inset-bottom,0px)+1rem);z-index:50;}
-.hide-lang .lang-fab{opacity:0;pointer-events:none;transform:translateY(150%);transition:.25s;}
-/* 手機底部留白，避免被語言切換遮住 */
-.safe-bottom{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 108px);}
-@supports (height:100dvh){ .vh-screen{min-height:100dvh;} }
+  :root{
+    --bg:#fff8e5;
+    --ink:#111;
+    --muted:#555;
+    --line:#222;
+    --card:#fff;
+    --shadow:0 6px 24px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
+    --accent:#ffcf3e;
+  }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial;}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px 16px 120px;}
+  h1{font-size:28px;letter-spacing:.5px;margin:8px 0 20px;}
+  .grid{
+    display:grid;gap:18px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  @media(min-width:860px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
 
-/* --- 打卡機樣式（pointer/touch/mouse 通吃） --- */
-.punch-stage{position:relative;width:min(720px,92vw);margin:0 auto;}
-.punch-machine{width:100%;height:auto;display:block;}
-.punch-slot{
-  position:absolute;left:50%;top:68%;transform:translate(-50%,-50%);
-  width:64%;height:18px;background:#111;border-radius:6px;opacity:.9;box-shadow:0 2px 0 #0006;
-}
-.punch-card{
-  position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);
-  width:min(58%,420px);aspect-ratio:3/2;border:4px solid #111;border-radius:12px;background:#fff;overflow:hidden;
-  box-shadow:8px 10px 0 #111; touch-action:none; user-select:none; cursor:grab; z-index:5;
-}
-.punch-card:active{cursor:grabbing;}
-.punch-stamp{
-  position:absolute; right:10px; bottom:10px; background:#fff; border:3px dashed #111;
-  padding:.35rem .6rem; border-radius:8px; font-family:ui-monospace,Menlo,Consolas,monospace;
-  font-weight:800; letter-spacing:.5px; opacity:0; transform:scale(.8);
-  transition:opacity .25s ease, transform .25s ease;
-}
-.punch-stamp.show{opacity:1; transform:scale(1);}
-.punch-fade{animation:pfade .5s ease forwards;}
-@keyframes pfade{to{opacity:0;visibility:hidden;}}
+  .card{
+    position:relative;background:var(--card);border:2px solid #000;border-radius:18px;
+    box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.15s transform;
+  }
+  .card:hover{transform:translateY(-2px);}
+  .thumb{
+    aspect-ratio: 4/3; width:100%; object-fit:cover; background:#eee;
+  }
+  .label{
+    position:absolute;left:12px;bottom:12px;
+    background:#ffd22e;border:2px solid #000;border-radius:999px;
+    padding:6px 12px;font-weight:700;box-shadow:2px 2px 0 #000;
+  }
 
-/* 水果浮動 */
-.fruit{position:absolute;font-size:2rem;animation:float 20s linear infinite;white-space:nowrap;}
-@keyframes float{0%{transform:translateY(0)}100%{transform:translateY(-100vh)}}
+  /* Modal */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;}
+  .modal.show{display:flex;}
+  .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);}
+  .panel{
+    position:relative;z-index:1;max-width:min(1100px,92vw);width:100%;
+    background:var(--card);border:3px solid #000;border-radius:24px;
+    box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden;
+  }
+  .panel-head{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:14px 18px;border-bottom:3px solid #000;background:#fffce7;
+  }
+  .panel-title{font-weight:800;font-size:18px;}
+  .close{
+    border:2px solid #000;border-radius:10px;background:#ffef6a;padding:6px 10px;font-weight:800;cursor:pointer;
+    box-shadow:2px 2px 0 #000;
+  }
+  .panel-body{
+    display:grid;gap:18px;padding:18px;
+    grid-template-columns: 1.1fr .9fr;
+  }
+  @media(max-width:860px){ .panel-body{grid-template-columns:1fr;} }
+
+  .basket-wrap{position:relative;isolation:isolate}
+  .basket-bg{width:100%;height:auto;display:block;border-radius:14px;box-shadow:var(--shadow);}
+  .work-photo{
+    position:absolute;inset:0;margin:auto;max-width:min(85%,700px);max-height:80%;
+    object-fit:contain; transform: rotate(-6deg); filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+  }
+
+  .work-text{line-height:1.7}
+  .meta{color:var(--muted);font-size:14px;margin:.2rem 0 1rem}
+  .desc{white-space:pre-wrap}
+
+  /* language floating */
+  .lang-fab{
+    position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:100;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .lang-btn{
+    width:44px;height:44px;border-radius:12px;background:var(--card);border:2px solid #000;
+    display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;
+    box-shadow:2px 2px 0 #000;
+  }
+  .lang-btn.active{outline:3px solid var(--accent);}
+  /* 讓底部內容不被語言切換器擋住 */
+  @media (max-width: 768px){ .wrap{padding-bottom:140px;} }
+
+  /* small helper */
+  .muted{color:#777}
 </style>
 </head>
-<body class="safe-bottom">
-<div id="root"></div>
+<body>
+  <main class="wrap">
+    <h1>GOOD FUN TEAM｜Works</h1>
 
-<script type="text/babel">
-/* ==== 設定 ==== */
-const API_URL = "https://script.google.com/macros/s/AKfycbyqXdNd0VsgaDg3jNIMmL3A3dSYjnovi54AC-ze1buRO0mK7AMOLeo3JquQwpSSABU/exec";
-const FRUITS = ["🍎","🍊","🍋","🍉","🍇","🍓","🍑","🍐","🍌"];
+    <!-- 作品卡列表（JS 會注入） -->
+    <section class="grid" id="workGrid"></section>
 
-const LANGS={tw:"🇹🇼",en:"🇺🇸",ja:"🇯🇵",ko:"🇰🇷"};
-const I18N={
-  tw:{title:"2025 孤芳小隊 GOOD FUN TEAM in 草率季",concept:"設計理念",about:"關於",board:"留言板／簽到",hint:"輸入名字後送出，會化身為一顆水果在畫面遊動",input:"你的名字",send:"簽到"},
-  en:{title:"2025 GOOD FUN TEAM @ Soft Pow",concept:"Concept",about:"About",board:"Board",hint:"Enter your name to appear as a floating fruit.",input:"Your name",send:"Sign"},
-  ja:{title:"2025 GOOD FUN TEAM in 草率季",concept:"コンセプト",about:"紹介",board:"掲示板",hint:"名前を入力すると、フルーツとして画面に漂います。",input:"お名前",send:"送信"},
-  ko:{title:"2025 굿펀팀 @ 소프트파우",concept:"디자인 개념",about:"소개",board:"게시판",hint:"이름을 입력하면 과일로 화면에 떠다닙니다.",input:"이름",send:"보내기"}
-};
+    <p class="muted" style="margin-top:16px">※ 點擊任一作品查看詳情（水果籃彈窗）。</p>
+  </main>
 
-/* 左下語言切換 */
-function LangSwitcher({lang,setLang}){
-  return (
-    <div className="lang-fab bg-white border-2 border-black rounded-full px-3 py-2 flex gap-2 shadow-md">
-      {Object.entries(LANGS).map(([k,flag])=>(
-        <button key={k} onClick={()=>setLang(k)} className={`leading-none ${lang===k?'text-2xl':'text-xl'}`}>{flag}</button>
-      ))}
-    </div>
-  );
-}
+  <!-- 語言切換器（常駐右下） -->
+  <div class="lang-fab" id="langFab" aria-label="Language">
+    <button class="lang-btn" data-lang="zh" title="中文（台灣）">🇹🇼</button>
+    <button class="lang-btn" data-lang="ja" title="日本語">🇯🇵</button>
+    <button class="lang-btn" data-lang="ko" title="한국어">🇰🇷</button>
+    <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+  </div>
 
-/* 打卡：拖曳卡片到卡槽 → 顯示時間 → 淡出離場 */
-function PunchOverlay({onEnter}){
-  const cardRef=React.useRef(null);
-  const slotRef=React.useRef(null);
-  const stampRef=React.useRef(null);
-  const [ts,setTs]=React.useState("");
-  const [fade,setFade]=React.useState(false);
-
-  React.useEffect(()=>{
-    const z=n=>String(n).padStart(2,"0");
-    const d=new Date();
-    setTs(`${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())} ${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`);
-  },[]);
-
-  React.useEffect(()=>{
-    const el=cardRef.current; if(!el) return;
-    let startX=0,startY=0,ox=0,oy=0,drag=false;
-
-    const get=(e)=> e.touches?.[0] ? {x:e.touches[0].clientX,y:e.touches[0].clientY} : {x:e.clientX,y:e.clientY};
-    const curTranslate=()=>{
-      const m=/translate\(([-0-9.]+)px,\s*([-0-9.]+)px\)/.exec(getComputedStyle(el).transform);
-      return m?[parseFloat(m[1]),parseFloat(m[2])]:[0,0];
-    };
-    const start=(e)=>{drag=true; const p=get(e); [ox,oy]=curTranslate(); startX=p.x; startY=p.y; el.style.transition="none";};
-    const move=(e)=>{
-      if(!drag) return;
-      e.preventDefault();
-      const p=get(e); const dx=p.x-startX, dy=p.y-startY;
-      el.style.transform=`translate(calc(-50% + ${ox+dx}px), calc(-50% + ${oy+dy}px))`;
-    };
-    const overlap=(a,b)=>!(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom);
-    const end=()=>{
-      if(!drag) return; drag=false;
-      const a=el.getBoundingClientRect(), b=slotRef.current.getBoundingClientRect();
-      if(overlap(a,b)){
-        stampRef.current.classList.add("show");
-        try{ new Audio("punch.mp3").play().catch(()=>{});}catch(_){}
-        if(navigator.vibrate) navigator.vibrate(25);
-        setTimeout(()=>{ setFade(true); setTimeout(()=>onEnter(),550); },300);
-      }else{
-        el.style.transition="transform .25s ease";
-        el.style.transform="translate(-50%, -50%)";
-      }
-    };
-
-    // 綁定 pointer + touch + mouse（全面保險）
-    el.addEventListener("pointerdown",start);
-    window.addEventListener("pointermove",move,{passive:false});
-    window.addEventListener("pointerup",end);
-    el.addEventListener("touchstart",start,{passive:true});
-    window.addEventListener("touchmove",move,{passive:false});
-    window.addEventListener("touchend",end);
-    el.addEventListener("mousedown",start);
-    window.addEventListener("mousemove",move,{passive:false});
-    window.addEventListener("mouseup",end);
-
-    return()=>{
-      el.removeEventListener("pointerdown",start);
-      window.removeEventListener("pointermove",move);
-      window.removeEventListener("pointerup",end);
-      el.removeEventListener("touchstart",start);
-      window.removeEventListener("touchmove",move);
-      window.removeEventListener("touchend",end);
-      el.removeEventListener("mousedown",start);
-      window.removeEventListener("mousemove",move);
-      window.removeEventListener("mouseup",end);
-    };
-  },[onEnter]);
-
-  return (
-    <div className={`fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center p-6 ${fade?'punch-fade':''}`}>
-      <div className="punch-stage">
-        <img src="punch.png" alt="打卡機" className="punch-machine"/>
-        <div ref={slotRef} className="punch-slot" aria-hidden></div>
-
-        <div ref={cardRef} className="punch-card" aria-label="打卡紙（拖曳到槽）">
-          <img src="punch-card.png" alt="" className="absolute inset-0 w-full h-full object-cover"/>
-          <div className="absolute left-2 top-2 bg-[var(--yellow)] border-4 border-black rounded-lg shadow-[6px_6px_0_#111] px-2 py-1 font-black">GOOD FUN TEAM</div>
-          <div ref={stampRef} className="punch-stamp">{ts || '—:—:—'}</div>
+  <!-- Modal（共用一個，內容以 JS 置換） -->
+  <div class="modal" id="modal">
+    <div class="backdrop" data-close="1"></div>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
+      <div class="panel-head">
+        <div class="panel-title" id="mdTitle">—</div>
+        <button class="close" data-close="1">✕</button>
+      </div>
+      <div class="panel-body">
+        <div class="basket-wrap">
+          <img class="basket-bg" id="mdBasket" alt="basket" src="">
+          <img class="work-photo" id="mdPhoto" alt="work" src="">
+        </div>
+        <div class="work-text">
+          <div class="meta" id="mdMeta"></div>
+          <div class="desc" id="mdDesc"></div>
         </div>
       </div>
-      <div className="absolute bottom-4 text-xs opacity-70">把卡片拖到黑色卡槽以進入網站</div>
     </div>
-  );
-}
+  </div>
 
-/* 水果飄浮層（資料 → 水果+名稱上浮） */
-function FruitLayer({items}){
-  return (
-    <div className="relative h-48 overflow-hidden mt-6">
-      {items.map((f,i)=>(
-        <div key={i} className="fruit" style={{
-          left:(5+Math.random()*90)+"%",
-          bottom:(-10+Math.random()*10)+"%",
-          animationDuration:(10+Math.random()*10)+"s"
-        }}>
-          {f.fruit} <span className="text-sm font-bold align-middle ml-1">{f.name}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* 簽到留言板：先 POST，失敗 fallback GET 寫入；錯誤顯示 */
-function SignBoard({t}){
-  const [name,setName]=React.useState("");
-  const [list,setList]=React.useState([]);
-  const [posting,setPosting]=React.useState(false);
-  const [err,setErr]=React.useState("");
-
-  React.useEffect(()=>{
-    fetch(API_URL).then(r=>r.json()).then(j=>{
-      if(j.ok && Array.isArray(j.data)) setList(j.data);
-      else setErr("讀取失敗（" + (j.error || 'unknown') + "）");
-    }).catch(()=>setErr("讀取失敗（網路）"));
-  },[]);
-
-  const add=async()=>{
-    const n=name.trim(); if(!n) return;
-    const fruit=FRUITS[Math.floor(Math.random()*FRUITS.length)];
-    setErr(""); setPosting(true);
-
-    // 先用 POST
-    try{
-      const res=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,fruit})});
-      const j=await res.json();
-      if(j.ok){ setList(p=>[...p,{name:n,fruit}]); setName(""); setPosting(false); return; }
-      throw new Error(j.error || "post_failed");
-    }catch(_){
-      // 退路：GET 寫入（對應後端 doGet 可 append）
-      try{
-        const url = API_URL + `?name=${encodeURIComponent(n)}&fruit=${encodeURIComponent(fruit)}`;
-        const res=await fetch(url,{method:"GET"});
-        const j=await res.json();
-        if(j.ok){ setList(p=>[...p,{name:n,fruit}]); setName(""); setPosting(false); return; }
-        throw new Error(j.error || "get_write_failed");
-      }catch(e2){
-        setPosting(false);
-        setErr("送出失敗（" + (e2.message || '網路/權限') + "）");
-      }
+<script>
+/* -----------------------------
+   作品資料（9 件）— 圖片請依檔名上傳到 /images/
+   ----------------------------- */
+const WORKS = [
+  {
+    id:'horsecard',
+    cover:'work-horsecard.jpg', basket:'basket_red.png',
+    title:{
+      zh:'《孤芳小隊 2026 馬年賀卡》',
+      ja:'「グッドファンチーム 2026 年賀カード」',
+      ko:'〈굿펀팀 2026 말해 연하장〉',
+      en:'GFT 2026 New Year Postcard'
+    },
+    meta:{
+      zh:'類型：明信片 / 孔版印刷｜尺寸：—',
+      en:'Type: Postcard / Risograph | Size: —',
+      ja:'種類：ポストカード / リソグラフ｜サイズ：—',
+      ko:'유형: 엽서 / 리소그라프｜사이즈: —'
+    },
+    desc:{
+      zh:`以馬年為主題，先以黏土手作並上色完成原型，\n再將成品拍攝後分色，製作成孔版印刷明信片。\n\n兩個角色（鼠與雪貂）坐上賽馬版搖搖馬。\n想傳達的是「放慢腳步也沒關係」：\n與其執著抵達，不如感受當下。`,
+      en:`Year of the Horse themed. Clay model → painted → photographed and separated for risograph printing.\nThe two characters (mouse & ferret) sit on a racing rocking horse — a playful reminder to feel the present rather than only chasing goals.`,
+      ja:`干支「午」をテーマに、粘土原型→彩色→撮影→分版し、リソ印刷で制作。\n二人のキャラクター（ネズミとイタチ）が競馬の木馬に乗る。到達より「いま」を味わうという気持ちを込めた。`,
+      ko:`말띠를 주제로 점토 원형→채색→촬영→분판하여 리소그래프로 인쇄한 엽서.\n두 캐릭터(쥐와 담비)가 레이싱 흔들의자에 앉아, 목표만 좇기보다 지금을 느끼자는 마음을 담았다.`
     }
-  };
+  },
+  {
+    id:'hollow',
+    cover:'work-hollow.jpg', basket:'basket_blue.png',
+    title:{ zh:'《空心 IN PLACE》', en:'Hollow IN PLACE', ja:'Hollow IN PLACE', ko:'Hollow IN PLACE' },
+    meta:{ zh:'類型：攝影折頁小誌 × 水泥物件｜尺寸：—',
+           en:'Type: Folded photo zine × Cement object | Size: —',
+           ja:'種類：折りたたみ写真冊子 × セメントオブジェ｜サイズ：—',
+           ko:'유형: 접지 포토진 × 시멘트 오브제｜사이즈: —' },
+    desc:{
+      zh:`從北上後的生活觀察開始，記錄街頭各式空心磚的「被安放」。\n以手工灌製水泥磚作為書衣，折頁展開像層層堆疊；\n用「收集／紀錄」的方式，安置那些暫時的情緒。`,
+      en:`A study of hollow blocks in the city and how they “hold” things.\nThe folded zine slides into a handmade cement block (as a book jacket);\ncollecting & cataloging becomes a way to place temporary feelings.`,
+      ja:`街の中の中空ブロックを観察・記録し、「置かれる」感覚を本に。\n手流しのセメントをブックジャケットにし、折り本が層のように展開する。`,
+      ko:`도시의 중공 블록을 관찰·기록하며 ‘놓임’의 감각을 담았다.\n수제 시멘트 블록을 책커버로, 접지 진은 층층이 펼쳐진다.`
+    }
+  },
+  {
+    id:'softdrinks',
+    cover:'work-softdrinks.jpg', basket:'basket_orange.png',
+    title:{ zh:'《Soft Drinks》', en:'Soft Drinks', ja:'Soft Drinks', ko:'Soft Drinks' },
+    meta:{ zh:'類型：攝影 × 包裝設計｜尺寸：—',
+           en:'Type: Photography × Packaging | Size: —',
+           ja:'種類：写真 × パッケージデザイン｜サイズ：—',
+           ko:'유형: 사진 × 패키지｜사이즈: —' },
+    desc:{
+      zh:`將 2023–2025 收集的酒罐影像設計成絲巾，封裝於鋁罐。\n必須開罐才能取出，對照飲酒的不可逆；\n「soft drinks」既指不含酒精，也對應絲巾的柔軟。`,
+      en:`Beer-can photos (2023–2025) turned into a scarf, sealed inside an aluminum can.\nYou must open the can to take it out — a nod to irreversibility.\n“Soft drinks” hints both non-alcoholic and the scarf’s softness.`,
+      ja:`缶ビール写真（2023–2025）をスカーフ化し、アルミ缶に封入。\n開缶しないと取り出せない不可逆性と、「soft」の二重の意味を重ねた。`,
+      ko:`수집한 맥주캔 사진을 스카프로 디자인해 알루미늄 캔에 봉입.\n따야만 꺼낼 수 있는 ‘불가역’을 비틀어, 비알코올/부드러움의 이중 의미를 담았다.`
+    }
+  },
+  {
+    id:'thirty',
+    cover:'work-30hours.jpg', basket:'basket_green.png',
+    title:{ zh:'《30時間 2nd Edition》', en:'30 Hours — 2nd Ed.', ja:'30時間 2nd Edition', ko:'30시간 2nd Edition' },
+    meta:{ zh:'類型：攝影小誌（再販）｜尺寸：A5',
+           en:'Type: Photo zine (reprint) | Size: A5',
+           ja:'種類：写真冊子（再販）｜サイズ：A5',
+           ko:'유형: 포토진(재판)｜사이즈: A5' },
+    desc:{
+      zh:`以「30 小時制」為概念，底片記錄新宿／涉谷的都市節奏。\n2024 初版，2025 重新編排與標誌後再版。`,
+      en:`Film snapshots of Shinjuku/Shibuya through a “30-hour clock”.\nFirst published 2024; redesigned and reprinted in 2025.`,
+      ja:`「30時間制」の視点で新宿／渋谷を撮影。\n2024 初版、2025 に再編集・ロゴ一新で再販。`,
+      ko:`‘30시간제’ 시각으로 신주쿠/시부야의 리듬을 기록.\n2024 초판, 2025 재편집 및 로고 리뉴얼 재판.`
+    }
+  },
+  {
+    id:'handit',
+    cover:'work-handit.jpg', basket:'basket_red.png',
+    title:{ zh:'《Hand-it 手心貼》', en:'Hand-it Sticky', ja:'Hand-it 手のひら付箋', ko:'Hand-it 손바닥 메모' },
+    meta:{ zh:'類型：文具設計｜尺寸：—', en:'Type: Stationery | Size: —', ja:'種類：文具｜サイズ：—', ko:'유형: 문구｜사이즈: —' },
+    desc:{
+      zh:`怕忘記就寫在手上、卻很難洗掉。\n於是把「手」變成真正的便利貼：大家一起手心貼手心。`,
+      en:`I used to write on my palm and couldn’t wash it off.\nSo the palm itself became a sticky note — palm to palm.`,
+      ja:`手にメモして消えない——ならば手のひら自体を付箋に。`,
+      ko:`손바닥에 메모하던 버릇에서 출발해, 손바닥 모양의 진짜 메모지로.`
+    }
+  },
+  {
+    id:'pastebook',
+    cover:'work-pastebook.jpg', basket:'basket_blue.png',
+    title:{ zh:'《PASTE BOOK》系列貼紙簿', en:'PASTE BOOK — sticker passport', ja:'PASTE BOOK ステッカーブック', ko:'PASTE BOOK 스티커북' },
+    meta:{ zh:'類型：貼紙冊（A5）｜款式：台灣篇／日本篇',
+           en:'Type: Sticker book (A5) | Editions: Taiwan / Japan',
+           ja:'種類：ステッカーブック（A5）｜台湾編／日本編',
+           ko:'유형: 스티커북(A5)｜대만편/일본편' },
+    desc:{
+      zh:`以「護照」為概念，街頭蒐集→編成冊，再加工為可撕貼使用。\n把帶走與留下，變成一次旅行的雙重紀錄。`,
+      en:`A passport-like sticker book: collect, catalog, and re-place.\nLeaving and taking become a twin record of the trip.`,
+      ja:`パスポート風の記録帳。集める／貼るを往復し、旅の痕跡を二重化する。`,
+      ko:`여권 콘셉트의 기록책. 모으고 붙이며, 떠남과 머묾을 동시에 기록.`
+    }
+  },
+  {
+    id:'questioncandle',
+    cover:'work-questioncandle.jpg', basket:'basket_orange.png',
+    title:{ zh:'「問號蠟燭籤」', en:'Question Candle — Lots', ja:'「？」キャンドル御籤', ko:'물음표 초 — 제비' },
+    meta:{ zh:'類型：張子｜材質：半熟紙、毛根、紙張｜尺寸：約 10 cm',
+           en:'Type: Papier-mâché | Materials: semi-raw paper, chenille stem, paper | Size: ~10 cm',
+           ja:'種類：張り子｜素材：半生紙・モール・紙｜サイズ：約10cm',
+           ko:'유형: 하리코｜재료: 반숙지, 체닐, 종이｜크기: 약 10 cm' },
+    desc:{
+      zh:`台灣經典生日「問號蠟燭」為靈感，結合張子重新製作。\n蠟燭底座尖端可抽出三張籤：兩張祝福、一張留白——\n最後一個願望，留給自己。\n半熟紙不可燃，與打火機圖樣形成溫柔的矛盾。`,
+      en:`Taiwan’s classic “?” birthday candle reimagined as papier-mâché.\nPull three lots from the base: two wishes and one blank — the last wish is yours.\nThe semi-raw paper won’t burn, a gentle paradox beside the lighter graphic.`,
+      ja:`誕生日の「？」ロウソクを張り子で再解釈。\n台座から三枚の御籤（ふたつは祝福、ひとつは空白）。\n燃えない半生紙とライターの図案が、やわらかな矛盾をつくる。`,
+      ko:`대만의 ‘?’ 생일초를 하리코로 재해석.\n받침에서 제비 세 장(축복 둘, 공백 하나)을 뽑는다 — 마지막 소원은 스스로에게.\n타지 않는 반숙지와 라이터 도상이 부드러운 모순을 만든다.`
+    }
+  },
+  {
+    id:'pipo',
+    cover:'work-pipo.jpg', basket:'basket_green.png',
+    title:{ zh:'「PIPO 君 張子」', en:'PIPO — Papier-mâché', ja:'ピーポくん 張り子', ko:'피포 군 하리코' },
+    meta:{ zh:'類型：立體角色張子｜材質：紙漿、壓克力顏料｜尺寸：約 20 cm',
+           en:'Type: Character papier-mâché | Size: ~20 cm',
+           ja:'種類：張り子｜サイズ：約20cm',
+           ko:'유형: 하리코｜크기: 약 20 cm' },
+    desc:{
+      zh:`以張子形式製作東京警視廳吉祥物「ピーポくん」。`,
+      en:`Tokyo MPD mascot “Pipo-kun” crafted as a papier-mâché figure.`,
+      ja:`警視庁マスコット「ピーポくん」を張り子で制作。`,
+      ko:`도쿄 경시청 마스코트 ‘피포군’을 하리코로 제작.`
+    }
+  },
+  {
+    id:'radio',
+    cover:'work-radio.jpg', basket:'basket_red.png',
+    title:{ zh:'「孤芳收音機」', en:'GOOD FUN Radio', ja:'グッドファン・ラジオ', ko:'굿펀 라디오' },
+    meta:{ zh:'類型：立體裝置｜材質：石粉黏土、壓克力顏料、金屬｜尺寸：約 25 cm',
+           en:'Type: Installation | Materials: stone clay, acrylic, metal | Size: ~25 cm',
+           ja:'種類：インスタレーション｜素材：石粉粘土・アクリル・金属｜サイズ：約25cm',
+           ko:'유형: 설치｜재료: 석분 점토, 아크릴, 금속｜크기: 약 25 cm' },
+    desc:{
+      zh:`以聲音作為「訊號／共鳴」的象徵，描繪兩個角色在城市噪音中的連線。`,
+      en:`Sound as a sign of signal and resonance — two characters connecting through city noise.`,
+      ja:`音＝シグナル／共鳴の象徴として、都市のノイズの中で二人の接続を描く。`,
+      ko:`소리를 ‘신호/공명’의 상징으로 삼아, 도시의 소음 속 연결을 그렸다.`
+    }
+  }
+];
 
-  return (
-    <div className="card p-6 mt-10 mb-24">
-      <h2 className="text-2xl font-bold mb-2">{t.board}</h2>
-      <p className="mb-4 opacity-80">{t.hint}（已連線雲端）</p>
+/* 當前語言 */
+let LANG = 'zh';
 
-      <div className="mt-4 flex flex-col sm:flex-row gap-2">
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder={t.input}
-          className="flex-1 rounded-xl border-2 border-black px-3 py-3"/>
-        <button onClick={add} disabled={posting}
-          className="btn w-full sm:w-auto px-4 py-3 rounded-xl bg-[var(--yellow)] border-2 border-black font-bold">
-          {posting ? "送出中…" : t.send}
-        </button>
-      </div>
+/* 產生作品卡 */
+const grid = document.getElementById('workGrid');
+grid.innerHTML = WORKS.map(w => `
+  <article class="card" data-id="${w.id}" aria-label="${w.title[LANG]||w.title.zh}">
+    <img class="thumb" src="images/${w.cover}" alt="">
+    <div class="label">${w.title[LANG]||w.title.zh}</div>
+  </article>
+`).join('');
 
-      {err && <div className="mt-3 text-sm text-red-600">{err}</div>}
-      <FruitLayer items={list}/>
-    </div>
-  );
+/* Modal 開關＋注入內容 */
+const modal = document.getElementById('modal');
+const mdTitle = document.getElementById('mdTitle');
+const mdMeta  = document.getElementById('mdMeta');
+const mdDesc  = document.getElementById('mdDesc');
+const mdPhoto = document.getElementById('mdPhoto');
+const mdBasket= document.getElementById('mdBasket');
+
+grid.addEventListener('click', e=>{
+  const card = e.target.closest('.card');
+  if(!card) return;
+  const id = card.dataset.id;
+  const w = WORKS.find(x=>x.id===id);
+  if(!w) return;
+  mdTitle.textContent = (w.title[LANG]||w.title.zh);
+  mdMeta.textContent  = (w.meta[LANG]||w.meta.zh);
+  mdDesc.textContent  = (w.desc[LANG]||w.desc.zh);
+  mdPhoto.src  = `images/${w.cover}`;
+  mdBasket.src = `images/${w.basket}`;
+  modal.classList.add('show');
+});
+
+modal.addEventListener('click', e=>{
+  if(e.target.dataset.close) modal.classList.remove('show');
+});
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') modal.classList.remove('show');
+});
+
+/* 語言切換 */
+const fab = document.getElementById('langFab');
+function setLang(l){
+  LANG = l;
+  [...fab.querySelectorAll('.lang-btn')].forEach(b=>b.classList.toggle('active', b.dataset.lang===l));
+  // 重繪作品卡標籤
+  grid.querySelectorAll('.card').forEach((c,i)=>{
+    c.querySelector('.label').textContent = WORKS[i].title[LANG]||WORKS[i].title.zh;
+    c.setAttribute('aria-label', WORKS[i].title[LANG]||WORKS[i].title.zh);
+  });
+  // 若 modal 開啟中，更新裡面文字
+  if(modal.classList.contains('show')){
+    const current = [...grid.querySelectorAll('.card')].find(c=> (WORKS.find(x=>x.id===c.dataset.id).title[LANG]||'') === mdTitle.textContent );
+    const id = document.querySelector('.panel') ? document.querySelector('.panel').dataset?.id : null;
+  }
 }
-
-function App(){
-  const [lang,setLang]=React.useState("tw");
-  const [entered,setEntered]=React.useState(false);
-  const t=I18N[lang];
-
-  /* 打字時語言切換條淡出（避免擋輸入） */
-  React.useEffect(()=>{
-    const onIn=e=>{ if(["INPUT","TEXTAREA"].includes(e.target.tagName)) document.body.classList.add("hide-lang"); };
-    const onOut=()=>document.body.classList.remove("hide-lang");
-    window.addEventListener("focusin",onIn);
-    window.addEventListener("focusout",onOut);
-    return()=>{window.removeEventListener("focusin",onIn);window.removeEventListener("focusout",onOut);}
-  },[]);
-
-  return (
-    <div className="p-4 safe-bottom">
-      {!entered && <PunchOverlay onEnter={()=>setEntered(true)}/>}
-      <LangSwitcher lang={lang} setLang={setLang}/>
-
-      <h1 className="text-center text-4xl hero mb-6">{t.title}</h1>
-
-      <div className="card p-6">
-        <h2 className="text-2xl font-bold mb-2">{t.concept}</h2>
-        <p>關注城市中的暫居、移動與安放；以「柔軟 × 堅固」的媒材對位，談記憶與生活距離。</p>
-      </div>
-
-      <div className="card p-6 mt-8">
-        <h2 className="text-2xl font-bold mb-2">{t.about}</h2>
-        <p>孤芳小隊 GOOD FUN TEAM 由 Rotion87 與羅共同經營。</p>
-        <div className="flex gap-3 mt-4">
-          <a href="https://www.instagram.com/rotion87" target="_blank" rel="noreferrer">
-            <img src="ig-rotion.png" alt="IG rotion87" className="w-10 h-10 object-cover rounded-full border-2 border-black"/>
-          </a>
-          <a href="https://www.instagram.com/l72uo_" target="_blank" rel="noreferrer">
-            <img src="ig-l72uo.png" alt="IG l72uo_" className="w-10 h-10 object-cover rounded-full border-2 border-black"/>
-          </a>
-        </div>
-      </div>
-
-      <!-- 作品示範卡片：可再自行擴充 -->
-      <div className="grid sm:grid-cols-2 gap-6 mt-8">
-        <div className="card p-3">
-          <img src="./exhibit-radio.png" alt="展示物｜孤芳收音機" className="w-full h-52 object-cover bg-gray-100"/>
-          <div className="p-2 text-sm font-bold mt-1">展示物｜孤芳收音機</div>
-        </div>
-        <div className="card p-3">
-          <img src="./exhibit-pipo.png" alt="展示物｜PIPO君 張子" className="w-full h-52 object-cover bg-gray-100"/>
-          <div className="p-2 text-sm font-bold mt-1">展示物｜PIPO君 張子</div>
-        </div>
-      </div>
-
-      <SignBoard t={t}/>
-    </div>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+fab.addEventListener('click', e=>{
+  const btn = e.target.closest('.lang-btn');
+  if(!btn) return;
+  setLang(btn.dataset.lang);
+});
+setLang('zh');
 </script>
 </body>
 </html>
