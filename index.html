@@ -2,339 +2,304 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GOOD FUN TEAM｜Works</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title> 孤芳小隊 GOOD FUN TEAM </title>
+<meta name="color-scheme" content="light only" />
 <style>
   :root{
-    --bg:#fff8e5;
-    --ink:#111;
-    --muted:#555;
-    --line:#222;
-    --card:#fff;
-    --shadow:0 6px 24px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.08);
-    --accent:#ffcf3e;
+    --ink:#121212;
+    --red:#ff3b2f;
+    --orange:#ffd15a;
+    --green:#16b75b;
+    --shadow-big:0 18px 50px rgba(0,0,0,.35);
+    --shadow-med:0 10px 30px rgba(0,0,0,.18), 0 3px 10px rgba(0,0,0,.1);
   }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial;}
-  .wrap{max-width:1200px;margin:0 auto;padding:24px 16px 120px;}
-  h1{font-size:28px;letter-spacing:.5px;margin:8px 0 20px;}
-  .grid{
-    display:grid;gap:18px;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-  @media(min-width:860px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr));} }
-
-  .card{
-    position:relative;background:var(--card);border:2px solid #000;border-radius:18px;
-    box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.15s transform;
-  }
-  .card:hover{transform:translateY(-2px);}
-  .thumb{
-    aspect-ratio: 4/3; width:100%; object-fit:cover; background:#eee;
-  }
-  .label{
-    position:absolute;left:12px;bottom:12px;
-    background:#ffd22e;border:2px solid #000;border-radius:999px;
-    padding:6px 12px;font-weight:700;box-shadow:2px 2px 0 #000;
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",Arial;
+    background:#eafcff url("bg-market.png") center top repeat-y fixed;
+    background-size:100% auto;
   }
 
-  /* Modal */
-  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;}
-  .modal.show{display:flex;}
-  .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);}
-  .panel{
-    position:relative;z-index:1;max-width:min(1100px,92vw);width:100%;
-    background:var(--card);border:3px solid #000;border-radius:24px;
-    box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden;
-  }
-  .panel-head{
-    display:flex;justify-content:space-between;align-items:center;gap:12px;
-    padding:14px 18px;border-bottom:3px solid #000;background:#fffce7;
-  }
-  .panel-title{font-weight:800;font-size:18px;}
-  .close{
-    border:2px solid #000;border-radius:10px;background:#ffef6a;padding:6px 10px;font-weight:800;cursor:pointer;
-    box-shadow:2px 2px 0 #000;
-  }
-  .panel-body{
-    display:grid;gap:18px;padding:18px;
-    grid-template-columns: 1.1fr .9fr;
-  }
-  @media(max-width:860px){ .panel-body{grid-template-columns:1fr;} }
-
-  .basket-wrap{position:relative;isolation:isolate}
-  .basket-bg{width:100%;height:auto;display:block;border-radius:14px;box-shadow:var(--shadow);}
-  .work-photo{
-    position:absolute;inset:0;margin:auto;max-width:min(85%,700px);max-height:80%;
-    object-fit:contain; transform: rotate(-6deg); filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+  /* 左側綠色立柱（全頁可見） */
+  .page-stripe{
+    position:fixed; left:24px; top:20px; bottom:20px; width:26px; z-index:1;
+    background:var(--green);
+    border:3px solid #000; border-radius:12px;
+    box-shadow:2px 2px 0 #000 inset, 0 4px 0 #000;
   }
 
-  .work-text{line-height:1.7}
-  .meta{color:var(--muted);font-size:14px;margin:.2rem 0 1rem}
-  .desc{white-space:pre-wrap}
-
-  /* language floating */
-  .lang-fab{
-    position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:100;
-    display:flex;flex-direction:column;gap:6px;
+  /* 頂部標頭（紅底＋黑框陰影感＋粗圓體模擬） */
+  header{position:relative; z-index:2; padding:18px 16px 8px;}
+  .bar{
+    background:var(--red); border:3px solid #000; border-radius:20px;
+    padding:20px 22px; max-width:1200px; margin:0 auto;
+    box-shadow:var(--shadow-big);
+    position:relative;
   }
-  .lang-btn{
-    width:44px;height:44px;border-radius:12px;background:var(--card);border:2px solid #000;
-    display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;
-    box-shadow:2px 2px 0 #000;
+  .logo{
+    margin-left:64px; line-height:1; letter-spacing:.5px;
+    font-weight:900; color:#ffd76c; font-size:40px;
+    text-shadow:
+      -2px -2px 0 #000, 2px -2px 0 #000,
+      -2px  2px 0 #000, 2px  2px 0 #000,
+      0 4px 0 rgba(0,0,0,.25);
+    filter:drop-shadow(0 2px 0 #000);
   }
-  .lang-btn.active{outline:3px solid var(--accent);}
-  /* 讓底部內容不被語言切換器擋住 */
-  @media (max-width: 768px){ .wrap{padding-bottom:140px;} }
+  @media(min-width:960px){ .logo{font-size:54px} }
 
-  /* small helper */
-  .muted{color:#777}
+  /* 主區塊 */
+  .wrap{max-width:1200px; margin:16px auto 120px; padding:0 12px; position:relative; z-index:2;}
+  .main{display:grid; gap:20px; grid-template-columns:1fr;}
+  @media(min-width:1024px){ .main{grid-template-columns:1.4fr .6fr} }
+
+  /* 右側介紹（不固定） */
+  .about{
+    background:rgba(255,247,202,.97);
+    border:3px solid #000; border-radius:18px; padding:16px 18px;
+    box-shadow:var(--shadow-med);
+  }
+  .about h3{margin:6px 0 10px;font-size:18px}
+  .about p{margin:0 0 10px; line-height:1.7}
+
+  /* 作品牆 */
+  .grid{display:grid; gap:22px; grid-template-columns:repeat(1,minmax(0,1fr))}
+  @media(min-width:620px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+  @media(min-width:1024px){ .grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+  .card{position:relative; cursor:pointer; user-select:none; aspect-ratio:4/3;}
+  .star{
+    position:absolute; inset:0; margin:auto; width:88%; height:auto; object-fit:contain;
+    filter:drop-shadow(4px 4px 0 #000);
+    transform: rotate(calc(var(--r,0deg))); transition:transform .2s ease;
+  }
+  .photo{
+    position:absolute; inset:0; margin:auto; width:70%; height:70%; object-fit:contain;
+    filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));
+    transform: rotate(calc(var(--t,0deg)));
+  }
+  .name{
+    position:absolute; left:50%; bottom:6%;
+    transform:translateX(-50%) rotate(calc(var(--t,0deg)));
+    font-weight:900; font-size:14px; color:#fff; white-space:nowrap;
+    -webkit-text-stroke:2px #c90000;
+    text-shadow:
+      2px 2px 0 #c90000, -2px 2px 0 #c90000,
+      2px -2px 0 #c90000, -2px -2px 0 #c90000;
+  }
+  .card:hover .photo{transform:rotate(calc(var(--t,0deg))) scale(1.02)}
+  .card:hover .star{transform:rotate(calc(var(--r,0deg))) scale(1.01)}
+
+  /* 語言切換：右下浮動 */
+  .lang-fab{position:fixed; right:14px; bottom:calc(14px + env(safe-area-inset-bottom)); z-index:100; display:flex; flex-direction:column; gap:6px}
+  .lang-btn{width:44px;height:44px;border-radius:12px;background:#fff;border:2px solid #000;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:2px 2px 0 #000}
+  .lang-btn.active{outline:3px solid var(--orange)}
+
+  /* 彈窗（籃子詳情） */
+  .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:90}
+  .modal.show{display:flex}
+  .backdrop{position:absolute; inset:0; background:rgba(0,0,0,.5)}
+  .panel{position:relative; z-index:1; background:#fff; max-width:min(1100px,92vw); width:100%;
+    border:3px solid #000; border-radius:24px; box-shadow:var(--shadow-big); overflow:hidden}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:3px solid #000;background:#fffce7}
+  .panel-title{font-weight:900;font-size:18px}
+  .close{border:2px solid #000;border-radius:10px;background:#ffef6a;padding:6px 10px;font-weight:900;cursor:pointer;box-shadow:2px 2px 0 #000}
+  .panel-body{display:grid;gap:18px;padding:18px;grid-template-columns:1.1fr .9fr}
+  @media(max-width:860px){.panel-body{grid-template-columns:1fr;padding:14px}}
+  .basket-wrap{position:relative}
+  .basket-bg{width:100%;display:block;border-radius:16px;box-shadow:var(--shadow-med)}
+  .work-photo{position:absolute;inset:0;margin:auto;max-width:min(85%,720px);max-height:80%;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,0,0,.25))}
+  .meta{color:#666;font-size:14px;margin:.2rem 0 1rem}
+  .desc{white-space:pre-wrap;line-height:1.7}
+
+  footer{max-width:1200px;margin:28px auto 80px;padding:0 12px}
+  .links{display:flex;gap:12px;flex-wrap:wrap}
+  .pill{display:inline-flex;gap:8px;align-items:center;border:2px solid #000;border-radius:999px;padding:8px 12px;background:#fff;box-shadow:2px 2px 0 #000}
+  .muted{color:#666;margin-top:6px}
 </style>
 </head>
 <body>
-  <main class="wrap">
-    <h1>GOOD FUN TEAM｜Works</h1>
 
-    <!-- 作品卡列表（JS 會注入） -->
-    <section class="grid" id="workGrid"></section>
+<!-- 左側綠色立柱 -->
+<div class="page-stripe" aria-hidden="true"></div>
 
-    <p class="muted" style="margin-top:16px">※ 點擊任一作品查看詳情（水果籃彈窗）。</p>
-  </main>
-
-  <!-- 語言切換器（常駐右下） -->
-  <div class="lang-fab" id="langFab" aria-label="Language">
-    <button class="lang-btn" data-lang="zh" title="中文（台灣）">🇹🇼</button>
-    <button class="lang-btn" data-lang="ja" title="日本語">🇯🇵</button>
-    <button class="lang-btn" data-lang="ko" title="한국어">🇰🇷</button>
-    <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+<header>
+  <div class="bar">
+    <div class="logo">GOOD FUN TEAM</div>
   </div>
+</header>
 
-  <!-- Modal（共用一個，內容以 JS 置換） -->
-  <div class="modal" id="modal">
-    <div class="backdrop" data-close="1"></div>
-    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
-      <div class="panel-head">
-        <div class="panel-title" id="mdTitle">—</div>
-        <button class="close" data-close="1">✕</button>
+<main class="wrap">
+  <section class="main">
+    <!-- 作品牆 -->
+    <div>
+      <div class="grid" id="workGrid"></div>
+    </div>
+
+    <!-- 右側介紹（不固定） -->
+    <aside class="about">
+      <h3>孤芳小隊 GOOD FUN TEAM</h3>
+      <p>由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。</p>
+      <p><b>ROTION87：</b>以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。</p>
+      <p><b>No.423：</b>擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。</p>
+    </aside>
+  </section>
+</main>
+
+<footer>
+  <div class="links">
+    <a class="pill" href="https://www.instagram.com/rotion87" target="_blank" rel="noopener">📷 Rotion87（IG）</a>
+    <a class="pill" href="https://www.instagram.com/l72uo_" target="_blank" rel="noopener">🎨 No.423（IG）</a>
+    <!-- 需要時可加入 GOOD FUN TEAM 的 IG -->
+  </div>
+  <div class="muted">© GOOD FUN TEAM. All works by Rotion87 &amp; No.423.</div>
+</footer>
+
+<!-- 語言切換（右下浮動） -->
+<div class="lang-fab" id="langFab" aria-label="Language">
+  <button class="lang-btn" data-lang="zh" title="中文（台灣）">🇹🇼</button>
+  <button class="lang-btn" data-lang="ja" title="日本語">🇯🇵</button>
+  <button class="lang-btn" data-lang="ko" title="한국어">🇰🇷</button>
+  <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+</div>
+
+<!-- 共用彈窗 -->
+<div class="modal" id="modal">
+  <div class="backdrop" data-close="1"></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="mdTitle">
+    <div class="panel-head">
+      <div class="panel-title" id="mdTitle">—</div>
+      <button class="close" data-close="1">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="basket-wrap">
+        <img class="basket-bg" id="mdBasket" alt="basket" src="">
+        <img class="work-photo" id="mdPhoto" alt="work" src="">
       </div>
-      <div class="panel-body">
-        <div class="basket-wrap">
-          <img class="basket-bg" id="mdBasket" alt="basket" src="">
-          <img class="work-photo" id="mdPhoto" alt="work" src="">
-        </div>
-        <div class="work-text">
-          <div class="meta" id="mdMeta"></div>
-          <div class="desc" id="mdDesc"></div>
-        </div>
+      <div>
+        <div class="meta" id="mdMeta"></div>
+        <div class="desc" id="mdDesc"></div>
       </div>
     </div>
   </div>
+</div>
 
 <script>
-/* -----------------------------
-   作品資料（9 件）— 圖片請依檔名上傳到 /images/
-   ----------------------------- */
+/* 9 件作品資料（標題/敘述多語占位，先上中文） */
 const WORKS = [
-  {
-    id:'horsecard',
-    cover:'work-horsecard.jpg', basket:'basket_red.png',
-    title:{
-      zh:'《孤芳小隊 2026 馬年賀卡》',
-      ja:'「グッドファンチーム 2026 年賀カード」',
-      ko:'〈굿펀팀 2026 말해 연하장〉',
-      en:'GFT 2026 New Year Postcard'
-    },
-    meta:{
-      zh:'類型：明信片 / 孔版印刷｜尺寸：—',
-      en:'Type: Postcard / Risograph | Size: —',
-      ja:'種類：ポストカード / リソグラフ｜サイズ：—',
-      ko:'유형: 엽서 / 리소그라프｜사이즈: —'
-    },
-    desc:{
-      zh:`以馬年為主題，先以黏土手作並上色完成原型，\n再將成品拍攝後分色，製作成孔版印刷明信片。\n\n兩個角色（鼠與雪貂）坐上賽馬版搖搖馬。\n想傳達的是「放慢腳步也沒關係」：\n與其執著抵達，不如感受當下。`,
-      en:`Year of the Horse themed. Clay model → painted → photographed and separated for risograph printing.\nThe two characters (mouse & ferret) sit on a racing rocking horse — a playful reminder to feel the present rather than only chasing goals.`,
-      ja:`干支「午」をテーマに、粘土原型→彩色→撮影→分版し、リソ印刷で制作。\n二人のキャラクター（ネズミとイタチ）が競馬の木馬に乗る。到達より「いま」を味わうという気持ちを込めた。`,
-      ko:`말띠를 주제로 점토 원형→채색→촬영→분판하여 리소그래프로 인쇄한 엽서.\n두 캐릭터(쥐와 담비)가 레이싱 흔들의자에 앉아, 목표만 좇기보다 지금을 느끼자는 마음을 담았다.`
-    }
+  { id:'horsecard', cover:'work-horsecard.png', basket:'basket_red.png',
+    title:{ zh:'孤芳小隊 2026 馬年賀卡', en:'GFT 2026 New Year Postcard', ja:'2026 年賀カード', ko:'2026 연하장' },
+    meta:{ zh:'明信片／孔版印刷｜尺寸：—', en:'Postcard / Risograph | Size —' },
+    desc:{ zh:`以馬年為主題，黏土手作→上色→拍攝分色→孔版印刷。\n兩個角色（鼠與雪貂）坐上賽馬版搖搖馬；想傳達「放慢腳步也沒關係」，與其執著抵達，不如感受當下。` }
   },
-  {
-    id:'hollow',
-    cover:'work-hollow.jpg', basket:'basket_blue.png',
-    title:{ zh:'《空心 IN PLACE》', en:'Hollow IN PLACE', ja:'Hollow IN PLACE', ko:'Hollow IN PLACE' },
-    meta:{ zh:'類型：攝影折頁小誌 × 水泥物件｜尺寸：—',
-           en:'Type: Folded photo zine × Cement object | Size: —',
-           ja:'種類：折りたたみ写真冊子 × セメントオブジェ｜サイズ：—',
-           ko:'유형: 접지 포토진 × 시멘트 오브제｜사이즈: —' },
-    desc:{
-      zh:`從北上後的生活觀察開始，記錄街頭各式空心磚的「被安放」。\n以手工灌製水泥磚作為書衣，折頁展開像層層堆疊；\n用「收集／紀錄」的方式，安置那些暫時的情緒。`,
-      en:`A study of hollow blocks in the city and how they “hold” things.\nThe folded zine slides into a handmade cement block (as a book jacket);\ncollecting & cataloging becomes a way to place temporary feelings.`,
-      ja:`街の中の中空ブロックを観察・記録し、「置かれる」感覚を本に。\n手流しのセメントをブックジャケットにし、折り本が層のように展開する。`,
-      ko:`도시의 중공 블록을 관찰·기록하며 ‘놓임’의 감각을 담았다.\n수제 시멘트 블록을 책커버로, 접지 진은 층층이 펼쳐진다.`
-    }
+  { id:'hollow', cover:'work-hollow.png', basket:'basket_blue.png',
+    title:{ zh:'空心 IN PLACE', en:'Hollow IN PLACE' },
+    meta:{ zh:'攝影折頁小誌 × 水泥物件｜尺寸：—', en:'Folded zine × Cement object' },
+    desc:{ zh:`記錄城市裡「被安放」的空心磚。手工灌製水泥磚做為書衣，折頁展開像層層堆疊；以「收集／紀錄」安置那些暫時的情緒。` }
   },
-  {
-    id:'softdrinks',
-    cover:'work-softdrinks.jpg', basket:'basket_orange.png',
-    title:{ zh:'《Soft Drinks》', en:'Soft Drinks', ja:'Soft Drinks', ko:'Soft Drinks' },
-    meta:{ zh:'類型：攝影 × 包裝設計｜尺寸：—',
-           en:'Type: Photography × Packaging | Size: —',
-           ja:'種類：写真 × パッケージデザイン｜サイズ：—',
-           ko:'유형: 사진 × 패키지｜사이즈: —' },
-    desc:{
-      zh:`將 2023–2025 收集的酒罐影像設計成絲巾，封裝於鋁罐。\n必須開罐才能取出，對照飲酒的不可逆；\n「soft drinks」既指不含酒精，也對應絲巾的柔軟。`,
-      en:`Beer-can photos (2023–2025) turned into a scarf, sealed inside an aluminum can.\nYou must open the can to take it out — a nod to irreversibility.\n“Soft drinks” hints both non-alcoholic and the scarf’s softness.`,
-      ja:`缶ビール写真（2023–2025）をスカーフ化し、アルミ缶に封入。\n開缶しないと取り出せない不可逆性と、「soft」の二重の意味を重ねた。`,
-      ko:`수집한 맥주캔 사진을 스카프로 디자인해 알루미늄 캔에 봉입.\n따야만 꺼낼 수 있는 ‘불가역’을 비틀어, 비알코올/부드러움의 이중 의미를 담았다.`
-    }
+  { id:'softdrinks', cover:'work-softdrinks.png', basket:'basket_orange.png',
+    title:{ zh:'Soft Drinks', en:'Soft Drinks' },
+    meta:{ zh:'攝影 × 包裝設計｜尺寸：—', en:'Photography × Packaging' },
+    desc:{ zh:`2023–2025 的酒罐影像設計成絲巾，封裝於鋁罐。必須開罐才能取出——對照飲酒的不可逆；「soft drinks」也回應絲巾的柔軟與不含酒精。` }
   },
-  {
-    id:'thirty',
-    cover:'work-30hours.jpg', basket:'basket_green.png',
-    title:{ zh:'《30時間 2nd Edition》', en:'30 Hours — 2nd Ed.', ja:'30時間 2nd Edition', ko:'30시간 2nd Edition' },
-    meta:{ zh:'類型：攝影小誌（再販）｜尺寸：A5',
-           en:'Type: Photo zine (reprint) | Size: A5',
-           ja:'種類：写真冊子（再販）｜サイズ：A5',
-           ko:'유형: 포토진(재판)｜사이즈: A5' },
-    desc:{
-      zh:`以「30 小時制」為概念，底片記錄新宿／涉谷的都市節奏。\n2024 初版，2025 重新編排與標誌後再版。`,
-      en:`Film snapshots of Shinjuku/Shibuya through a “30-hour clock”.\nFirst published 2024; redesigned and reprinted in 2025.`,
-      ja:`「30時間制」の視点で新宿／渋谷を撮影。\n2024 初版、2025 に再編集・ロゴ一新で再販。`,
-      ko:`‘30시간제’ 시각으로 신주쿠/시부야의 리듬을 기록.\n2024 초판, 2025 재편집 및 로고 리뉴얼 재판.`
-    }
+  { id:'thirty', cover:'work-30hours.png', basket:'basket_green.png',
+    title:{ zh:'30時間 2nd Edition', en:'30 Hours — 2nd Ed.' },
+    meta:{ zh:'攝影小誌（再販）｜A5', en:'Photo zine (reprint) | A5' },
+    desc:{ zh:`以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版；2025 重新編排與標誌再版。` }
   },
-  {
-    id:'handit',
-    cover:'work-handit.jpg', basket:'basket_red.png',
-    title:{ zh:'《Hand-it 手心貼》', en:'Hand-it Sticky', ja:'Hand-it 手のひら付箋', ko:'Hand-it 손바닥 메모' },
-    meta:{ zh:'類型：文具設計｜尺寸：—', en:'Type: Stationery | Size: —', ja:'種類：文具｜サイズ：—', ko:'유형: 문구｜사이즈: —' },
-    desc:{
-      zh:`怕忘記就寫在手上、卻很難洗掉。\n於是把「手」變成真正的便利貼：大家一起手心貼手心。`,
-      en:`I used to write on my palm and couldn’t wash it off.\nSo the palm itself became a sticky note — palm to palm.`,
-      ja:`手にメモして消えない——ならば手のひら自体を付箋に。`,
-      ko:`손바닥에 메모하던 버릇에서 출발해, 손바닥 모양의 진짜 메모지로.`
-    }
+  { id:'handit', cover:'work-handit.png', basket:'basket_red.png',
+    title:{ zh:'Hand-it 手心貼', en:'Hand-it Sticky' },
+    meta:{ zh:'文具設計｜尺寸：—', en:'Stationery' },
+    desc:{ zh:`怕忘記就寫在手上，卻很難洗掉。於是把「手」做成真正的便利貼：大家一起手心貼手心。` }
   },
-  {
-    id:'pastebook',
-    cover:'work-pastebook.jpg', basket:'basket_blue.png',
-    title:{ zh:'《PASTE BOOK》系列貼紙簿', en:'PASTE BOOK — sticker passport', ja:'PASTE BOOK ステッカーブック', ko:'PASTE BOOK 스티커북' },
-    meta:{ zh:'類型：貼紙冊（A5）｜款式：台灣篇／日本篇',
-           en:'Type: Sticker book (A5) | Editions: Taiwan / Japan',
-           ja:'種類：ステッカーブック（A5）｜台湾編／日本編',
-           ko:'유형: 스티커북(A5)｜대만편/일본편' },
-    desc:{
-      zh:`以「護照」為概念，街頭蒐集→編成冊，再加工為可撕貼使用。\n把帶走與留下，變成一次旅行的雙重紀錄。`,
-      en:`A passport-like sticker book: collect, catalog, and re-place.\nLeaving and taking become a twin record of the trip.`,
-      ja:`パスポート風の記録帳。集める／貼るを往復し、旅の痕跡を二重化する。`,
-      ko:`여권 콘셉트의 기록책. 모으고 붙이며, 떠남과 머묾을 동시에 기록.`
-    }
+  { id:'pastebook', cover:'work-pastebook.png', basket:'basket_blue.png',
+    title:{ zh:'PASTE BOOK 系列貼紙簿', en:'PASTE BOOK — Sticker Passport' },
+    meta:{ zh:'貼紙冊（A5）｜台灣篇／日本篇', en:'Sticker book (A5) | Taiwan / Japan' },
+    desc:{ zh:`以「護照」為概念，街頭蒐集→編成冊→加工為可撕貼。把「帶走與留下」變成一次旅行的雙重紀錄。` }
   },
-  {
-    id:'questioncandle',
-    cover:'work-questioncandle.jpg', basket:'basket_orange.png',
-    title:{ zh:'「問號蠟燭籤」', en:'Question Candle — Lots', ja:'「？」キャンドル御籤', ko:'물음표 초 — 제비' },
-    meta:{ zh:'類型：張子｜材質：半熟紙、毛根、紙張｜尺寸：約 10 cm',
-           en:'Type: Papier-mâché | Materials: semi-raw paper, chenille stem, paper | Size: ~10 cm',
-           ja:'種類：張り子｜素材：半生紙・モール・紙｜サイズ：約10cm',
-           ko:'유형: 하리코｜재료: 반숙지, 체닐, 종이｜크기: 약 10 cm' },
-    desc:{
-      zh:`台灣經典生日「問號蠟燭」為靈感，結合張子重新製作。\n蠟燭底座尖端可抽出三張籤：兩張祝福、一張留白——\n最後一個願望，留給自己。\n半熟紙不可燃，與打火機圖樣形成溫柔的矛盾。`,
-      en:`Taiwan’s classic “?” birthday candle reimagined as papier-mâché.\nPull three lots from the base: two wishes and one blank — the last wish is yours.\nThe semi-raw paper won’t burn, a gentle paradox beside the lighter graphic.`,
-      ja:`誕生日の「？」ロウソクを張り子で再解釈。\n台座から三枚の御籤（ふたつは祝福、ひとつは空白）。\n燃えない半生紙とライターの図案が、やわらかな矛盾をつくる。`,
-      ko:`대만의 ‘?’ 생일초를 하리코로 재해석.\n받침에서 제비 세 장(축복 둘, 공백 하나)을 뽑는다 — 마지막 소원은 스스로에게.\n타지 않는 반숙지와 라이터 도상이 부드러운 모순을 만든다.`
-    }
+  { id:'questioncandle', cover:'work-questioncandle.png', basket:'basket_orange.png',
+    title:{ zh:'問號蠟燭籤', en:'Question Candle — Lots' },
+    meta:{ zh:'張子｜半熟紙、毛根、紙張｜約 10 cm', en:'Papier-mâché | ~10 cm' },
+    desc:{ zh:`以台灣經典生日「問號蠟燭」為靈感。底座可抽出三張籤：兩張祝福、一張留白——最後一個願望留給自己。` }
   },
-  {
-    id:'pipo',
-    cover:'work-pipo.jpg', basket:'basket_green.png',
-    title:{ zh:'「PIPO 君 張子」', en:'PIPO — Papier-mâché', ja:'ピーポくん 張り子', ko:'피포 군 하리코' },
-    meta:{ zh:'類型：立體角色張子｜材質：紙漿、壓克力顏料｜尺寸：約 20 cm',
-           en:'Type: Character papier-mâché | Size: ~20 cm',
-           ja:'種類：張り子｜サイズ：約20cm',
-           ko:'유형: 하리코｜크기: 약 20 cm' },
-    desc:{
-      zh:`以張子形式製作東京警視廳吉祥物「ピーポくん」。`,
-      en:`Tokyo MPD mascot “Pipo-kun” crafted as a papier-mâché figure.`,
-      ja:`警視庁マスコット「ピーポくん」を張り子で制作。`,
-      ko:`도쿄 경시청 마스코트 ‘피포군’을 하리코로 제작.`
-    }
+  { id:'pipo', cover:'work-pipo.png', basket:'basket_green.png',
+    title:{ zh:'PIPO 君 張子', en:'PIPO — Papier-mâché' },
+    meta:{ zh:'立體角色張子｜約 20 cm', en:'Character papier-mâché | ~20 cm' },
+    desc:{ zh:`以張子形式製作東京警視廳吉祥物「ピーポくん」。` }
   },
-  {
-    id:'radio',
-    cover:'work-radio.jpg', basket:'basket_red.png',
-    title:{ zh:'「孤芳收音機」', en:'GOOD FUN Radio', ja:'グッドファン・ラジオ', ko:'굿펀 라디오' },
-    meta:{ zh:'類型：立體裝置｜材質：石粉黏土、壓克力顏料、金屬｜尺寸：約 25 cm',
-           en:'Type: Installation | Materials: stone clay, acrylic, metal | Size: ~25 cm',
-           ja:'種類：インスタレーション｜素材：石粉粘土・アクリル・金属｜サイズ：約25cm',
-           ko:'유형: 설치｜재료: 석분 점토, 아크릴, 금속｜크기: 약 25 cm' },
-    desc:{
-      zh:`以聲音作為「訊號／共鳴」的象徵，描繪兩個角色在城市噪音中的連線。`,
-      en:`Sound as a sign of signal and resonance — two characters connecting through city noise.`,
-      ja:`音＝シグナル／共鳴の象徴として、都市のノイズの中で二人の接続を描く。`,
-      ko:`소리를 ‘신호/공명’의 상징으로 삼아, 도시의 소음 속 연결을 그렸다.`
-    }
+  { id:'radio', cover:'work-radio.png', basket:'basket_red.png',
+    title:{ zh:'孤芳收音機', en:'GOOD FUN Radio' },
+    meta:{ zh:'立體裝置｜石粉黏土、壓克力、金屬｜約 25 cm', en:'Installation | ~25 cm' },
+    desc:{ zh:`以聲音作為「訊號／共鳴」的象徵，描繪兩個角色在城市噪音中的連線。` }
   }
 ];
 
-/* 當前語言 */
-let LANG = 'zh';
+let LANG='zh', currentId=null;
 
-/* 產生作品卡 */
+/* 作品牆渲染（黃星 PNG + 作品圖 + 紅描邊白字） */
 const grid = document.getElementById('workGrid');
-grid.innerHTML = WORKS.map(w => `
-  <article class="card" data-id="${w.id}" aria-label="${w.title[LANG]||w.title.zh}">
-    <img class="thumb" src="images/${w.cover}" alt="">
-    <div class="label">${w.title[LANG]||w.title.zh}</div>
-  </article>
-`).join('');
+function rnd(min,max){return Math.random()*(max-min)+min}
+function renderGrid(){
+  grid.innerHTML = WORKS.map(w=>{
+    const rotStar = rnd(-4,4).toFixed(1)+'deg';
+    const rotPhoto= rnd(-4,4).toFixed(1)+'deg';
+    const name = (w.title[LANG]||w.title.zh);
+    return `
+    <article class="card" data-id="${w.id}">
+      <img class="star" style="--r:${rotStar}" src="sticker_yellow.png" alt="">
+      <img class="photo" style="--t:${rotPhoto}" src="${w.cover}" alt="">
+      <div class="name" style="--t:${rotPhoto}">${name}</div>
+    </article>`;
+  }).join('');
+}
+renderGrid();
 
-/* Modal 開關＋注入內容 */
-const modal = document.getElementById('modal');
-const mdTitle = document.getElementById('mdTitle');
-const mdMeta  = document.getElementById('mdMeta');
-const mdDesc  = document.getElementById('mdDesc');
-const mdPhoto = document.getElementById('mdPhoto');
-const mdBasket= document.getElementById('mdBasket');
+/* 彈窗控制 */
+const modal=document.getElementById('modal');
+const mdTitle=document.getElementById('mdTitle');
+const mdMeta=document.getElementById('mdMeta');
+const mdDesc=document.getElementById('mdDesc');
+const mdPhoto=document.getElementById('mdPhoto');
+const mdBasket=document.getElementById('mdBasket');
+
+function jitter(d=6){return (Math.random()*d*2-d).toFixed(1)}
+function openModal(id){
+  const w=WORKS.find(x=>x.id===id); if(!w) return;
+  currentId=id;
+  mdTitle.textContent=w.title[LANG]||w.title.zh;
+  mdMeta.textContent=w.meta[LANG]||w.meta.zh||'';
+  mdDesc.textContent=w.desc[LANG]||w.desc.zh||'';
+  mdPhoto.src=w.cover;
+  mdBasket.src=w.basket;
+  mdPhoto.style.transform=`rotate(${jitter()}deg)`;
+  modal.classList.add('show');
+}
+function closeModal(){ modal.classList.remove('show'); }
 
 grid.addEventListener('click', e=>{
-  const card = e.target.closest('.card');
-  if(!card) return;
-  const id = card.dataset.id;
-  const w = WORKS.find(x=>x.id===id);
-  if(!w) return;
-  mdTitle.textContent = (w.title[LANG]||w.title.zh);
-  mdMeta.textContent  = (w.meta[LANG]||w.meta.zh);
-  mdDesc.textContent  = (w.desc[LANG]||w.desc.zh);
-  mdPhoto.src  = `images/${w.cover}`;
-  mdBasket.src = `images/${w.basket}`;
-  modal.classList.add('show');
+  const card=e.target.closest('.card'); if(!card) return;
+  openModal(card.dataset.id);
 });
+modal.addEventListener('click', e=>{ if(e.target.dataset.close) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
-modal.addEventListener('click', e=>{
-  if(e.target.dataset.close) modal.classList.remove('show');
-});
-document.addEventListener('keydown', e=>{
-  if(e.key==='Escape') modal.classList.remove('show');
-});
-
-/* 語言切換 */
-const fab = document.getElementById('langFab');
+/* 語言切換（右下） */
+const fab=document.getElementById('langFab');
 function setLang(l){
-  LANG = l;
-  [...fab.querySelectorAll('.lang-btn')].forEach(b=>b.classList.toggle('active', b.dataset.lang===l));
-  // 重繪作品卡標籤
-  grid.querySelectorAll('.card').forEach((c,i)=>{
-    c.querySelector('.label').textContent = WORKS[i].title[LANG]||WORKS[i].title.zh;
-    c.setAttribute('aria-label', WORKS[i].title[LANG]||WORKS[i].title.zh);
-  });
-  // 若 modal 開啟中，更新裡面文字
-  if(modal.classList.contains('show')){
-    const current = [...grid.querySelectorAll('.card')].find(c=> (WORKS.find(x=>x.id===c.dataset.id).title[LANG]||'') === mdTitle.textContent );
-    const id = document.querySelector('.panel') ? document.querySelector('.panel').dataset?.id : null;
+  LANG=l;
+  [...fab.querySelectorAll('.lang-btn')].forEach(b=> b.classList.toggle('active', b.dataset.lang===l));
+  renderGrid();
+  if(currentId && modal.classList.contains('show')){
+    const w=WORKS.find(x=>x.id===currentId);
+    mdTitle.textContent=w.title[LANG]||w.title.zh;
+    mdMeta.textContent=w.meta[LANG]||w.meta.zh||'';
+    mdDesc.textContent=w.desc[LANG]||w.desc.zh||'';
   }
 }
 fab.addEventListener('click', e=>{
-  const btn = e.target.closest('.lang-btn');
-  if(!btn) return;
+  const btn=e.target.closest('.lang-btn'); if(!btn) return;
   setLang(btn.dataset.lang);
 });
 setLang('zh');
