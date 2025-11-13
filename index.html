@@ -22,34 +22,33 @@ body{
   background-size:100% auto;
 }
 
-/* 左側打卡滑道（scroll indicator） */
+/* 左側打卡滑道：透明軌道，只顯示圖 */
 .punch-rail{
   position:fixed;
   left:10px;
-  top:70px;
-  bottom:70px;
+  top:60px;
+  bottom:60px;
   width:90px;
   z-index:40;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content:center;
-  pointer-events:none; /* 不擋到頁面操作 */
+  pointer-events:none; /* 不擋操作 */
 }
 .punch-track{
   position:relative;
   width:60px;
   height:100%;
-  border-radius:20px;
-  border:3px solid #000;
-  background:linear-gradient(#b4ffd2,#eafff0);
-  box-shadow:0 4px 0 #000;
-  overflow:hidden;
+  border:none;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
 }
 #punchCard{
   position:absolute;
   width:72px;
   left:50%;
-  transform:translate(-50%,0); /* 預設在最上方，會被 JS 覆蓋 */
+  transform:translate(-50%,0); /* 由 JS 控制 Y 位置 */
   filter:drop-shadow(2px 4px 4px rgba(0,0,0,.3));
 }
 #punchMachine{
@@ -60,48 +59,48 @@ body{
   transform:translateX(-50%);
 }
 
-/* 頂部 banner 區塊 */
+/* 頂部 Banner */
 header{
   position:relative;
   z-index:2;
-  padding:18px 16px 8px;
+  padding:0; /* 不要額外留白 */
 }
-
-/* 原本紅底框改成透明容器 */
 .bar{
+  max-width:1200px;
+  margin:0 auto;
   background:transparent;
   border:none;
   border-radius:0;
   padding:0;
-  max-width:1200px;
-  margin:0 auto;
   box-shadow:none;
 }
-
-/* banner 容器與圖片 */
 .banner-box{
   width:100%;
-  margin:0 auto;
   border-radius:16px;
   overflow:hidden;
+  margin:0;
 }
 .banner{
   display:block;
   width:100%;
   height:auto;
-  object-fit:contain;       /* 圖片完整顯示 */
-  object-position:center;   /* 置中 */
-  background:#fff;          /* 兩側空白用白色填補 */
+  object-fit:cover;
+  object-position:center;
 }
 @media(max-width:768px){
   .banner{
-    height:160px;           /* 手機版顯示高度，可再調整 */
-    width:100%;
+    height:150px;          /* 固定高度，置中裁切 */
   }
 }
 
 /* 主內容 */
-.wrap{max-width:1200px;margin:16px auto 120px;padding:0 12px;position:relative;z-index:2;}
+.wrap{
+  max-width:1200px;
+  margin:16px auto 120px;
+  padding:0 12px;
+  position:relative;
+  z-index:2;
+}
 .main{display:grid;gap:20px;grid-template-columns:1fr;}
 @media(min-width:1024px){.main{grid-template-columns:1.4fr .6fr}}
 
@@ -120,10 +119,14 @@ header{
 @media(min-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
 
 .card{position:relative;cursor:pointer;aspect-ratio:4/3;}
-.star{position:absolute;inset:0;margin:auto;width:88%;object-fit:contain;
-  filter:drop-shadow(4px 4px 0 #000);transition:transform .2s;}
-.photo{position:absolute;inset:0;margin:auto;width:min(72%,540px);height:min(72%,540px);object-fit:contain;
-  filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));transition:transform .2s;}
+.star{
+  position:absolute;inset:0;margin:auto;width:88%;object-fit:contain;
+  filter:drop-shadow(4px 4px 0 #000);transition:transform .2s;
+}
+.photo{
+  position:absolute;inset:0;margin:auto;width:min(72%,540px);height:min(72%,540px);object-fit:contain;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));transition:transform .2s;
+}
 /* 作品名 — 白字＋紅描邊＋黑陰影 */
 .name{
   position:absolute;left:50%;bottom:8%;transform:translateX(-50%);
@@ -239,10 +242,11 @@ header{
   </div>
 </div>
 
+<!-- Banner -->
 <header>
   <div class="bar">
     <div class="banner-box">
-      <img src="banner-goodfunteam.png" alt="GOOD FUN TEAM Banner" class="banner">
+      <img src="banner-goodfunteam.png" class="banner" alt="GOOD FUN TEAM Banner">
     </div>
   </div>
 </header>
@@ -291,7 +295,7 @@ header{
 <!-- 打卡完成彈出視窗 -->
 <div class="punch-overlay" id="punchOverlay">
   <div class="punch-dialog">
-    <h2>打卡成功！孤芳歡迎您ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩⃛</h2>
+    <h2>簽到成功！孤芳歡迎您ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩</h2>
     <p id="punchTime">2025-01-01 12:34:56</p>
     <small>點擊任意處關閉</small>
   </div>
@@ -357,7 +361,8 @@ const punchTrack=document.querySelector('.punch-track');
 let hasPunched=false;
 
 function updatePunchFromScroll(){
-  if(!punchTrack) return;
+  if(!punchTrack || !punchCard || !punchMachine) return;
+
   const doc=document.documentElement;
   const scrollTop=doc.scrollTop||document.body.scrollTop;
   const scrollHeight=(doc.scrollHeight-doc.clientHeight)||1;
@@ -368,7 +373,7 @@ function updatePunchFromScroll(){
   const machineHeight=punchMachine.clientHeight;
 
   const topLimit=0;
-  const bottomLimit=trackHeight-cardHeight-machineHeight*0.3; // 預留一點空間
+  const bottomLimit=trackHeight-cardHeight-machineHeight*0.3;
   const pos=topLimit+(bottomLimit-topLimit)*ratio;
 
   punchCard.style.transform=`translate(-50%,${pos}px)`;
@@ -395,7 +400,7 @@ punchOverlay.addEventListener('click',()=>{
   punchOverlay.classList.remove('show');
 });
 
-/* 語言按鈕目前只做 active 樣式（文字之後補，再擴充邏輯即可） */
+/* 語言按鈕目前只做 active 樣式 */
 const langBtns=document.querySelectorAll('.lang-btn');
 langBtns.forEach(btn=>{
   btn.addEventListener('click',()=>{
