@@ -22,7 +22,7 @@ body{
   background-size:100% auto;
 }
 
-/* 左側打卡滑道：透明軌道，只顯示圖 */
+/* 左側打卡滑道 */
 .punch-rail{
   position:fixed;
   left:10px;
@@ -33,22 +33,18 @@ body{
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  pointer-events:none; /* 不擋操作 */
+  pointer-events:none;
 }
 .punch-track{
   position:relative;
   width:60px;
   height:100%;
-  border:none;
-  background:transparent;
-  box-shadow:none;
-  overflow:visible;
 }
 #punchCard{
   position:absolute;
   width:72px;
   left:50%;
-  transform:translate(-50%,0); /* 由 JS 控制 Y 位置 */
+  transform:translate(-50%,0);
   filter:drop-shadow(2px 4px 4px rgba(0,0,0,.3));
 }
 #punchMachine{
@@ -59,38 +55,29 @@ body{
   transform:translateX(-50%);
 }
 
-/* 頂部 Banner */
+/* Banner */
 header{
   position:relative;
   z-index:2;
-  padding:0; /* 不要額外留白 */
+  padding:0;
 }
 .bar{
   max-width:1200px;
   margin:0 auto;
-  background:transparent;
-  border:none;
-  border-radius:0;
-  padding:0;
-  box-shadow:none;
 }
 .banner-box{
   width:100%;
   border-radius:16px;
   overflow:hidden;
-  margin:0;
 }
 .banner{
   display:block;
   width:100%;
   height:auto;
   object-fit:cover;
-  object-position:center;
 }
 @media(max-width:768px){
-  .banner{
-    height:150px;          /* 固定高度，置中裁切 */
-  }
+  .banner{ height:150px; }
 }
 
 /* 主內容 */
@@ -98,11 +85,13 @@ header{
   max-width:1200px;
   margin:16px auto 120px;
   padding:0 12px;
-  position:relative;
-  z-index:2;
 }
-.main{display:grid;gap:20px;grid-template-columns:1fr;}
-@media(min-width:1024px){.main{grid-template-columns:1.4fr .6fr}}
+.main{
+  display:grid;gap:20px;grid-template-columns:1fr;
+}
+@media(min-width:1024px){
+  .main{grid-template-columns:1.4fr .6fr}
+}
 
 /* 右側介紹 */
 .about{
@@ -113,181 +102,155 @@ header{
 .about h3{margin:6px 0 10px;font-size:18px}
 .about p{margin:0 0 10px;line-height:1.7}
 
-/* 作品牆：兩欄 */
-.grid{display:grid;gap:22px;grid-template-columns:repeat(1,1fr)}
+/* 作品牆 */
+.grid{display:grid;gap:22px;grid-template-columns:1fr}
 @media(min-width:620px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
 
-.card{position:relative;cursor:pointer;aspect-ratio:4/3;}
+.card{
+  position:relative;
+  cursor:pointer;
+  aspect-ratio:4/3;
+}
 .star{
   position:absolute;inset:0;margin:auto;width:88%;object-fit:contain;
-  filter:drop-shadow(4px 4px 0 #000);transition:transform .2s;
+  filter:drop-shadow(4px 4px 0 #000);
 }
 .photo{
-  position:absolute;inset:0;margin:auto;width:min(72%,540px);height:min(72%,540px);object-fit:contain;
-  filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));transition:transform .2s;
+  position:absolute;inset:0;margin:auto;width:min(72%,540px);height:min(72%,540px);
+  object-fit:contain;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));
 }
-/* 作品名 — 白字＋紅描邊＋黑陰影 */
 .name{
   position:absolute;left:50%;bottom:8%;transform:translateX(-50%);
   font-weight:900;font-size:15px;white-space:nowrap;color:#fff;
-  text-shadow:
-    -2px -2px 0 #c90000, 2px -2px 0 #c90000,
-    -2px  2px 0 #c90000, 2px  2px 0 #c90000,
-     0px  3px 4px rgba(0,0,0,.55);
-  letter-spacing:.5px;
+  text-shadow:-2px -2px 0 #c90000,2px -2px 0 #c90000,-2px 2px 0 #c90000,2px 2px 0 #c90000,0px 3px 4px rgba(0,0,0,.55);
 }
-@media(min-width:768px){ .name{font-size:18px;bottom:9%} }
+@media(min-width:768px){.name{font-size:18px}}
 
-.card:hover .photo{transform:scale(1.02)}
-.card:hover .star{transform:scale(1.01)}
-
-/* IG 圖示（右上角固定） */
+/* IG 圖示 */
 .ig-icons{
   position:fixed;top:16px;right:20px;z-index:200;
   display:flex;flex-direction:column;gap:10px;
 }
 .ig-icons img{
-  width:44px;height:44px;display:block;
-  border:2px solid #000;border-radius:10px;background:#fff;
+  width:44px;height:44px;border:2px solid #000;border-radius:10px;background:#fff;
   box-shadow:2px 2px 0 #000;
-  transition:transform .25s,box-shadow .25s;
 }
-.ig-icons img:hover{transform:scale(1.1) rotate(-3deg);box-shadow:3px 3px 0 #000;}
-@media(max-width:600px){.ig-icons img{width:36px;height:36px}}
 
-/* 語言切換（右下角固定） */
+/* 語言切換 */
 .lang-fab{
   position:fixed;right:14px;bottom:14px;z-index:150;
   display:flex;flex-direction:column;gap:6px;
 }
 .lang-btn{
   width:44px;height:44px;border-radius:12px;background:#fff;
-  border:2px solid #000;display:flex;align-items:center;justify-content:center;
-  font-size:22px;cursor:pointer;box-shadow:2px 2px 0 #000;
+  border:2px solid #000;font-size:22px;
+  cursor:pointer;box-shadow:2px 2px 0 #000;
 }
-.lang-btn.active{outline:3px solid var(--orange)}
+.lang-btn.active{
+  outline:3px solid var(--orange);
+}
 
 /* 作品彈窗 */
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:90;}
+.modal{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:90;
+}
 .modal.show{display:flex}
-.backdrop{position:absolute;inset:0;background:rgba(0,0,0,.5)}
-.panel{position:relative;z-index:1;background:#fff;max-width:min(1100px,92vw);
-  border:3px solid #000;border-radius:24px;box-shadow:var(--shadow-big);overflow:hidden;}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;
-  padding:14px 18px;border-bottom:3px solid #000;background:#fffce7;}
+.backdrop{
+  position:absolute;inset:0;background:rgba(0,0,0,.5);
+}
+.panel{
+  position:relative;z-index:1;background:#fff;
+  max-width:min(1100px,92vw);
+  border:3px solid #000;border-radius:24px;overflow:hidden;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 18px;border-bottom:3px solid #000;background:#fffce7;
+}
 .panel-title{font-weight:900;font-size:18px}
-.close{border:2px solid #000;border-radius:10px;background:#ffef6a;
-  padding:6px 10px;font-weight:900;cursor:pointer;box-shadow:2px 2px 0 #000;}
-.panel-body{display:grid;gap:18px;padding:18px;grid-template-columns:1.1fr .9fr;}
-@media(max-width:860px){.panel-body{grid-template-columns:1fr;padding:14px}}
-.basket-bg{width:100%;display:block;border-radius:16px;box-shadow:var(--shadow-med);}
-.work-photo{position:absolute;inset:0;margin:auto;max-width:min(85%,720px);
-  max-height:80%;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,0,0,.25));}
+.close{
+  border:2px solid #000;border-radius:10px;background:#ffef6a;
+  padding:6px 10px;font-weight:900;cursor:pointer;box-shadow:2px 2px 0 #000;
+}
+.panel-body{
+  display:grid;gap:18px;padding:18px;
+  grid-template-columns:1.1fr .9fr;
+}
+@media(max-width:860px){
+  .panel-body{grid-template-columns:1fr}
+}
+
+.basket-bg{
+  width:100%;display:block;border-radius:16px;
+}
+.work-photo{
+  position:absolute;inset:0;margin:auto;max-width:min(85%,720px);
+  max-height:80%;object-fit:contain;
+  filter:drop-shadow(0 12px 20px rgba(0,0,0,.25));
+}
+
 .meta{color:#666;font-size:14px;margin:.2rem 0 1rem}
 .desc{white-space:pre-wrap;line-height:1.7}
 
-/* 🛒 購物連結按鈕 */
-.shop-link{
-  margin-top:16px;
-}
+/* 🛒 購物連結 */
+.shop-link{ margin-top:16px; }
 .shop-link a{
-  display:inline-block;
-  padding:8px 14px;
-  border-radius:999px;
-  border:2px solid #000;
-  background:#ffef6a;
-  font-weight:700;
-  font-size:14px;
-  text-decoration:none;
-  color:#000;
+  padding:8px 14px;border-radius:999px;border:2px solid #000;
+  background:#ffef6a;font-weight:700;font-size:14px;
+  text-decoration:none;color:#000;
   box-shadow:2px 2px 0 #000;
-  transition:transform .15s, box-shadow .15s;
-}
-.shop-link a:hover{
-  transform:translate(-1px,-1px);
-  box-shadow:3px 3px 0 #000;
 }
 
-/* 打卡完成彈出視窗 */
+/* 打卡提示 */
 .punch-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  display:none;
-  align-items:center;
-  justify-content:center;
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  display:none;align-items:center;justify-content:center;
   z-index:250;
 }
 .punch-overlay.show{display:flex}
 .punch-dialog{
-  background:#fffce7;
-  border-radius:20px;
-  border:3px solid #000;
-  padding:18px 24px;
-  max-width:280px;
-  text-align:center;
-  box-shadow:var(--shadow-big);
-}
-.punch-dialog h2{
-  margin-bottom:8px;
-  font-size:20px;
-}
-.punch-dialog p{
-  margin:4px 0;
-  font-size:14px;
-}
-.punch-dialog small{
-  display:block;
-  margin-top:10px;
-  color:#666;
+  background:#fffce7;border-radius:20px;border:3px solid #000;padding:18px 24px;
+  max-width:280px;text-align:center;
 }
 </style>
 </head>
 <body>
 
-<!-- IG 圖示 -->
+<!-- IG -->
 <div class="ig-icons">
-  <a href="https://www.instagram.com/rotion87" target="_blank" rel="noopener">
-    <img src="ig-rotion.png" alt="Rotion87 IG">
-  </a>
-  <a href="https://www.instagram.com/l72uo_" target="_blank" rel="noopener">
-    <img src="ig-l72uo.png" alt="No.423 IG">
-  </a>
+  <a href="https://www.instagram.com/rotion87" target="_blank"><img src="ig-rotion.png"></a>
+  <a href="https://www.instagram.com/l72uo_" target="_blank"><img src="ig-l72uo.png"></a>
 </div>
 
-<!-- 左側打卡滑道（scroll indicator） -->
-<div class="punch-rail">
-  <div class="punch-track">
-    <img id="punchCard" src="punchcard.png" alt="打卡紙">
-    <img id="punchMachine" src="punchmachine.png" alt="打卡機">
-  </div>
-</div>
+<!-- 左側打卡 -->
+<div class="punch-rail"><div class="punch-track">
+  <img id="punchCard" src="punchcard.png">
+  <img id="punchMachine" src="punchmachine.png">
+</div></div>
 
 <!-- Banner -->
-<header>
-  <div class="bar">
-    <div class="banner-box">
-      <img src="banner-goodfunteam.png" class="banner" alt="GOOD FUN TEAM Banner">
-    </div>
-  </div>
-</header>
+<header><div class="bar"><div class="banner-box">
+  <img class="banner" src="banner-goodfunteam.png">
+</div></div></header>
 
+<!-- Main -->
 <main class="wrap">
-  <section class="main">
-    <div><div class="grid" id="workGrid"></div></div>
-    <aside class="about">
-      <h3>孤芳小隊 GOOD FUN TEAM</h3>
-      <p>由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。</p>
-      <p><b>ROTION87：</b>以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。</p>
-      <p><b>No.423：</b>擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。</p>
-    </aside>
-  </section>
+<section class="main">
+  <div><div class="grid" id="workGrid"></div></div>
+
+  <aside class="about">
+    <h3>孤芳小隊 GOOD FUN TEAM</h3>
+    <p>由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。</p>
+    <p><b>ROTION87：</b>以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。</p>
+    <p><b>No.423：</b>擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。</p>
+  </aside>
+</section>
 </main>
 
 <!-- 語言切換 -->
 <div class="lang-fab" id="langFab">
-  <button class="lang-btn" data-lang="zh">🇹🇼</button>
+  <button class="lang-btn active" data-lang="zh">🇹🇼</button>
   <button class="lang-btn" data-lang="ja">🇯🇵</button>
   <button class="lang-btn" data-lang="ko">🇰🇷</button>
   <button class="lang-btn" data-lang="en">🇬🇧</button>
@@ -302,151 +265,210 @@ header{
       <button class="close" data-close="1">✕</button>
     </div>
     <div class="panel-body">
-      <div class="basket-wrap">
-        <img class="basket-bg" id="mdBasket" alt="">
-        <img class="work-photo" id="mdPhoto" alt="">
+      <div class="basket-wrap" style="position:relative;">
+        <img class="basket-bg" id="mdBasket">
+        <img class="work-photo" id="mdPhoto">
       </div>
       <div>
         <div class="meta" id="mdMeta"></div>
         <div class="desc" id="mdDesc"></div>
-
-        <!-- 🛒 購物連結（有設定 shop 才會顯示） -->
         <div class="shop-link" id="mdShop" style="display:none;">
-          <a href="#" target="_blank" rel="noopener">前往購買頁面</a>
+          <a href="#" target="_blank">前往購買頁面</a>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 打卡完成彈出視窗 -->
+<!-- 打卡 -->
 <div class="punch-overlay" id="punchOverlay">
   <div class="punch-dialog">
     <h2>簽到成功！孤芳歡迎您ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩</h2>
-    <p id="punchTime">2025-01-01 12:34:56</p>
+    <p id="punchTime"></p>
     <small>點擊任意處關閉</small>
   </div>
 </div>
 
 <script>
-/* 作品資料：要改文字、加購物連結，都在這裡 */
-const WORKS=[
-  {
-    id:'horsecard',
-    cover:'work-horsecard.png',
-    basket:'basket_red.png',
-    title:{zh:'孤芳小隊 2026 馬年賀卡'},
-    meta:{zh:'明信片／孔版印刷'},
-    desc:{zh:'以馬年為主題，黏土手作、上色、分色孔版印刷。角色坐在搖搖馬上，象徵放慢腳步也沒關係。'},
-    shop:'' // 這裡改成 'https://你的購物連結' 有連結就會顯示按鈕
-  },
-  {
-    id:'hollow',
-    cover:'work-hollow.png',
-    basket:'basket_blue.png',
-    title:{zh:'空心 IN PLACE'},
-    meta:{zh:'攝影折頁小誌 × 水泥物件'},
-    desc:{zh:'記錄城市裡被安放的空心磚。手工灌製水泥磚作為書衣，折頁象徵堆疊意象。'},
-    shop:''
-  },
+/* ============================
+   作品資料（非賣品排在最後）
+   ============================ */
+const WORKS = [
+
+  /* 1. Soft Drinks《軟》罐裝絲巾 */
   {
     id:'softdrinks',
     cover:'work-softdrinks.png',
     basket:'basket_orange.png',
-    title:{zh:'Soft Drinks'},
-    meta:{zh:'攝影 × 包裝設計'},
-    desc:{zh:'2023–2025 的酒罐照片轉為絲巾並封入鋁罐，以不含酒精的柔軟形象對照飲酒的不可逆性。'},
+    title:{ zh:'Soft Drinks《軟》罐裝絲巾' },
+    meta:{ zh:'攝影 × 包裝設計' },
+    desc:{ zh:'使用 2023–2025 收集的酒罐照片轉為絲巾並封入鋁罐，以不含酒精的柔軟形象對照飲酒時的不可逆性，而誕生的無酒精作品。' },
     shop:''
   },
-  {
-    id:'thirty',
-    cover:'work-30hours.png',
-    basket:'basket_green.png',
-    title:{zh:'30時間 2nd Edition'},
-    meta:{zh:'攝影小誌（再販）｜A5'},
-    desc:{zh:'以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版，2025 再編排再版。'},
-    shop:''
-  },
+
+  /* 2. Hand-it 手心貼 */
   {
     id:'handit',
     cover:'work-handit.png',
     basket:'basket_red.png',
-    title:{zh:'Hand-it 手心貼'},
-    meta:{zh:'文具設計'},
-    desc:{zh:'怕忘記就寫在手上，於是做出可貼的手掌便利貼。'},
+    title:{ zh:'Hand-it 手心貼' },
+    meta:{ zh:'文具小物' },
+    desc:{ zh:'因為怕忘記就把要記的事寫在手上，於是做出了可貼的手掌便利貼。' },
     shop:''
   },
+
+  /* 3. 空心 In Place */
   {
-    id:'pastebook',
-    cover:'work-pastebook.png',
+    id:'hollow',
+    cover:'work-hollow.png',
     basket:'basket_blue.png',
-    title:{zh:'PASTE BOOK 系列貼紙簿'},
-    meta:{zh:'貼紙冊（A5）｜台灣篇／日本篇'},
-    desc:{zh:'以「護照」為概念，街頭收集與留下的貼紙記錄。'},
+    title:{ zh:'空心 In Place' },
+    meta:{ zh:'攝影折頁小誌 × 水泥物件' },
+    desc:{ zh:'因生活習慣改變，因緣際會下開始記錄城市裡被安放的空心磚。以手工灌製水泥磚作為書衣，折頁小誌象徵堆疊意象。' },
     shop:''
   },
+
+  /* 4. 30時間 2nd Edition */
+  {
+    id:'thirty',
+    cover:'work-30hours.png',
+    basket:'basket_green.png',
+    title:{ zh:'30時間 2nd Edition' },
+    meta:{ zh:'攝影小誌（再販）｜A5' },
+    desc:{ zh:'以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版，2025 再編排再版。' },
+    shop:''
+  },
+
+  /* 5. 30時間 海報 */
+  {
+    id:'thirty_poster',
+    cover:'work-30hours-poster.png',
+    basket:'basket_green.png',
+    title:{ zh:'30時間 海報' },
+    meta:{ zh:'海報｜尺寸：日本 B5 小海報' },
+    desc:{ zh:'以《30時間》小誌主題延伸之單張海報。' },
+    shop:''
+  },
+
+  /* 6. PASTE PORT - 上街 */
+  {
+    id:'pasteport_street',
+    cover:'work-pasteport-street.png',
+    basket:'basket_blue.png',
+    title:{ zh:'PASTE PORT - 上街' },
+    meta:{ zh:'貼紙收集小誌｜A5' },
+    desc:{ zh:'以台灣街頭收集到的元素為主題，做成具備貼紙簿功能的小誌，並且附上同樣主題的貼紙。大家能任意撕下並隨意貼上，代表旅遊時的留下與帶走，也就是為什麼叫做 PASTE PORT。' },
+    shop:''
+  },
+
+  /* 7. PASTE PORT - 注意 */
+  {
+    id:'pasteport_notice',
+    cover:'work-pasteport-notice.png',
+    basket:'basket_blue.png',
+    title:{ zh:'PASTE PORT - 注意' },
+    meta:{ zh:'貼紙收集小誌｜A5' },
+    desc:{ zh:'以東京街頭收集到的元素為主題，做成具備貼紙簿功能的小誌，並且附上同樣主題的貼紙。大家能任意撕下並隨意貼上，代表旅遊時的留下與帶走，也就是為什麼叫做 PASTE PORT。' },
+    shop:''
+  },
+
+  /* 8. 問號蠟燭籤 */
   {
     id:'questioncandle',
     cover:'work-questioncandle.png',
     basket:'basket_orange.png',
-    title:{zh:'問號蠟燭籤'},
-    meta:{zh:'張子｜半熟紙、毛根、紙張｜約 10 cm'},
-    desc:{zh:'以台灣生日問號蠟燭為靈感，底座可抽籤：兩祝福一留白。'},
+    title:{ zh:'問號蠟燭籤' },
+    meta:{ zh:'張子｜半熟紙、毛根｜約 10 cm' },
+    desc:{ zh:'以台灣生日問號蠟燭為靈感，並結合日本張子，蠟燭籤下方打開後可抽籤，內含三支籤（兩支隨機一支空白），象徵許願時的三個願望，最後一個留給自己。希望買的人都能得到孤芳小隊的祝福，並且願望成真。' },
     shop:''
   },
+
+  /* 9. 孤芳小隊 2026 馬年賀卡 */
+  {
+    id:'horsecard',
+    cover:'work-horsecards.png',
+    basket:'basket_red.png',
+    title:{ zh:'孤芳小隊 2026 馬年賀卡' },
+    meta:{ zh:'明信片／孔版印刷' },
+    desc:{ zh:'以馬年為主題，黏土手作、上色、分色孔版印刷。角色坐在搖搖馬上，象徵放慢腳步也沒關係。' },
+    shop:''
+  },
+
+  /* === ❗ 非賣品開始（全部排最後） === */
+
+  /* 10. ピーポくん 張り子（非賣品） */
   {
     id:'pipo',
     cover:'work-pipo.png',
     basket:'basket_green.png',
-    title:{zh:'PIPO 君 張子'},
-    meta:{zh:'立體角色張子｜約 20 cm'},
-    desc:{zh:'以張子形式製作東京警視廳吉祥物「ピーポくん」。'},
+    title:{ zh:'ピーポくん 張り子（非賣品）' },
+    meta:{ zh:'立體角色張子｜約 20 cm｜非賣品' },
+    desc:{ zh:'以張子形式製作東京警視廳吉祥物「ピーポくん」。' },
     shop:''
   },
+
+  /* 11. 孤芳收音機（非賣品） */
   {
     id:'radio',
     cover:'work-radio.png',
     basket:'basket_red.png',
-    title:{zh:'孤芳收音機'},
-    meta:{zh:'立體裝置｜約 25 cm'},
-    desc:{zh:'以聲音作為共鳴象徵，描繪兩個角色在城市噪音中的連線。'},
+    title:{ zh:'孤芳收音機（非賣品）' },
+    meta:{ zh:'立體裝置｜約 25 cm｜非賣品' },
+    desc:{ zh:'以聲音作為共鳴象徵，描繪兩個角色在城市噪音中的連線。' },
+    shop:''
+  },
+
+  /* 12. 意嘶易嘶啦 2025 蛇年賀卡（非賣品） */
+  {
+    id:'snake2025',
+    cover:'work-snake2025.png',
+    basket:'basket_red.png',
+    title:{ zh:'意嘶易嘶啦 2025 蛇年賀卡（非賣品）' },
+    meta:{ zh:'明信片｜孔版印刷' },
+    desc:{ zh:'以蛇年的「蜿蜒、滑動」意象延伸出的賀卡作品。' },
     shop:''
   }
+
 ];
 
+/* ============================
+   作品牆生成
+   ============================ */
 const grid=document.getElementById('workGrid');
 
 function renderGrid(){
   grid.innerHTML=WORKS.map(w=>`
-  <article class="card" data-id="${w.id}">
-    <img class="star" src="sticker_yellow.png" alt="">
-    <img class="photo" src="${w.cover}" alt="">
-    <div class="name">${w.title.zh}</div>
-  </article>`).join('');
+    <article class="card" data-id="${w.id}">
+      <img class="star" src="sticker_yellow.png">
+      <img class="photo" src="${w.cover}">
+      <div class="name">${w.title.zh}</div>
+    </article>
+  `).join('');
 }
 renderGrid();
 
-/* 作品彈窗互動 */
+/* ============================
+   彈窗控制
+   ============================ */
 const modal=document.getElementById('modal');
 const mdTitle=document.getElementById('mdTitle');
 const mdMeta=document.getElementById('mdMeta');
 const mdDesc=document.getElementById('mdDesc');
 const mdPhoto=document.getElementById('mdPhoto');
 const mdBasket=document.getElementById('mdBasket');
-
-/* 🛒 購物連結 DOM */
 const mdShop=document.getElementById('mdShop');
 const mdShopA=mdShop.querySelector('a');
 
 function openModal(id){
-  const w=WORKS.find(x=>x.id===id);if(!w)return;
+  const w=WORKS.find(x=>x.id===id);
+  if(!w) return;
+
   mdTitle.textContent=w.title.zh;
-  mdMeta.textContent=w.meta.zh||'';
-  mdDesc.textContent=w.desc.zh||'';
+  mdMeta.textContent=w.meta.zh;
+  mdDesc.textContent=w.desc.zh;
   mdPhoto.src=w.cover;
   mdBasket.src=w.basket;
 
-  // 有設定 shop 才顯示按鈕
   if(w.shop){
     mdShop.style.display='block';
     mdShopA.href=w.shop;
@@ -457,15 +479,25 @@ function openModal(id){
 
   modal.classList.add('show');
 }
-function closeModal(){modal.classList.remove('show');}
 
-grid.addEventListener('click',e=>{
-  const c=e.target.closest('.card');if(!c)return;openModal(c.dataset.id);
+function closeModal(){
+  modal.classList.remove('show');
+}
+
+document.getElementById('workGrid').addEventListener('click',e=>{
+  const card=e.target.closest('.card');
+  if(card) openModal(card.dataset.id);
 });
-modal.addEventListener('click',e=>{if(e.target.dataset.close)closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+modal.addEventListener('click',e=>{
+  if(e.target.dataset.close) closeModal();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal();
+});
 
-/* 打卡滑道：隨捲動移動打卡紙＋第一次到底打卡一次 */
+/* ============================
+   打卡機 scroll 行為
+   ============================ */
 const punchCard=document.getElementById('punchCard');
 const punchMachine=document.getElementById('punchMachine');
 const punchOverlay=document.getElementById('punchOverlay');
@@ -474,53 +506,45 @@ const punchTrack=document.querySelector('.punch-track');
 let hasPunched=false;
 
 function updatePunchFromScroll(){
-  if(!punchTrack || !punchCard || !punchMachine) return;
-
   const doc=document.documentElement;
-  const scrollTop=doc.scrollTop||document.body.scrollTop;
-  const scrollHeight=(doc.scrollHeight-doc.clientHeight)||1;
-  const ratio=Math.max(0,Math.min(1,scrollTop/scrollHeight)); // 0~1
+  const scrollTop=doc.scrollTop;
+  const scrollHeight=doc.scrollHeight-doc.clientHeight;
+  const ratio=scrollTop/scrollHeight;
 
   const trackHeight=punchTrack.clientHeight;
   const cardHeight=punchCard.clientHeight;
   const machineHeight=punchMachine.clientHeight;
 
-  const topLimit=0;
   const bottomLimit=trackHeight-cardHeight-machineHeight*0.3;
-  const pos=topLimit+(bottomLimit-topLimit)*ratio;
+  const pos=bottomLimit*ratio;
 
   punchCard.style.transform=`translate(-50%,${pos}px)`;
 
   if(!hasPunched && ratio>=0.98){
     hasPunched=true;
-    showPunchOverlay();
+    punchTimeEl.textContent=new Date().toLocaleString('zh-TW');
+    punchOverlay.classList.add('show');
   }
-}
-
-function showPunchOverlay(){
-  const now=new Date();
-  const options={year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'};
-  punchTimeEl.textContent=now.toLocaleString('zh-TW',options);
-  punchOverlay.classList.add('show');
 }
 
 window.addEventListener('scroll',updatePunchFromScroll);
 window.addEventListener('load',updatePunchFromScroll);
 window.addEventListener('resize',updatePunchFromScroll);
 
-/* 點擊遮罩關閉，但不重置 hasPunched（只打卡一次） */
 punchOverlay.addEventListener('click',()=>{
   punchOverlay.classList.remove('show');
 });
 
-/* 語言按鈕目前只做 active 樣式 */
-const langBtns=document.querySelectorAll('.lang-btn');
-langBtns.forEach(btn=>{
+/* ============================
+   語言按鈕（目前只有 active 樣式）
+   ============================ */
+document.querySelectorAll('.lang-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    langBtns.forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
   });
 });
 </script>
+
 </body>
 </html>
