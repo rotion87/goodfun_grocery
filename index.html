@@ -187,6 +187,28 @@ header{
 .meta{color:#666;font-size:14px;margin:.2rem 0 1rem}
 .desc{white-space:pre-wrap;line-height:1.7}
 
+/* 🛒 購物連結按鈕 */
+.shop-link{
+  margin-top:16px;
+}
+.shop-link a{
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:999px;
+  border:2px solid #000;
+  background:#ffef6a;
+  font-weight:700;
+  font-size:14px;
+  text-decoration:none;
+  color:#000;
+  box-shadow:2px 2px 0 #000;
+  transition:transform .15s, box-shadow .15s;
+}
+.shop-link a:hover{
+  transform:translate(-1px,-1px);
+  box-shadow:3px 3px 0 #000;
+}
+
 /* 打卡完成彈出視窗 */
 .punch-overlay{
   position:fixed;
@@ -287,6 +309,11 @@ header{
       <div>
         <div class="meta" id="mdMeta"></div>
         <div class="desc" id="mdDesc"></div>
+
+        <!-- 🛒 購物連結（有設定 shop 才會顯示） -->
+        <div class="shop-link" id="mdShop" style="display:none;">
+          <a href="#" target="_blank" rel="noopener">前往購買頁面</a>
+        </div>
       </div>
     </div>
   </div>
@@ -302,17 +329,89 @@ header{
 </div>
 
 <script>
-/* 作品資料 */
+/* 作品資料：要改文字、加購物連結，都在這裡 */
 const WORKS=[
-{id:'horsecard',cover:'work-horsecard.png',basket:'basket_red.png',title:{zh:'孤芳小隊 2026 馬年賀卡'},meta:{zh:'明信片／孔版印刷'},desc:{zh:'以馬年為主題，黏土手作、上色、分色孔版印刷。角色坐在搖搖馬上，象徵放慢腳步也沒關係。'}},
-{id:'hollow',cover:'work-hollow.png',basket:'basket_blue.png',title:{zh:'空心 IN PLACE'},meta:{zh:'攝影折頁小誌 × 水泥物件'},desc:{zh:'記錄城市裡被安放的空心磚。手工灌製水泥磚作為書衣，折頁象徵堆疊意象。'}},
-{id:'softdrinks',cover:'work-softdrinks.png',basket:'basket_orange.png',title:{zh:'Soft Drinks'},meta:{zh:'攝影 × 包裝設計'},desc:{zh:'2023–2025 的酒罐照片轉為絲巾並封入鋁罐，以不含酒精的柔軟形象對照飲酒的不可逆性。'}},
-{id:'thirty',cover:'work-30hours.png',basket:'basket_green.png',title:{zh:'30時間 2nd Edition'},meta:{zh:'攝影小誌（再販）｜A5'},desc:{zh:'以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版，2025 再編排再版。'}},
-{id:'handit',cover:'work-handit.png',basket:'basket_red.png',title:{zh:'Hand-it 手心貼'},meta:{zh:'文具設計'},desc:{zh:'怕忘記就寫在手上，於是做出可貼的手掌便利貼。'}},
-{id:'pastebook',cover:'work-pastebook.png',basket:'basket_blue.png',title:{zh:'PASTE BOOK 系列貼紙簿'},meta:{zh:'貼紙冊（A5）｜台灣篇／日本篇'},desc:{zh:'以「護照」為概念，街頭收集與留下的貼紙記錄。'}},
-{id:'questioncandle',cover:'work-questioncandle.png',basket:'basket_orange.png',title:{zh:'問號蠟燭籤'},meta:{zh:'張子｜半熟紙、毛根、紙張｜約 10 cm'},desc:{zh:'以台灣生日問號蠟燭為靈感，底座可抽籤：兩祝福一留白。'}},
-{id:'pipo',cover:'work-pipo.png',basket:'basket_green.png',title:{zh:'PIPO 君 張子'},meta:{zh:'立體角色張子｜約 20 cm'},desc:{zh:'以張子形式製作東京警視廳吉祥物「ピーポくん」。'}},
-{id:'radio',cover:'work-radio.png',basket:'basket_red.png',title:{zh:'孤芳收音機'},meta:{zh:'立體裝置｜約 25 cm'},desc:{zh:'以聲音作為共鳴象徵，描繪兩個角色在城市噪音中的連線。'}}
+  {
+    id:'horsecard',
+    cover:'work-horsecard.png',
+    basket:'basket_red.png',
+    title:{zh:'孤芳小隊 2026 馬年賀卡'},
+    meta:{zh:'明信片／孔版印刷'},
+    desc:{zh:'以馬年為主題，黏土手作、上色、分色孔版印刷。角色坐在搖搖馬上，象徵放慢腳步也沒關係。'},
+    shop:'' // 這裡改成 'https://你的購物連結' 有連結就會顯示按鈕
+  },
+  {
+    id:'hollow',
+    cover:'work-hollow.png',
+    basket:'basket_blue.png',
+    title:{zh:'空心 IN PLACE'},
+    meta:{zh:'攝影折頁小誌 × 水泥物件'},
+    desc:{zh:'記錄城市裡被安放的空心磚。手工灌製水泥磚作為書衣，折頁象徵堆疊意象。'},
+    shop:''
+  },
+  {
+    id:'softdrinks',
+    cover:'work-softdrinks.png',
+    basket:'basket_orange.png',
+    title:{zh:'Soft Drinks'},
+    meta:{zh:'攝影 × 包裝設計'},
+    desc:{zh:'2023–2025 的酒罐照片轉為絲巾並封入鋁罐，以不含酒精的柔軟形象對照飲酒的不可逆性。'},
+    shop:''
+  },
+  {
+    id:'thirty',
+    cover:'work-30hours.png',
+    basket:'basket_green.png',
+    title:{zh:'30時間 2nd Edition'},
+    meta:{zh:'攝影小誌（再販）｜A5'},
+    desc:{zh:'以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版，2025 再編排再版。'},
+    shop:''
+  },
+  {
+    id:'handit',
+    cover:'work-handit.png',
+    basket:'basket_red.png',
+    title:{zh:'Hand-it 手心貼'},
+    meta:{zh:'文具設計'},
+    desc:{zh:'怕忘記就寫在手上，於是做出可貼的手掌便利貼。'},
+    shop:''
+  },
+  {
+    id:'pastebook',
+    cover:'work-pastebook.png',
+    basket:'basket_blue.png',
+    title:{zh:'PASTE BOOK 系列貼紙簿'},
+    meta:{zh:'貼紙冊（A5）｜台灣篇／日本篇'},
+    desc:{zh:'以「護照」為概念，街頭收集與留下的貼紙記錄。'},
+    shop:''
+  },
+  {
+    id:'questioncandle',
+    cover:'work-questioncandle.png',
+    basket:'basket_orange.png',
+    title:{zh:'問號蠟燭籤'},
+    meta:{zh:'張子｜半熟紙、毛根、紙張｜約 10 cm'},
+    desc:{zh:'以台灣生日問號蠟燭為靈感，底座可抽籤：兩祝福一留白。'},
+    shop:''
+  },
+  {
+    id:'pipo',
+    cover:'work-pipo.png',
+    basket:'basket_green.png',
+    title:{zh:'PIPO 君 張子'},
+    meta:{zh:'立體角色張子｜約 20 cm'},
+    desc:{zh:'以張子形式製作東京警視廳吉祥物「ピーポくん」。'},
+    shop:''
+  },
+  {
+    id:'radio',
+    cover:'work-radio.png',
+    basket:'basket_red.png',
+    title:{zh:'孤芳收音機'},
+    meta:{zh:'立體裝置｜約 25 cm'},
+    desc:{zh:'以聲音作為共鳴象徵，描繪兩個角色在城市噪音中的連線。'},
+    shop:''
+  }
 ];
 
 const grid=document.getElementById('workGrid');
@@ -335,6 +434,10 @@ const mdDesc=document.getElementById('mdDesc');
 const mdPhoto=document.getElementById('mdPhoto');
 const mdBasket=document.getElementById('mdBasket');
 
+/* 🛒 購物連結 DOM */
+const mdShop=document.getElementById('mdShop');
+const mdShopA=mdShop.querySelector('a');
+
 function openModal(id){
   const w=WORKS.find(x=>x.id===id);if(!w)return;
   mdTitle.textContent=w.title.zh;
@@ -342,6 +445,16 @@ function openModal(id){
   mdDesc.textContent=w.desc.zh||'';
   mdPhoto.src=w.cover;
   mdBasket.src=w.basket;
+
+  // 有設定 shop 才顯示按鈕
+  if(w.shop){
+    mdShop.style.display='block';
+    mdShopA.href=w.shop;
+  }else{
+    mdShop.style.display='none';
+    mdShopA.removeAttribute('href');
+  }
+
   modal.classList.add('show');
 }
 function closeModal(){modal.classList.remove('show');}
