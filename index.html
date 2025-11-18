@@ -143,9 +143,15 @@ header{
   display:flex;flex-direction:column;gap:6px;
 }
 .lang-btn{
-  width:44px;height:44px;border-radius:12px;background:#fff;
-  border:2px solid #000;font-size:22px;
-  cursor:pointer;box-shadow:2px 2px 0 #000;
+  min-width:72px;
+  padding:4px 10px;
+  border-radius:12px;
+  background:#fff;
+  border:2px solid #000;
+  font-size:13px;
+  cursor:pointer;
+  box-shadow:2px 2px 0 #000;
+  text-align:center;
 }
 .lang-btn.active{
   outline:3px solid var(--orange);
@@ -219,19 +225,19 @@ header{
 
 <!-- IG -->
 <div class="ig-icons">
-  <a href="https://www.instagram.com/rotion87" target="_blank"><img src="ig-rotion.png"></a>
-  <a href="https://www.instagram.com/l72uo_" target="_blank"><img src="ig-l72uo.png"></a>
+  <a href="https://www.instagram.com/rotion87" target="_blank"><img src="ig-rotion.png" alt="Rotion87"></a>
+  <a href="https://www.instagram.com/l72uo_" target="_blank"><img src="ig-l72uo.png" alt="No.423"></a>
 </div>
 
 <!-- 左側打卡 -->
 <div class="punch-rail"><div class="punch-track">
-  <img id="punchCard" src="punchcard.png">
-  <img id="punchMachine" src="punchmachine.png">
+  <img id="punchCard" src="punchcard.png" alt="">
+  <img id="punchMachine" src="punchmachine.png" alt="">
 </div></div>
 
 <!-- Banner -->
 <header><div class="bar"><div class="banner-box">
-  <img class="banner" src="banner-goodfunteam.png">
+  <img class="banner" src="banner-goodfunteam.png" alt="">
 </div></div></header>
 
 <!-- Main -->
@@ -240,20 +246,20 @@ header{
   <div><div class="grid" id="workGrid"></div></div>
 
   <aside class="about">
-    <h3>孤芳小隊 GOOD FUN TEAM</h3>
-    <p>由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。</p>
-    <p><b>ROTION87：</b>以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。</p>
-    <p><b>No.423：</b>擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。</p>
+    <h3 id="aboutTitle">孤芳小隊 GOOD FUN TEAM</h3>
+    <p id="aboutP1">由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。</p>
+    <p id="aboutP2"><b>ROTION87：</b>以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。</p>
+    <p id="aboutP3"><b>No.423：</b>擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。</p>
   </aside>
 </section>
 </main>
 
 <!-- 語言切換 -->
 <div class="lang-fab" id="langFab">
-  <button class="lang-btn active" data-lang="zh">🇹🇼</button>
-  <button class="lang-btn" data-lang="ja">🇯🇵</button>
-  <button class="lang-btn" data-lang="ko">🇰🇷</button>
-  <button class="lang-btn" data-lang="en">🇬🇧</button>
+  <button class="lang-btn active" data-lang="zh">中文</button>
+  <button class="lang-btn" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="ja">日本語</button>
+  <button class="lang-btn" data-lang="ko">한국어</button>
 </div>
 
 <!-- 作品彈窗 -->
@@ -266,14 +272,14 @@ header{
     </div>
     <div class="panel-body">
       <div class="basket-wrap" style="position:relative;">
-        <img class="basket-bg" id="mdBasket">
-        <img class="work-photo" id="mdPhoto">
+        <img class="basket-bg" id="mdBasket" alt="">
+        <img class="work-photo" id="mdPhoto" alt="">
       </div>
       <div>
         <div class="meta" id="mdMeta"></div>
         <div class="desc" id="mdDesc"></div>
         <div class="shop-link" id="mdShop" style="display:none;">
-          <a href="#" target="_blank">前往購買頁面</a>
+          <a href="#" target="_blank" rel="noopener" id="mdShopText">前往購買頁面</a>
         </div>
       </div>
     </div>
@@ -290,19 +296,73 @@ header{
 </div>
 
 <script>
-/* ============================
-   作品資料（非賣品排在最後）
-   ============================ */
-const WORKS = [
+/* ========= 語系設定 ========= */
+let currentLang='zh';
+
+function pick(obj){
+  if(!obj) return '';
+  if(obj[currentLang]) return obj[currentLang];
+  if(obj.en) return obj.en;
+  return obj.zh || '';
+}
+
+/* About 區塊文字 */
+const ABOUT={
+  title:{
+    zh:'孤芳小隊 GOOD FUN TEAM',
+    en:'GOOD FUN TEAM',
+    ja:'孤芳小隊 GOOD FUN TEAM'
+  },
+  p1:{
+    zh:'由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。',
+    en:'Formed by ROTION87 and No.423, GOOD FUN TEAM combines photography, objects and handmade pieces. With the Rat and Ferret as their characters, they explore the border between everyday life and imagination, building a shared narrative world between reality and fiction.',
+    ja:'ROTION87 と No.423 の 2 人によるユニット。写真・造形・ハンドメイド作品を組み合わせ、「ネズミ」と「フェレット」のキャラクターを通して、日常と空想のあいだ、現実と虚構のあいだに 2 人だけのストーリー世界をつくっている。'
+  },
+  p2:{
+    zh:'ROTION87：以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。',
+    en:'ROTION87: Starts from simple observation and extends it into books, objects and installations. Enjoys doing playful things and keeps searching for new ways to express everyday life.',
+    ja:'ROTION87：観察を出発点に、本やオブジェ、インスタレーションへと広げていく。日常から新しい表現や遊び方を見つけるのが好き。'
+  },
+  p3:{
+    zh:'No.423：擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。',
+    en:'No.423: Works mainly with graphic design, type, illustration and motion. Uses the leftover design energy after work to create things that simply feel fun and make themselves happy.',
+    ja:'No.423：グラフィック、フォント、イラスト、モーションデザインを得意とし、仕事終わりに残ったデザイン力で、自分が楽しくなる作品づくりを続けている。'
+  }
+};
+
+/* UI 文字 */
+const UI_TEXT={
+  shop:{
+    zh:'前往購買頁面',
+    en:'Go to shop page',
+    ja:'購入ページへ',
+    ko:'Go to shop page'
+  }
+};
+
+/* ========= 作品資料（非賣品排在最後） ========= */
+const WORKS=[
 
   /* 1. Soft Drinks《軟》罐裝絲巾 */
   {
     id:'softdrinks',
     cover:'work-softdrinks.png',
     basket:'basket_orange.png',
-    title:{ zh:'Soft Drinks《軟》罐裝絲巾' },
-    meta:{ zh:'攝影 × 包裝設計' },
-    desc:{ zh:'使用 2023–2025 收集的酒罐照片轉為絲巾並封入鋁罐，以不含酒精的柔軟形象對照飲酒時的不可逆性，而誕生的無酒精作品。' },
+    title:{
+      zh:'Soft Drinks《軟》罐裝絲巾',
+      en:'Soft Drinks "Soft" Scarf in a Can',
+      ja:'Soft Drinks「軟」 缶入りスカーフ'
+    },
+    meta:{
+      zh:'攝影 × 包裝設計',
+      en:'Photography × Packaging design',
+      ja:'写真 × パッケージデザイン'
+    },
+    desc:{
+      zh:'使用 2023–2025 收集的酒罐照片轉為絲巾並封入鋁罐，以不含酒精的柔軟形象對照飲酒時的不可逆性，而誕生的無酒精作品。',
+      en:'A no-alcohol project: photos of beer cans collected from 2023–2025 are turned into a scarf and sealed back into an aluminum can, as a soft contrast to the irreversible feeling of drinking.',
+      ja:'2023〜2025 年に集めた缶ビールの写真をスカーフに仕立て、もう一度アルミ缶の中に封入した作品。お酒の「戻れなさ」と、その外側にあるやわらかいイメージを対比させた、ノンアルコールのプロジェクト。'
+    },
     shop:''
   },
 
@@ -311,9 +371,21 @@ const WORKS = [
     id:'handit',
     cover:'work-handit.png',
     basket:'basket_red.png',
-    title:{ zh:'Hand-it 手心貼' },
-    meta:{ zh:'文具小物' },
-    desc:{ zh:'因為怕忘記就把要記的事寫在手上，於是做出了可貼的手掌便利貼。' },
+    title:{
+      zh:'Hand-it 手心貼',
+      en:'Hand-it Palm Sticky Note',
+      ja:'Hand-it 手のひらメモ'
+    },
+    meta:{
+      zh:'文具小物',
+      en:'Stationery item',
+      ja:'文具アイテム'
+    },
+    desc:{
+      zh:'因為怕忘記就把要記的事寫在手上，於是做出了可貼的手掌便利貼。',
+      en:'I used to write things on my palm because I was afraid of forgetting, so I made a palm-shaped sticky note you can actually paste.',
+      ja:'忘れないように手のひらにメモしていたところから生まれた、手の形の付箋。ほんとうに貼れる「手のひらメモ」。'
+    },
     shop:''
   },
 
@@ -322,9 +394,21 @@ const WORKS = [
     id:'hollow',
     cover:'work-hollow.png',
     basket:'basket_blue.png',
-    title:{ zh:'空心 In Place' },
-    meta:{ zh:'攝影折頁小誌 × 水泥物件' },
-    desc:{ zh:'因生活習慣改變，因緣際會下開始記錄城市裡被安放的空心磚。以手工灌製水泥磚作為書衣，折頁小誌象徵堆疊意象。' },
+    title:{
+      zh:'空心 In Place',
+      en:'Hollow In Place',
+      ja:'空心 In Place'
+    },
+    meta:{
+      zh:'攝影折頁小誌 × 水泥物件',
+      en:'Fold-out photo zine × concrete object',
+      ja:'折り本写真ジン × セメントオブジェ'
+    },
+    desc:{
+      zh:'因生活習慣改變，因緣際會下開始記錄城市裡被安放的空心磚。以手工灌製水泥磚作為書衣，折頁小誌象徵堆疊意象。',
+      en:'A change of daily routine led me to notice hollow concrete blocks resting around the city. I cast my own concrete block as a book cover, and a fold-out zine inside echoes the idea of stacking and being placed.',
+      ja:'暮らし方が変わったことで、街のあちこちに「置かれている」空心ブロックが気になりはじめた。手で流し込んだセメントブロックをブックカバーにし、中の折り本は「積み重ねられた形」をイメージしている。'
+    },
     shop:''
   },
 
@@ -333,9 +417,21 @@ const WORKS = [
     id:'thirty',
     cover:'work-30hours.png',
     basket:'basket_green.png',
-    title:{ zh:'30時間 2nd Edition' },
-    meta:{ zh:'攝影小誌（再販）｜A5' },
-    desc:{ zh:'以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版，2025 再編排再版。' },
+    title:{
+      zh:'30時間 2nd Edition',
+      en:'30 Hours 2nd Edition',
+      ja:'30時間 第2版'
+    },
+    meta:{
+      zh:'攝影小誌（再販）｜A5',
+      en:'Photo zine (2nd print) | A5',
+      ja:'写真ジン（再販）｜A5'
+    },
+    desc:{
+      zh:'以「30 小時制」觀察新宿／涉谷的城市節奏。2024 初版，2025 再編排再版。',
+      en:'Using a “30-hour clock” as a lens to observe the rhythm of Shinjuku and Shibuya. First published in 2024, re-edited and reprinted in 2025.',
+      ja:'「30 時間制」という時間のものさしで、新宿と渋谷のリズムを見つめた写真ジン。2024 年に初版、2025 年に編集を組み直して再販。'
+    },
     shop:''
   },
 
@@ -344,9 +440,21 @@ const WORKS = [
     id:'thirty_poster',
     cover:'work-30hours-poster.png',
     basket:'basket_green.png',
-    title:{ zh:'30時間 海報' },
-    meta:{ zh:'海報｜尺寸：日本 B5 小海報' },
-    desc:{ zh:'以《30時間》小誌主題延伸之單張海報。' },
+    title:{
+      zh:'30時間 海報',
+      en:'30 Hours Poster',
+      ja:'30時間 ポスター'
+    },
+    meta:{
+      zh:'海報｜尺寸：日本 B5 小海報',
+      en:'Poster | Size: Japanese B5',
+      ja:'ポスター｜サイズ：B5'
+    },
+    desc:{
+      zh:'以《30時間》小誌主題延伸之單張海報。',
+      en:'A single poster that extends the theme of the zine “30 Hours”.',
+      ja:'写真ジン『30時間』のテーマを引き伸ばした 1 枚のポスター作品。'
+    },
     shop:''
   },
 
@@ -355,9 +463,21 @@ const WORKS = [
     id:'pasteport_street',
     cover:'work-pasteport-street.png',
     basket:'basket_blue.png',
-    title:{ zh:'PASTE PORT - 上街' },
-    meta:{ zh:'貼紙收集小誌｜A5' },
-    desc:{ zh:'以台灣街頭收集到的元素為主題，做成具備貼紙簿功能的小誌，並且附上同樣主題的貼紙。大家能任意撕下並隨意貼上，代表旅遊時的留下與帶走，也就是為什麼叫做 PASTE PORT。' },
+    title:{
+      zh:'PASTE PORT - 上街',
+      en:'PASTE PORT - Street',
+      ja:'PASTE PORT - 街へ'
+    },
+    meta:{
+      zh:'貼紙收集小誌｜A5',
+      en:'Sticker-collecting zine | A5',
+      ja:'ステッカー収集ジン｜A5'
+    },
+    desc:{
+      zh:'以台灣街頭收集到的元素為主題，做成具備貼紙簿功能的小誌，並且附上同樣主題的貼紙。大家能任意撕下並隨意貼上，代表旅遊時的留下與帶走，也就是為什麼叫做 PASTE PORT。',
+      en:'A zine that works like a sticker passport, featuring elements collected from the streets of Taiwan. It comes with matching stickers that you can peel and stick wherever you like—marking what you leave behind and what you take with you when you travel. That’s why it is called “PASTE PORT”.',
+      ja:'台湾の街で集めたモチーフをテーマにした、ステッカー帳のような小さなジン。同じモチーフのステッカーが付いていて、好きな場所に貼ることで、旅先での「残していくもの」と「持ち帰るもの」を記録していく。その感覚から「PASTE PORT」という名前になった。'
+    },
     shop:''
   },
 
@@ -366,20 +486,44 @@ const WORKS = [
     id:'pasteport_notice',
     cover:'work-pasteport-notice.png',
     basket:'basket_blue.png',
-    title:{ zh:'PASTE PORT - 注意' },
-    meta:{ zh:'貼紙收集小誌｜A5' },
-    desc:{ zh:'以東京街頭收集到的元素為主題，做成具備貼紙簿功能的小誌，並且附上同樣主題的貼紙。大家能任意撕下並隨意貼上，代表旅遊時的留下與帶走，也就是為什麼叫做 PASTE PORT。' },
+    title:{
+      zh:'PASTE PORT - 注意',
+      en:'PASTE PORT - Notice',
+      ja:'PASTE PORT - 注意'
+    },
+    meta:{
+      zh:'貼紙收集小誌｜A5',
+      en:'Sticker-collecting zine | A5',
+      ja:'ステッカー収集ジン｜A5'
+    },
+    desc:{
+      zh:'以東京街頭收集到的元素為主題，做成具備貼紙簿功能的小誌，並且附上同樣主題的貼紙。大家能任意撕下並隨意貼上，代表旅遊時的留下與帶走，也就是為什麼叫做 PASTE PORT。',
+      en:'A sticker zine themed around “warning” and “notice” visuals found on the streets of Tokyo. With matching stickers you can peel and place, it records both what you leave in the city and what you carry home—just like a paste-style passport.',
+      ja:'東京の街で見かけた「注意」「案内」「警告」などの標識をテーマにしたステッカー・ジン。同じモチーフのシールを自由に剥がして貼ることで、街に残していく印と、自分の中に持ち帰る印を重ねていく、もうひとつのパスポート。'
+    },
     shop:''
   },
 
-  /* 8. 蠟籤 */
+  /* 8. 問號蠟燭籤 */
   {
     id:'questioncandle',
     cover:'work-questioncandle.png',
     basket:'basket_orange.png',
-    title:{ zh:'問號蠟燭籤' },
-    meta:{ zh:'張子｜半熟紙、毛根｜約 10 cm' },
-    desc:{ zh:'以台灣生日問號蠟燭為靈感，並結合日本張子，蠟燭籤下方打開後可抽籤，內含三支籤（兩支隨機一支空白），象徵許願時的三個願望，最後一個留給自己。希望買的人都能得到孤芳小隊的祝福，並且願望成真。' },
+    title:{
+      zh:'問號蠟燭籤',
+      en:'Question Candle Fortune',
+      ja:'ハテナろうそく籤'
+    },
+    meta:{
+      zh:'張子｜半熟紙、毛根｜約 10 cm',
+      en:'Papier-mâché | Paper, wire | about 10 cm',
+      ja:'張り子｜紙・ワイヤー｜約 10 cm'
+    },
+    desc:{
+      zh:'以台灣生日問號蠟燭為靈感，並結合日本張子，蠟燭籤下方打開後可抽籤，內含三支籤（兩支隨機一支空白），象徵許願時的三個願望，最後一個留給自己。希望買的人都能得到孤芳小隊的祝福，並且願望成真。',
+      en:'Inspired by the question-mark birthday candles in Taiwan and combined with the form of Japanese papier-mâché figures. You can open the base of the candle to draw one of three sticks—two with messages and one blank—echoing the three wishes people make, with the last one kept just for yourself. May everyone who gets it receive GOOD FUN TEAM’s blessing and have their wishes come true.',
+      ja:'台湾の「？マークろうそく」から着想し、日本の張り子の要素を合わせた作品。ろうそくの台座を開けると 3 本のサイコロ籤が入っていて、2 本はメッセージ付き、1 本は空白。お願いごと 3 つのうち、最後の 1 つは自分だけのひみつとして残しておける。手に取った人それぞれに、孤芳小隊のささやかな御守りのように願いが届けばいいなと思っている。'
+    },
     shop:''
   },
 
@@ -388,68 +532,112 @@ const WORKS = [
     id:'horsecard',
     cover:'work-horsecards.png',
     basket:'basket_red.png',
-    title:{ zh:'孤芳小隊 2026 馬年賀卡' },
-    meta:{ zh:'明信片／孔版印刷' },
-    desc:{ zh:'以馬年為主題，黏土手作、上色、分色孔版印刷。角色坐在搖搖馬上，象徵放慢腳步也沒關係。' },
+    title:{
+      zh:'孤芳小隊 2026 馬年賀卡',
+      en:'GOOD FUN TEAM 2026 Horse New Year Card',
+      ja:'孤芳小隊 2026 馬年年賀カード'
+    },
+    meta:{
+      zh:'明信片／孔版印刷',
+      en:'Postcard / Risograph',
+      ja:'ポストカード／リソグラフ印刷'
+    },
+    desc:{
+      zh:'以馬年為主題，黏土手作、上色、分色孔版印刷。角色坐在搖搖馬上，象徵放慢腳步也沒關係。',
+      en:'A horse-year New Year card made from hand-shaped clay, painted and separated for risograph printing. The character sits on a rocking horse, suggesting that it is okay to slow down a little.',
+      ja:'干支の「馬」をテーマに、粘土で造形し、彩色・版分けしてリソグラフ印刷した年賀カード。揺れる木馬に乗るキャラクターは、「少しゆっくりでも大丈夫」と伝えてくれる存在。'
+    },
     shop:''
   },
 
-  /* === ❗ 非賣品開始（全部排最後） === */
+  /* === 非賣品開始 === */
 
-  /* 10. ピーポくん 張り子 */
+  /* 10. ピーポくん 張り子（非賣品） */
   {
     id:'pipo',
     cover:'work-pipo.png',
     basket:'basket_green.png',
-    title:{ zh:'ピーポくん 張り子（NOT FOR SALE）' },
-    meta:{ zh:'立體角色張子｜約 20 cm' },
-    desc:{ zh:'以張子形式製作東京警視廳吉祥物「ピーポくん」。' },
+    title:{
+      zh:'ピーポくん 張り子（非賣品）',
+      en:'PIPO-kun Papier-mâché (Not for Sale)',
+      ja:'ピーポくん 張り子（非売品）'
+    },
+    meta:{
+      zh:'立體角色張子｜約 20 cm｜非賣品',
+      en:'Papier-mâché figure | about 20 cm | not for sale',
+      ja:'立体張り子フィギュア｜約 20 cm｜非売品'
+    },
+    desc:{
+      zh:'以張子形式製作東京警視廳吉祥物「ピーポくん」。',
+      en:'A papier-mâché version of “PIPO-kun”, the mascot of the Tokyo Metropolitan Police Department.',
+      ja:'東京警視庁のマスコット「ピーポくん」を、張り子の立体作品として制作したもの。'
+    },
     shop:''
   },
 
-  /* 11. 孤芳收音機 */
+  /* 11. 孤芳收音機（非賣品） */
   {
     id:'radio',
     cover:'work-radio.png',
     basket:'basket_red.png',
-    title:{ zh:'孤芳收音機（NOT FOR SALE）' },
-    meta:{ zh:'立體裝置｜約 25 cm' },
-    desc:{ zh:'以聲音作為共鳴象徵，描繪兩個角色在城市噪音中的連線。' },
+    title:{
+      zh:'孤芳收音機（非賣品）',
+      en:'GOOD FUN RADIO (Not for Sale)',
+      ja:'孤芳ラジオ（非売品）'
+    },
+    meta:{
+      zh:'立體裝置｜約 25 cm｜非賣品',
+      en:'3D installation | about 25 cm | not for sale',
+      ja:'立体インスタレーション｜約 25 cm｜非売品'
+    },
+    desc:{
+      zh:'以聲音作為共鳴象徵，描繪兩個角色在城市噪音中的連線。',
+      en:'An object that uses the form of a radio to symbolize resonance—two characters staying connected through the noise of the city.',
+      ja:'都市のノイズのなかで、それでもつながり続ける 2 人をイメージしてつくったラジオ型の立体作品。音が共鳴する装置としてのラジオをモチーフにしている。'
+    },
     shop:''
   },
 
-  /* 12. 意嘶易嘶啦 2025 蛇年賀卡 */
+  /* 12. 意嘶易嘶啦 2025 蛇年賀卡（非賣品） */
   {
     id:'snake2025',
     cover:'work-snake2025.png',
     basket:'basket_red.png',
-    title:{ zh:'意嘶易嘶啦 2025 蛇年賀卡（NOT FOR SALE)' },
-    meta:{ zh:'明信片｜孔版印刷' },
-    desc:{ zh:'以蛇年的「蜿蜒、滑動」意象延伸出的賀卡作品。' },
+    title:{
+      zh:'意嘶易嘶啦 2025 蛇年賀卡（非賣品）',
+      en:'Hiss-Hiss 2025 Snake New Year Card (Not for Sale)',
+      ja:'意嘶易嘶啦 2025 巳年年賀カード（非売品）'
+    },
+    meta:{
+      zh:'明信片｜孔版印刷',
+      en:'Postcard | Risograph',
+      ja:'ポストカード｜リソグラフ印刷'
+    },
+    desc:{
+      zh:'以蛇年的「蜿蜒、滑動」意象延伸出的賀卡作品。',
+      en:'A New Year card for the Year of the Snake, extending the image of winding and sliding movements into a printed piece.',
+      ja:'干支の「蛇」が持つ、くねる・すべるような動きをイメージして作った年賀カード。'
+    },
     shop:''
   }
 
 ];
 
-/* ============================
-   作品牆生成
-   ============================ */
+/* ========= 作品牆渲染 ========= */
 const grid=document.getElementById('workGrid');
+let currentOpenId=null;
 
 function renderGrid(){
   grid.innerHTML=WORKS.map(w=>`
     <article class="card" data-id="${w.id}">
-      <img class="star" src="sticker_yellow.png">
-      <img class="photo" src="${w.cover}">
-      <div class="name">${w.title.zh}</div>
+      <img class="star" src="sticker_yellow.png" alt="">
+      <img class="photo" src="${w.cover}" alt="">
+      <div class="name">${pick(w.title)}</div>
     </article>
   `).join('');
 }
-renderGrid();
 
-/* ============================
-   彈窗控制
-   ============================ */
+/* ========= 彈窗控制 ========= */
 const modal=document.getElementById('modal');
 const mdTitle=document.getElementById('mdTitle');
 const mdMeta=document.getElementById('mdMeta');
@@ -457,15 +645,12 @@ const mdDesc=document.getElementById('mdDesc');
 const mdPhoto=document.getElementById('mdPhoto');
 const mdBasket=document.getElementById('mdBasket');
 const mdShop=document.getElementById('mdShop');
-const mdShopA=mdShop.querySelector('a');
+const mdShopA=document.getElementById('mdShopText');
 
-function openModal(id){
-  const w=WORKS.find(x=>x.id===id);
-  if(!w) return;
-
-  mdTitle.textContent=w.title.zh;
-  mdMeta.textContent=w.meta.zh;
-  mdDesc.textContent=w.desc.zh;
+function fillModal(w){
+  mdTitle.textContent=pick(w.title);
+  mdMeta.textContent=pick(w.meta);
+  mdDesc.textContent=pick(w.desc);
   mdPhoto.src=w.cover;
   mdBasket.src=w.basket;
 
@@ -476,15 +661,22 @@ function openModal(id){
     mdShop.style.display='none';
     mdShopA.removeAttribute('href');
   }
-
-  modal.classList.add('show');
+  mdShopA.textContent=pick(UI_TEXT.shop);
 }
 
+function openModal(id){
+  const w=WORKS.find(x=>x.id===id);
+  if(!w) return;
+  currentOpenId=id;
+  fillModal(w);
+  modal.classList.add('show');
+}
 function closeModal(){
+  currentOpenId=null;
   modal.classList.remove('show');
 }
 
-document.getElementById('workGrid').addEventListener('click',e=>{
+grid.addEventListener('click',e=>{
   const card=e.target.closest('.card');
   if(card) openModal(card.dataset.id);
 });
@@ -495,9 +687,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeModal();
 });
 
-/* ============================
-   打卡機 scroll 行為
-   ============================ */
+/* ========= 打卡機 scroll ========= */
 const punchCard=document.getElementById('punchCard');
 const punchMachine=document.getElementById('punchMachine');
 const punchOverlay=document.getElementById('punchOverlay');
@@ -507,14 +697,13 @@ let hasPunched=false;
 
 function updatePunchFromScroll(){
   const doc=document.documentElement;
-  const scrollTop=doc.scrollTop;
-  const scrollHeight=doc.scrollHeight-doc.clientHeight;
-  const ratio=scrollTop/scrollHeight;
+  const scrollTop=doc.scrollTop || document.body.scrollTop;
+  const scrollHeight=(doc.scrollHeight-doc.clientHeight)||1;
+  const ratio=Math.max(0,Math.min(1,scrollTop/scrollHeight));
 
   const trackHeight=punchTrack.clientHeight;
   const cardHeight=punchCard.clientHeight;
   const machineHeight=punchMachine.clientHeight;
-
   const bottomLimit=trackHeight-cardHeight-machineHeight*0.3;
   const pos=bottomLimit*ratio;
 
@@ -526,25 +715,54 @@ function updatePunchFromScroll(){
     punchOverlay.classList.add('show');
   }
 }
-
 window.addEventListener('scroll',updatePunchFromScroll);
-window.addEventListener('load',updatePunchFromScroll);
+window.addEventListener('load',()=>{
+  renderGrid();
+  applyLangToAbout();
+  updatePunchFromScroll();
+});
 window.addEventListener('resize',updatePunchFromScroll);
-
 punchOverlay.addEventListener('click',()=>{
   punchOverlay.classList.remove('show');
 });
 
-/* ============================
-   語言按鈕（目前只有 active 樣式）
-   ============================ */
-document.querySelectorAll('.lang-btn').forEach(btn=>{
+/* ========= 語言切換 ========= */
+const langBtns=document.querySelectorAll('.lang-btn');
+const aboutTitleEl=document.getElementById('aboutTitle');
+const aboutP1El=document.getElementById('aboutP1');
+const aboutP2El=document.getElementById('aboutP2');
+const aboutP3El=document.getElementById('aboutP3');
+
+function applyLangToAbout(){
+  aboutTitleEl.textContent=pick(ABOUT.title);
+  aboutP1El.textContent=pick(ABOUT.p1);
+  // 第二、三段前面的名字粗體需要保留
+  const p2Text=pick(ABOUT.p2);
+  const p3Text=pick(ABOUT.p3);
+  // 簡單做法：整段直接塞 textContent，就不再額外包 <b>，避免多語版本跑版
+  aboutP2El.textContent=p2Text;
+  aboutP3El.textContent=p3Text;
+}
+
+langBtns.forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+    langBtns.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
+    currentLang=btn.dataset.lang;
+
+    // 韓文目前內容先沿用英文
+    if(currentLang==='ko') currentLang='ko'; // 使用 pick() 的 fallback (= en)
+
+    renderGrid();
+    applyLangToAbout();
+
+    // 若彈窗開啟中，同步更新語系
+    if(currentOpenId){
+      const w=WORKS.find(x=>x.id===currentOpenId);
+      if(w) fillModal(w);
+    }
   });
 });
 </script>
-
 </body>
 </html>
