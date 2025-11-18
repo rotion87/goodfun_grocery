@@ -1,3 +1,368 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title> 孤芳小隊 GOOD FUN TEAM </title>
+<meta name="color-scheme" content="light only" />
+<style>
+:root{
+  --ink:#121212;
+  --red:#ff3b2f;
+  --orange:#ffd15a;
+  --green:#16b75b;
+  --shadow-big:0 18px 50px rgba(0,0,0,.35);
+  --shadow-med:0 10px 30px rgba(0,0,0,.18),0 3px 10px rgba(0,0,0,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",Arial;
+  color:var(--ink);
+  background:#eafcff url("bg-market.png") center top repeat-y fixed;
+  background-size:100% auto;
+}
+
+/* 左側打卡滑道 */
+.punch-rail{
+  position:fixed;
+  left:10px;
+  top:60px;
+  bottom:60px;
+  width:90px;
+  z-index:40;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  pointer-events:none;
+}
+.punch-track{
+  position:relative;
+  width:60px;
+  height:100%;
+}
+#punchCard{
+  position:absolute;
+  width:72px;
+  left:50%;
+  transform:translate(-50%,0);
+  filter:drop-shadow(2px 4px 4px rgba(0,0,0,.3));
+}
+#punchMachine{
+  position:absolute;
+  width:80px;
+  left:50%;
+  bottom:-4px;
+  transform:translateX(-50%);
+}
+
+/* Banner */
+header{
+  position:relative;
+  z-index:2;
+  padding:0;
+}
+.bar{
+  max-width:1200px;
+  margin:0 auto;
+}
+.banner-box{
+  width:100%;
+  border-radius:16px;
+  overflow:hidden;
+}
+.banner{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:cover;
+}
+@media(max-width:768px){
+  .banner{ height:150px; }
+}
+
+/* 主內容 */
+.wrap{
+  max-width:1200px;
+  margin:16px auto 120px;
+  padding:0 12px;
+}
+.main{
+  display:grid;gap:20px;grid-template-columns:1fr;
+}
+@media(min-width:1024px){
+  .main{grid-template-columns:1.4fr .6fr}
+}
+
+/* 右側介紹 */
+.about{
+  background:rgba(255,247,202,.97);
+  border:3px solid #000;border-radius:18px;padding:16px 18px;
+  box-shadow:var(--shadow-med);
+}
+.about h3{margin:6px 0 10px;font-size:18px}
+.about p{margin:0 0 10px;line-height:1.7}
+
+/* 作品牆 */
+.grid{display:grid;gap:22px;grid-template-columns:1fr}
+@media(min-width:620px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+.card{
+  position:relative;
+  cursor:pointer;
+  aspect-ratio:4/3;
+}
+.star{
+  position:absolute;inset:0;margin:auto;width:88%;object-fit:contain;
+  filter:drop-shadow(4px 4px 0 #000);
+}
+.photo{
+  position:absolute;inset:0;margin:auto;width:min(72%,540px);height:min(72%,540px);
+  object-fit:contain;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));
+}
+/* 作品名 */
+.name{
+  position:absolute;left:50%;bottom:8%;transform:translateX(-50%);
+  font-weight:900;font-size:15px;white-space:nowrap;color:#fff;
+  text-shadow:-2px -2px 0 #c90000,2px -2px 0 #c90000,-2px 2px 0 #c90000,2px 2px 0 #c90000,0px 3px 4px rgba(0,0,0,.55);
+}
+@media(min-width:768px){.name{font-size:18px}}
+
+/* 非賣品小標籤 */
+.badge-nfs{
+  position:absolute;
+  top:8px;
+  left:10px;
+  padding:2px 8px;
+  border-radius:999px;
+  background:#000;
+  color:#fff;
+  font-size:10px;
+  font-weight:700;
+  box-shadow:2px 2px 0 #000;
+}
+@media(min-width:768px){
+  .badge-nfs{font-size:11px;}
+}
+
+/* IG 圖示 */
+.ig-icons{
+  position:fixed;top:16px;right:20px;z-index:200;
+  display:flex;flex-direction:column;gap:10px;
+}
+.ig-icons img{
+  width:44px;height:44px;border:2px solid #000;border-radius:10px;background:#fff;
+  box-shadow:2px 2px 0 #000;
+}
+
+/* 語言切換 */
+.lang-fab{
+  position:fixed;right:14px;bottom:14px;z-index:150;
+  display:flex;flex-direction:column;gap:6px;
+}
+.lang-btn{
+  min-width:72px;
+  padding:4px 10px;
+  border-radius:12px;
+  background:#fff;
+  border:2px solid #000;
+  font-size:13px;
+  cursor:pointer;
+  box-shadow:2px 2px 0 #000;
+  text-align:center;
+}
+.lang-btn.active{
+  outline:3px solid var(--orange);
+}
+
+/* 作品彈窗 */
+.modal{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:90;
+}
+.modal.show{display:flex}
+.backdrop{
+  position:absolute;inset:0;background:rgba(0,0,0,.5);
+}
+.panel{
+  position:relative;z-index:1;background:#fff;
+  max-width:min(1100px,92vw);
+  border:3px solid #000;border-radius:24px;overflow:hidden;
+}
+.panel-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 18px;border-bottom:3px solid #000;background:#fffce7;
+}
+.panel-title{font-weight:900;font-size:18px}
+.close{
+  border:2px solid #000;border-radius:10px;background:#ffef6a;
+  padding:6px 10px;font-weight:900;cursor:pointer;box-shadow:2px 2px 0 #000;
+}
+.panel-body{
+  display:grid;gap:18px;padding:18px;
+  grid-template-columns:1.1fr .9fr;
+}
+@media(max-width:860px){
+  .panel-body{grid-template-columns:1fr}
+}
+
+.basket-bg{
+  width:100%;display:block;border-radius:16px;
+}
+.work-photo{
+  position:absolute;inset:0;margin:auto;max-width:min(85%,720px);
+  max-height:80%;object-fit:contain;
+  filter:drop-shadow(0 12px 20px rgba(0,0,0,.25));
+}
+
+.meta{color:#666;font-size:14px;margin:.2rem 0 1rem}
+.desc{white-space:pre-wrap;line-height:1.7}
+
+/* 🛒 購物連結 */
+.shop-link{ margin-top:16px; }
+.shop-link a{
+  padding:8px 14px;border-radius:999px;border:2px solid #000;
+  background:#ffef6a;font-weight:700;font-size:14px;
+  text-decoration:none;color:#000;
+  box-shadow:2px 2px 0 #000;
+}
+
+/* 打卡提示 */
+.punch-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  display:none;align-items:center;justify-content:center;
+  z-index:250;
+}
+.punch-overlay.show{display:flex}
+.punch-dialog{
+  background:#fffce7;border-radius:20px;border:3px solid #000;padding:18px 24px;
+  max-width:280px;text-align:center;
+}
+</style>
+</head>
+<body>
+
+<!-- IG -->
+<div class="ig-icons">
+  <a href="https://www.instagram.com/rotion87" target="_blank"><img src="ig-rotion.png" alt="Rotion87"></a>
+  <a href="https://www.instagram.com/l72uo_" target="_blank"><img src="ig-l72uo.png" alt="No.423"></a>
+</div>
+
+<!-- 左側打卡 -->
+<div class="punch-rail"><div class="punch-track">
+  <img id="punchCard" src="punchcard.png" alt="">
+  <img id="punchMachine" src="punchmachine.png" alt="">
+</div></div>
+
+<!-- Banner -->
+<header><div class="bar"><div class="banner-box">
+  <img class="banner" src="banner-goodfunteam.png" alt="">
+</div></div></header>
+
+<!-- Main -->
+<main class="wrap">
+<section class="main">
+  <div><div class="grid" id="workGrid"></div></div>
+
+  <aside class="about">
+    <h3 id="aboutTitle">孤芳小隊 GOOD FUN TEAM</h3>
+    <p id="aboutP1">由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。</p>
+    <p id="aboutP2">ROTION87：以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。</p>
+    <p id="aboutP3">No.423：擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。</p>
+  </aside>
+</section>
+</main>
+
+<!-- 語言切換 -->
+<div class="lang-fab" id="langFab">
+  <button class="lang-btn active" data-lang="zh">中文</button>
+  <button class="lang-btn" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="ja">日本語</button>
+  <button class="lang-btn" data-lang="ko">한국어</button>
+</div>
+
+<!-- 作品彈窗 -->
+<div class="modal" id="modal">
+  <div class="backdrop" data-close="1"></div>
+  <div class="panel">
+    <div class="panel-head">
+      <div class="panel-title" id="mdTitle">—</div>
+      <button class="close" data-close="1">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="basket-wrap" style="position:relative;">
+        <img class="basket-bg" id="mdBasket" alt="">
+        <img class="work-photo" id="mdPhoto" alt="">
+      </div>
+      <div>
+        <div class="meta" id="mdMeta"></div>
+        <div class="desc" id="mdDesc"></div>
+        <div class="shop-link" id="mdShop" style="display:none;">
+          <a href="#" target="_blank" rel="noopener" id="mdShopText">前往購買頁面</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 打卡 -->
+<div class="punch-overlay" id="punchOverlay">
+  <div class="punch-dialog">
+    <h2>簽到成功！孤芳歡迎您ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩</h2>
+    <p id="punchTime"></p>
+    <small>點擊任意處關閉</small>
+  </div>
+</div>
+
+<script>
+// ========= 語系與共用函式 =========
+let currentLang='zh';
+
+function pick(obj){
+  if(!obj) return '';
+  if(obj[currentLang]) return obj[currentLang];
+  if(obj.en) return obj.en;
+  return obj.zh || '';
+}
+
+/* About 區塊文字 */
+const ABOUT={
+  title:{
+    zh:'孤芳小隊 GOOD FUN TEAM',
+    en:'GOOD FUN TEAM',
+    ja:'孤芳小隊 GOOD FUN TEAM'
+  },
+  p1:{
+    zh:'由 ROTION87 與 No.423 共同組成。兩人結合影像、造型與手作物件的創作實踐；以角色「鼠」與「雪貂」為象徵，探索日常與異想的交界，在真實與虛構之間建立屬於兩人的敘事世界。',
+    en:'Formed by ROTION87 and No.423, GOOD FUN TEAM combines photography, objects and handmade pieces. With the Rat and Ferret as their characters, they explore the border between everyday life and imagination, building a shared narrative world between reality and fiction.',
+    ja:'ROTION87 と No.423 の 2 人によるユニット。写真・造形・ハンドメイド作品を組み合わせ、「ネズミ」と「フェレット」のキャラクターを通して、日常と空想のあいだ、現実と虚構のあいだに 2 人だけのストーリー世界をつくっている。'
+  },
+  p2:{
+    zh:'ROTION87：以觀察為起點，延伸至書籍、物件與裝置的創作；喜歡做一些好玩的事，從日常中找到新的創作方式與表達語言。',
+    en:'ROTION87: Starts from simple observation and extends it into books, objects and installations. Enjoys doing playful things and keeps searching for new ways to express everyday life.',
+    ja:'ROTION87：観察を出発点に、本やオブジェ、インスタレーションへと広げていく。日常から新しい表現や遊び方を見つけるのが好き。'
+  },
+  p3:{
+    zh:'No.423：擅長平面視覺、字型、插畫與動態設計；利用上班後殘餘的設計力，做一些讓自己開心的創作。',
+    en:'No.423: Works mainly with graphic design, type, illustration and motion. Uses the leftover design energy after work to create things that simply feel fun and make themselves happy.',
+    ja:'No.423：グラフィック、フォント、イラスト、モーションデザインを得意とし、仕事終わりに残ったデザイン力で、自分が楽しくなる作品づくりを続けている。'
+  }
+};
+
+/* UI 文字 */
+const UI_TEXT={
+  shop:{
+    zh:'前往購買頁面',
+    en:'Go to shop page',
+    ja:'購入ページへ',
+    ko:'Go to shop page'
+  },
+  nfs:{
+    zh:'非賣品',
+    en:'NOT FOR SALE',
+    ja:'非売品',
+    ko:'NOT FOR SALE'
+  }
+};
 /* ========= 作品資料（非賣品排在最後） ========= */
 const WORKS=[
 
@@ -21,7 +386,8 @@ const WORKS=[
       en:'A no-alcohol project: photos of beer cans collected from 2023–2025 are turned into a scarf and sealed back into an aluminum can, as a soft contrast to the irreversible feeling of drinking.',
       ja:'2023〜2025 年に集めた缶ビールの写真をスカーフに仕立て、もう一度アルミ缶の中に封入した作品。お酒の「戻れなさ」と、その外側にあるやわらかいイメージを対比させた、ノンアルコールのプロジェクト。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 2. Hand-it 手心貼 */
@@ -44,7 +410,8 @@ const WORKS=[
       en:'I used to write things on my palm because I was afraid of forgetting, so I made a palm-shaped sticky note you can actually paste.',
       ja:'忘れないように手のひらにメモしていたところから生まれた、手の形の付箋。ほんとうに貼れる「手のひらメモ」。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 3. 空心 In Place */
@@ -67,7 +434,8 @@ const WORKS=[
       en:'A change of daily routine led me to notice hollow concrete blocks resting around the city. I cast my own concrete block as a book cover, and a fold-out zine inside echoes the idea of stacking and being placed.',
       ja:'暮らし方が変わったことで、街のあちこちに「置かれている」空心ブロックが気になりはじめた。手で流し込んだセメントブロックをブックカバーにし、中の折り本は「積み重ねられた形」をイメージしている。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 4. 30時間 2nd Edition */
@@ -90,7 +458,8 @@ const WORKS=[
       en:'Using a “30-hour clock” as a lens to observe the rhythm of Shinjuku and Shibuya. First published in 2024, re-edited and reprinted in 2025.',
       ja:'「30 時間制」で新宿・渋谷のリズムを見つめた写真ジン。2024 初版、2025 再版。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 5. 30時間 海報 */
@@ -113,7 +482,8 @@ const WORKS=[
       en:'A standalone poster extending the visual theme of the zine “30 Hours”.',
       ja:'写真ジン『30時間』のテーマを広げたポスター作品。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 6. PASTE PORT - 上街 */
@@ -136,7 +506,8 @@ const WORKS=[
       en:'A sticker-collecting zine based on visuals from Taiwan’s streets, functioning like a “passport you can paste”.',
       ja:'台湾の街のモチーフを集めた、貼って遊べるパスポート風ジン。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 7. PASTE PORT - 注意 */
@@ -159,7 +530,8 @@ const WORKS=[
       en:'A Tokyo-themed sticker zine based on warning and notice signs seen in the city.',
       ja:'東京の街の注意サインをテーマにしたステッカージン。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
   /* 8. 問號蠟燭籤 */
@@ -182,10 +554,11 @@ const WORKS=[
       en:'A fortune-stick object combining Taiwan’s question-mark birthday candles with Japanese papier-mâché craft.',
       ja:'台湾の「？ろうそく」と張り子を組み合わせたおみくじ作品。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
-  /* 9. 馬年賀卡 */
+  /* 9. 孤芳小隊 2026 馬年賀卡 */
   {
     id:'horsecard',
     cover:'work-horsecards.png',
@@ -205,11 +578,11 @@ const WORKS=[
       en:'A hand-sculpted, risograph-printed New Year card for the Year of the Horse.',
       ja:'粘土造形とリソグラフで制作した馬年年賀カード。'
     },
-    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560'
+    shop:'https://myship.7-11.com.tw/general/detail/GM2511188554560',
+    notForSale:false
   },
 
-
-  /* === 非賣品開始：仍然排最後 === */
+  /* === 非賣品開始 === */
 
   /* 10. ピーポくん 張り子（非賣品） */
   {
@@ -231,7 +604,8 @@ const WORKS=[
       en:'A papier-mâché version of the mascot of the Tokyo Metropolitan Police.',
       ja:'警視庁マスコットの張り子版。'
     },
-    shop:''
+    shop:'',
+    notForSale:true
   },
 
   /* 11. 孤芳收音機（非賣品） */
@@ -254,7 +628,8 @@ const WORKS=[
       en:'A radio-shaped object symbolizing connection between two characters in the noise of the city.',
       ja:'都市ノイズのなかでつながり続ける 2 人を象徴する作品。'
     },
-    shop:''
+    shop:'',
+    notForSale:true
   },
 
   /* 12. 意嘶易嘶啦 2025 蛇年賀卡（非賣品） */
@@ -277,7 +652,145 @@ const WORKS=[
       en:'A New Year card based on the winding, sliding motion of a snake.',
       ja:'蛇の動きをイメージして作った年賀カード。'
     },
-    shop:''
+    shop:'',
+    notForSale:true
   }
 
 ];
+
+/* ========= 作品牆渲染 ========= */
+const grid=document.getElementById('workGrid');
+let currentOpenId=null;
+
+function renderGrid(){
+  grid.innerHTML=WORKS.map(w=>`
+    <article class="card" data-id="${w.id}">
+      <img class="star" src="sticker_yellow.png" alt="">
+      <img class="photo" src="${w.cover}" alt="">
+      ${w.notForSale ? `<div class="badge-nfs">${pick(UI_TEXT.nfs)}</div>` : ''}
+      <div class="name">${pick(w.title)}</div>
+    </article>
+  `).join('');
+}
+
+/* ========= 彈窗控制 ========= */
+const modal=document.getElementById('modal');
+const mdTitle=document.getElementById('mdTitle');
+const mdMeta=document.getElementById('mdMeta');
+const mdDesc=document.getElementById('mdDesc');
+const mdPhoto=document.getElementById('mdPhoto');
+const mdBasket=document.getElementById('mdBasket');
+const mdShop=document.getElementById('mdShop');
+const mdShopA=document.getElementById('mdShopText');
+
+function fillModal(w){
+  mdTitle.textContent=pick(w.title);
+  mdMeta.textContent=pick(w.meta);
+  mdDesc.textContent=pick(w.desc);
+  mdPhoto.src=w.cover;
+  mdBasket.src=w.basket;
+
+  if(w.shop){
+    mdShop.style.display='block';
+    mdShopA.href=w.shop;
+  }else{
+    mdShop.style.display='none';
+    mdShopA.removeAttribute('href');
+  }
+  mdShopA.textContent=pick(UI_TEXT.shop);
+}
+
+function openModal(id){
+  const w=WORKS.find(x=>x.id===id);
+  if(!w) return;
+  currentOpenId=id;
+  fillModal(w);
+  modal.classList.add('show');
+}
+function closeModal(){
+  currentOpenId=null;
+  modal.classList.remove('show');
+}
+
+grid.addEventListener('click',e=>{
+  const card=e.target.closest('.card');
+  if(card) openModal(card.dataset.id);
+});
+modal.addEventListener('click',e=>{
+  if(e.target.dataset.close) closeModal();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal();
+});
+
+/* ========= 打卡機 scroll ========= */
+const punchCard=document.getElementById('punchCard');
+const punchMachine=document.getElementById('punchMachine');
+const punchOverlay=document.getElementById('punchOverlay');
+const punchTimeEl=document.getElementById('punchTime');
+const punchTrack=document.querySelector('.punch-track');
+let hasPunched=false;
+
+function updatePunchFromScroll(){
+  const doc=document.documentElement;
+  const scrollTop=doc.scrollTop || document.body.scrollTop;
+  const scrollHeight=(doc.scrollHeight-doc.clientHeight)||1;
+  const ratio=Math.max(0,Math.min(1,scrollTop/scrollHeight));
+
+  const trackHeight=punchTrack.clientHeight;
+  const cardHeight=punchCard.clientHeight;
+  const machineHeight=punchMachine.clientHeight;
+  const bottomLimit=trackHeight-cardHeight-machineHeight*0.3;
+  const pos=bottomLimit*ratio;
+
+  punchCard.style.transform=`translate(-50%,${pos}px)`;
+
+  if(!hasPunched && ratio>=0.98){
+    hasPunched=true;
+    punchTimeEl.textContent=new Date().toLocaleString('zh-TW');
+    punchOverlay.classList.add('show');
+  }
+}
+window.addEventListener('scroll',updatePunchFromScroll);
+window.addEventListener('load',()=>{
+  renderGrid();
+  applyLangToAbout();
+  updatePunchFromScroll();
+});
+window.addEventListener('resize',updatePunchFromScroll);
+punchOverlay.addEventListener('click',()=>{
+  punchOverlay.classList.remove('show');
+});
+
+/* ========= 語言切換 ========= */
+const langBtns=document.querySelectorAll('.lang-btn');
+const aboutTitleEl=document.getElementById('aboutTitle');
+const aboutP1El=document.getElementById('aboutP1');
+const aboutP2El=document.getElementById('aboutP2');
+const aboutP3El=document.getElementById('aboutP3');
+
+function applyLangToAbout(){
+  aboutTitleEl.textContent=pick(ABOUT.title);
+  aboutP1El.textContent=pick(ABOUT.p1);
+  aboutP2El.textContent=pick(ABOUT.p2);
+  aboutP3El.textContent=pick(ABOUT.p3);
+}
+
+langBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    langBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLang=btn.dataset.lang;
+
+    renderGrid();
+    applyLangToAbout();
+
+    if(currentOpenId){
+      const w=WORKS.find(x=>x.id===currentOpenId);
+      if(w) fillModal(w);
+    }
+  });
+});
+</script>
+</body>
+</html>
