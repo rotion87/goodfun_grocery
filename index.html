@@ -6,6 +6,7 @@
 <title> 孤芳小隊 GOOD FUN TEAM </title>
 <meta name="color-scheme" content="light only" />
 <link rel="icon" type="image/png" href="favicon.png" />
+
 <style>
 :root{
   --ink:#121212;
@@ -23,334 +24,217 @@ body{
   background-size:100% auto;
 }
 
-/* ㄅㄆㄇ模式：字稍微放大一點 */
+/* ㄅㄆㄇ模式字體 */
 body.bpmf-mode{
   font-size:15px;
   line-height:1.8;
 }
 
-/* 左側打卡滑道 */
+/* 左側打卡 */
 .punch-rail{
   position:fixed;
-  left:10px;
-  top:60px;
-  bottom:60px;
-  width:90px;
-  z-index:40;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
+  left:10px; top:60px; bottom:60px;
+  width:90px; z-index:40;
+  display:flex; align-items:flex-start; justify-content:center;
   pointer-events:none;
 }
 .punch-track{
   position:relative;
-  width:60px;
-  height:100%;
+  width:60px; height:100%;
 }
 #punchCard{
-  position:absolute;
-  width:72px;
-  left:50%;
-  transform:translate(-50%,0);
+  position:absolute; width:72px; left:50%;
+  transform:translateX(-50%);
   filter:drop-shadow(2px 4px 4px rgba(0,0,0,.3));
 }
 #punchMachine{
-  position:absolute;
-  width:80px;
-  left:50%;
-  bottom:-4px;
+  position:absolute; width:80px; left:50%; bottom:-4px;
   transform:translateX(-50%);
 }
 
 /* Banner */
-header{
-  position:relative;
-  z-index:2;
-  padding:0;
-}
-.bar{
-  max-width:1200px;
-  margin:0 auto;
-}
-.banner-box{
-  width:100%;
-  border-radius:16px;
-  overflow:hidden;
-}
-.banner{
-  display:block;
-  width:100%;
-  height:auto;
-  object-fit:cover;
-}
-@media(max-width:768px){
-  .banner{height:150px;}
-}
+header{position:relative; z-index:2;}
+.bar{max-width:1200px; margin:0 auto;}
+.banner-box{width:100%; border-radius:16px; overflow:hidden;}
+.banner{width:100%; height:auto; object-fit:cover;}
+@media(max-width:768px){ .banner{height:150px;} }
 
 /* 主內容 */
-.wrap{
-  max-width:1200px;
-  margin:16px auto 120px;
-  padding:0 12px;
-}
-.main{
-  display:grid;
-  gap:20px;
-  grid-template-columns:1fr;
-}
-@media(min-width:1024px){
-  .main{grid-template-columns:1.4fr .6fr}
-}
+.wrap{max-width:1200px; margin:16px auto 120px; padding:0 12px;}
+.main{display:grid; gap:20px; grid-template-columns:1fr;}
+@media(min-width:1024px){.main{grid-template-columns:1.4fr .6fr;}}
 
-/* 右側介紹 */
+/* About */
 .about{
   background:rgba(255,247,202,.97);
-  border:3px solid #000;
-  border-radius:18px;
+  border:3px solid #000; border-radius:18px;
   padding:16px 18px;
   box-shadow:var(--shadow-med);
 }
-.about h3{margin:6px 0 10px;font-size:18px}
-.about p{margin:0 0 10px;line-height:1.7}
+.about p{line-height:1.7; margin-bottom:10px;}
 
 /* 作品牆 */
 .grid{
-  display:grid;
-  gap:22px;
-  grid-template-columns:1fr;
+  display:grid; gap:22px; grid-template-columns:1fr;
 }
 @media(min-width:620px){
-  .grid{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr);}
 }
 
 .card{
-  position:relative;
-  cursor:pointer;
+  position:relative; cursor:pointer;
   aspect-ratio:4/3;
 }
 .star{
-  position:absolute;
-  inset:0;
-  margin:auto;
-  width:88%;
-  object-fit:contain;
+  position:absolute; inset:0; margin:auto; width:88%;
   filter:drop-shadow(4px 4px 0 #000);
 }
 .photo{
-  position:absolute;
-  inset:0;
-  margin:auto;
-  width:min(72%,540px);
-  height:min(72%,540px);
+  position:absolute; inset:0; margin:auto;
+  width:min(72%,540px); height:min(72%,540px);
   object-fit:contain;
   filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));
 }
 
-/* 非賣品小標章 */
+/* 非賣品標章 */
 .badge-nfs{
-  position:absolute;
-  top:10px;
-  left:12px;
-  padding:2px 8px;
-  font-size:11px;
-  font-weight:700;
-  border-radius:999px;
-  background:#fff;
-  border:2px solid #000;
+  position:absolute; top:10px; left:12px;
+  padding:2px 8px; font-size:11px;
+  border-radius:999px; background:#fff;
+  border:2px solid #000; font-weight:700;
   box-shadow:2px 2px 0 #000;
 }
 
 /* 作品名 */
 .name{
-  position:absolute;
-  left:50%;
-  bottom:8%;
-  transform:translateX(-50%);
-  font-weight:900;
-  font-size:15px;
-  white-space:nowrap;
+  position:absolute; left:50%; bottom:8%; transform:translateX(-50%);
+  font-weight:900; font-size:15px; white-space:nowrap;
   color:#fff;
   text-shadow:
     -2px -2px 0 #c90000, 2px -2px 0 #c90000,
     -2px  2px 0 #c90000, 2px  2px 0 #c90000,
      0px  3px 4px rgba(0,0,0,.55);
 }
-@media(min-width:768px){.name{font-size:18px}}
+@media(min-width:768px){.name{font-size:18px;}}
 
-/* IG 圖示 */
+/* IG */
 .ig-icons{
-  position:fixed;
-  top:16px;
-  right:20px;
-  z-index:200;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+  position:fixed; top:16px; right:20px; z-index:200;
+  display:flex; flex-direction:column; gap:10px;
 }
 .ig-icons img{
-  width:44px;
-  height:44px;
-  border:2px solid #000;
-  border-radius:10px;
-  background:#fff;
-  box-shadow:2px 2px 0 #000;
+  width:44px; height:44px;
+  border:2px solid #000; background:#fff;
+  border-radius:10px; box-shadow:2px 2px 0 #000;
 }
 
-/* 語言切換 */
+/* 語言按鈕 */
 .lang-fab{
-  position:fixed;
-  right:14px;
-  bottom:14px;
-  z-index:150;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+  position:fixed; right:14px; bottom:14px; z-index:150;
+  display:flex; flex-direction:column; gap:6px;
 }
 .lang-btn{
   min-width:80px;
   padding:4px 10px;
   border-radius:12px;
-  background:#fff;
   border:2px solid #000;
+  background:#fff;
   font-size:13px;
-  cursor:pointer;
   box-shadow:2px 2px 0 #000;
-  text-align:center;
+  cursor:pointer;
 }
 .lang-btn.active{
   outline:3px solid var(--orange);
 }
 
 /* 作品彈窗 */
-.modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:90;
-}
-.modal.show{display:flex}
-.backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.5);
-}
+.modal{position:fixed; inset:0; display:none; z-index:90; align-items:center; justify-content:center;}
+.modal.show{display:flex;}
+.backdrop{position:absolute; inset:0; background:rgba(0,0,0,.5);}
 .panel{
-  position:relative;
-  z-index:1;
-  background:#fff;
-  max-width:min(1100px,92vw);
-  border:3px solid #000;
-  border-radius:24px;
-  overflow:hidden;
-  box-shadow:var(--shadow-big);
+  position:relative; background:#fff;
+  border:3px solid #000; border-radius:24px;
+  overflow:hidden; max-width:min(1100px,92vw);
 }
 .panel-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 18px;
+  background:#fffce7; padding:14px 18px;
   border-bottom:3px solid #000;
-  background:#fffce7;
+  display:flex; justify-content:space-between; align-items:center;
 }
-.panel-title{font-weight:900;font-size:18px}
 .close{
-  border:2px solid #000;
-  border-radius:10px;
-  background:#ffef6a;
-  padding:6px 10px;
-  font-weight:900;
-  cursor:pointer;
+  border:2px solid #000; border-radius:10px;
+  padding:6px 10px; background:#ffef6a;
+  font-weight:900; cursor:pointer;
   box-shadow:2px 2px 0 #000;
 }
 .panel-body{
-  display:grid;
-  gap:18px;
-  padding:18px;
+  display:grid; gap:18px; padding:18px;
   grid-template-columns:1.1fr .9fr;
 }
-@media(max-width:860px){
-  .panel-body{grid-template-columns:1fr}
-}
-.basket-bg{
-  width:100%;
-  display:block;
-  border-radius:16px;
-}
+@media(max-width:860px){.panel-body{grid-template-columns:1fr;}}
+
+.basket-bg{width:100%; border-radius:16px;}
 .work-photo{
-  position:absolute;
-  inset:0;
-  margin:auto;
-  max-width:min(85%,720px);
-  max-height:80%;
+  position:absolute; inset:0; margin:auto;
+  max-width:min(85%,720px); max-height:80%;
   object-fit:contain;
-  filter:drop-shadow(0 12px 20px rgba(0,0,0,.25));
 }
 
-.meta{
-  color:#666;
-  font-size:14px;
-  margin:.2rem 0 1rem;
-}
-.desc{
-  white-space:pre-wrap;
-  line-height:1.7;
-}
-
-/* 🛒 購物連結 */
-.shop-link{margin-top:16px;}
+/* shop 鍵 */
 .shop-link a{
-  display:inline-block;
-  padding:8px 14px;
-  border-radius:999px;
-  border:2px solid #000;
-  background:#ffef6a;
-  font-weight:700;
-  font-size:14px;
-  text-decoration:none;
-  color:#000;
+  display:inline-block; padding:8px 14px;
+  border-radius:999px; background:#ffef6a;
+  border:2px solid #000; font-size:14px;
   box-shadow:2px 2px 0 #000;
-  transition:transform .15s,box-shadow .15s;
+  text-decoration:none; color:#000;
+  transition:transform .15s, box-shadow .15s;
 }
 .shop-link a:hover{
   transform:translate(-1px,-1px);
   box-shadow:3px 3px 0 #000;
 }
 
-/* ㄅㄆㄇ 模式購物鍵彈一下 */
+/* ㄅㄆㄇ 按鈕彈一下 */
 .shop-link a.bpmf-pop{
-  animation:bpmf-bump .25s;
+  animation:bump .25s;
 }
-@keyframes bpmf-bump{
+@keyframes bump{
   0%{transform:scale(1);}
   50%{transform:scale(1.06);}
-  100%{transform:scale(1);}
+ 100%{transform:scale(1);}
 }
 
-/* 打卡提示 */
+/* 彩帶掉落 */
+.confetti, .cute-fetti{
+  position:fixed; top:-16px; left:0;
+  pointer-events:none; opacity:0;
+  animation:confettiDrop .8s ease-out forwards;
+  z-index:300;
+}
+@keyframes confettiDrop{
+  0%{transform:translateY(0) rotate(0deg); opacity:1;}
+ 80%{opacity:1;}
+100%{transform:translateY(110vh) rotate(360deg); opacity:0;}
+}
+
+/* 打卡彈窗 */
 .punch-overlay{
-  position:fixed;
-  inset:0;
+  position:fixed; inset:0;
   background:rgba(0,0,0,.55);
-  display:none;
-  align-items:center;
-  justify-content:center;
+  display:none; align-items:center; justify-content:center;
   z-index:250;
 }
-.punch-overlay.show{display:flex}
+.punch-overlay.show{display:flex;}
 .punch-dialog{
-  background:#fffce7;
-  border-radius:20px;
+  background:#fffce7; border-radius:20px;
   border:3px solid #000;
-  padding:18px 24px;
-  max-width:280px;
+  padding:18px 24px; max-width:280px;
   text-align:center;
 }
 </style>
 </head>
-<body>
 
+<body>
 <!-- IG -->
 <div class="ig-icons">
   <a href="https://www.instagram.com/rotion87" target="_blank" rel="noopener">
@@ -419,7 +303,7 @@ header{
       <div>
         <div class="meta" id="mdMeta"></div>
         <div class="desc" id="mdDesc"></div>
-        <div class="shop-link" id="mdShop" style="display:none;">
+        <div class="shop-link" id="mdShop" style="margin-top:16px; display:none;">
           <a href="#" target="_blank" rel="noopener" id="mdShopText">前往購買頁面</a>
         </div>
       </div>
@@ -427,7 +311,7 @@ header{
   </div>
 </div>
 
-<!-- 打卡 -->
+<!-- 打卡彈窗 -->
 <div class="punch-overlay" id="punchOverlay">
   <div class="punch-dialog">
     <h2>簽到成功！ 孤芳歡迎您ₒ₍₊˒₃˓₎ₒ▁▂▃▅▆▓▒░✩</h2>
@@ -437,9 +321,8 @@ header{
 </div>
 
 <script>
-// ========= 語系與共用函式 =========
+// ========= 語系 & 共用 pick =========
 let currentLang = 'zh';
-
 function pick(obj){
   if(!obj) return '';
   if(obj[currentLang]) return obj[currentLang];
@@ -447,7 +330,7 @@ function pick(obj){
   return obj.zh || '';
 }
 
-/* About 區塊文字 */
+/* About 文字 */
 const ABOUT = {
   title:{
     zh:'孤芳小隊 GOOD FUN TEAM',
@@ -479,7 +362,7 @@ const ABOUT = {
   }
 };
 
-/* UI 文字 */
+/* UI 文案 */
 const UI_TEXT = {
   shop:{
     zh:'前往購買頁面',
@@ -754,21 +637,21 @@ const WORKS = [
     notForSale:false
   },
 
-  /* 非賣品區 */
+  /* 非賣品 */
   {
     id:'pipo',
     cover:'work-pipo.png',
     basket:'basket_green.png',
     title:{
       zh:'ピーポくん 張り子',
-      en:'PIPO-kun Papier-mâché ',
+      en:'PIPO-kun Papier-mâché',
       ja:'ピーポくん 張り子',
       ko:'피포군 하리코',
       bpmf:'PIPO 君 張り子（ㄆㄧ ㄆㄛ ㄐㄩㄣ）(੭ ˙ᗜ˙ )੭'
     },
     meta:{
       zh:'立體角色張子｜約 20 cm',
-      en:'Papier-mâché figure | about 20 cm ',
+      en:'Papier-mâché figure | about 20 cm',
       ja:'立体張り子フィギュア｜約 20 cm',
       ko:'입체 하리코｜약 20cm',
       bpmf:'立體角色張子｜約 20 cm'
@@ -841,12 +724,12 @@ const WORKS = [
   }
 ];
 
-/* ========= 作品牆渲染 ========= */
+/* ========= 作品牆 render ========= */
 const grid = document.getElementById('workGrid');
 let currentOpenId = null;
 
 function renderGrid(){
-  grid.innerHTML = WORKS.map(w => `
+  grid.innerHTML = WORKS.map(w=>`
     <article class="card" data-id="${w.id}">
       <img class="star" src="sticker_yellow.png" alt="">
       <img class="photo" src="${w.cover}" alt="">
@@ -856,20 +739,20 @@ function renderGrid(){
   `).join('');
 }
 
-/* ========= 彈窗控制 ========= */
+/* ========= Modal ========= */
 const modal = document.getElementById('modal');
 const mdTitle = document.getElementById('mdTitle');
-const mdMeta = document.getElementById('mdMeta');
-const mdDesc = document.getElementById('mdDesc');
+const mdMeta  = document.getElementById('mdMeta');
+const mdDesc  = document.getElementById('mdDesc');
 const mdPhoto = document.getElementById('mdPhoto');
-const mdBasket = document.getElementById('mdBasket');
-const mdShop = document.getElementById('mdShop');
+const mdBasket= document.getElementById('mdBasket');
+const mdShop  = document.getElementById('mdShop');
 const mdShopA = document.getElementById('mdShopText');
 
 function fillModal(w){
   mdTitle.textContent = pick(w.title);
-  mdMeta.textContent = pick(w.meta);
-  mdDesc.textContent = pick(w.desc);
+  mdMeta.textContent  = pick(w.meta);
+  mdDesc.textContent  = pick(w.desc);
   mdPhoto.src = w.cover;
   mdBasket.src = w.basket;
 
@@ -882,9 +765,8 @@ function fillModal(w){
   }
   mdShopA.textContent = pick(UI_TEXT.shop);
 }
-
 function openModal(id){
-  const w = WORKS.find(x => x.id === id);
+  const w = WORKS.find(x=>x.id===id);
   if(!w) return;
   currentOpenId = id;
   fillModal(w);
@@ -906,12 +788,31 @@ document.addEventListener('keydown', e=>{
   if(e.key === 'Escape') closeModal();
 });
 
+/* ========= 彩帶動畫 ========= */
+function dropConfetti(){
+  const count = 22;
+  const cuteMode = (currentLang === 'bpmf');
+  const symbols = cuteMode
+    ? ['✧','❀','♡','⋆','｡']
+    : ['🎉','✨','⭐','💛'];
+
+  for(let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    el.className = cuteMode ? 'cute-fetti' : 'confetti';
+    el.style.left = (Math.random()*100) + 'vw';
+    el.style.fontSize = (16 + Math.random()*10) + 'px';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 900);
+  }
+}
+
 /* ========= 打卡機 scroll ========= */
-const punchCard = document.getElementById('punchCard');
-const punchMachine = document.getElementById('punchMachine');
-const punchOverlay = document.getElementById('punchOverlay');
+const punchCard   = document.getElementById('punchCard');
+const punchMachine= document.getElementById('punchMachine');
+const punchOverlay= document.getElementById('punchOverlay');
 const punchTimeEl = document.getElementById('punchTime');
-const punchTrack = document.querySelector('.punch-track');
+const punchTrack  = document.querySelector('.punch-track');
 let hasPunched = false;
 
 function updatePunchFromScroll(){
@@ -921,9 +822,9 @@ function updatePunchFromScroll(){
   const ratio = Math.max(0, Math.min(1, scrollTop / scrollHeight));
 
   const trackHeight = punchTrack.clientHeight;
-  const cardHeight = punchCard.clientHeight;
+  const cardHeight  = punchCard.clientHeight;
   const machineHeight = punchMachine.clientHeight;
-  const bottomLimit = trackHeight - cardHeight - machineHeight * 0.3;
+  const bottomLimit = trackHeight - cardHeight - machineHeight*0.3;
   const pos = bottomLimit * ratio;
 
   punchCard.style.top = pos + 'px';
@@ -932,28 +833,31 @@ function updatePunchFromScroll(){
     hasPunched = true;
     punchTimeEl.textContent = new Date().toLocaleString('zh-TW');
     punchOverlay.classList.add('show');
+    dropConfetti(); // ★ 完成打卡→掉彩帶 / 可愛符號
   }
 }
-window.addEventListener('scroll', updatePunchFromScroll);
-window.addEventListener('resize', updatePunchFromScroll);
+
+punchOverlay.addEventListener('click', ()=>{
+  punchOverlay.classList.remove('show');
+});
 
 /* ========= 語言切換 ========= */
 const langBtns = document.querySelectorAll('.lang-btn');
 const aboutTitleEl = document.getElementById('aboutTitle');
-const aboutP1El = document.getElementById('aboutP1');
-const aboutP2El = document.getElementById('aboutP2');
-const aboutP3El = document.getElementById('aboutP3');
+const aboutP1El    = document.getElementById('aboutP1');
+const aboutP2El    = document.getElementById('aboutP2');
+const aboutP3El    = document.getElementById('aboutP3');
 
 function applyLangToAbout(){
   aboutTitleEl.textContent = pick(ABOUT.title);
-  aboutP1El.textContent = pick(ABOUT.p1);
-  aboutP2El.textContent = pick(ABOUT.p2);
-  aboutP3El.textContent = pick(ABOUT.p3);
+  aboutP1El.textContent    = pick(ABOUT.p1);
+  aboutP2El.textContent    = pick(ABOUT.p2);
+  aboutP3El.textContent    = pick(ABOUT.p3);
 }
 
 langBtns.forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    langBtns.forEach(b => b.classList.remove('active'));
+    langBtns.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     currentLang = btn.dataset.lang;
 
@@ -967,13 +871,13 @@ langBtns.forEach(btn=>{
     applyLangToAbout();
 
     if(currentOpenId){
-      const w = WORKS.find(x => x.id === currentOpenId);
+      const w = WORKS.find(x=>x.id===currentOpenId);
       if(w) fillModal(w);
     }
   });
 });
 
-/* ㄅㄆㄇ 模式：點購物鍵小彈一下 */
+/* ㄅㄆㄇ模式：點購物鍵小彈一下 */
 mdShopA.addEventListener('click', ()=>{
   if(currentLang !== 'bpmf') return;
   mdShopA.classList.remove('bpmf-pop');
@@ -987,9 +891,8 @@ window.addEventListener('load', ()=>{
   applyLangToAbout();
   updatePunchFromScroll();
 });
-punchOverlay.addEventListener('click', ()=>{
-  punchOverlay.classList.remove('show');
-});
+window.addEventListener('scroll', updatePunchFromScroll);
+window.addEventListener('resize', updatePunchFromScroll);
 </script>
 </body>
 </html>
