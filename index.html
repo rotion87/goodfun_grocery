@@ -20,7 +20,8 @@
 body{
   font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",Arial;
   color:var(--ink);
-  background:#eafcff url("bg-market.png") center top repeat-y fixed;
+  /* 背景拿掉 fixed，減少手機卡頓 */
+  background:#eafcff url("bg-market.webp") center top repeat-y;
   background-size:100% auto;
 }
 
@@ -55,9 +56,17 @@ body.bpmf-mode{
 /* Banner */
 header{position:relative; z-index:2;}
 .bar{max-width:1200px; margin:0 auto;}
-.banner-box{width:100%; border-radius:16px; overflow:hidden;}
-.banner{width:100%; height:auto; object-fit:cover;}
-@media(max-width:768px){ .banner{height:150px;} }
+.banner-box{
+  width:100%; border-radius:16px; overflow:hidden;
+  /* 保留高度避免 CLS */
+  aspect-ratio: 16 / 5;
+}
+.banner{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+@media(max-width:768px){
+  .banner-box{aspect-ratio: 16 / 7;}
+}
 
 /* 主內容 */
 .wrap{max-width:1200px; margin:16px auto 120px; padding:0 12px;}
@@ -71,7 +80,6 @@ header{position:relative; z-index:2;}
   padding:16px 18px;
   box-shadow:var(--shadow-med);
 }
-.about h3{margin:6px 0 10px;font-size:18px}
 .about p{line-height:1.7; margin-bottom:10px;}
 
 /* 作品牆 */
@@ -92,7 +100,7 @@ header{position:relative; z-index:2;}
 }
 .photo{
   position:absolute; inset:0; margin:auto;
-  width:min(72%,540px); height:min(72%,540px);
+  width:min(72%,540px); height:auto;
   object-fit:contain;
   filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));
 }
@@ -156,14 +164,12 @@ header{position:relative; z-index:2;}
   position:relative; background:#fff;
   border:3px solid #000; border-radius:24px;
   overflow:hidden; max-width:min(1100px,92vw);
-  box-shadow:var(--shadow-big);
 }
 .panel-head{
   background:#fffce7; padding:14px 18px;
   border-bottom:3px solid #000;
   display:flex; justify-content:space-between; align-items:center;
 }
-.panel-title{font-weight:900;font-size:18px}
 .close{
   border:2px solid #000; border-radius:10px;
   padding:6px 10px; background:#ffef6a;
@@ -181,22 +187,10 @@ header{position:relative; z-index:2;}
   position:absolute; inset:0; margin:auto;
   max-width:min(85%,720px); max-height:80%;
   object-fit:contain;
-  filter:drop-shadow(0 12px 20px rgba(0,0,0,.25));
-}
-
-/* meta & 說明文字 */
-.meta{
-  color:#666;
-  font-size:14px;
-  margin:.2rem 0 1rem;
-}
-.desc{
-  white-space:pre-wrap;
-  line-height:1.7;
+  aspect-ratio:1/1;
 }
 
 /* shop 鍵 */
-.shop-link{margin-top:16px;}
 .shop-link a{
   display:inline-block; padding:8px 14px;
   border-radius:999px; background:#ffef6a;
@@ -210,39 +204,27 @@ header{position:relative; z-index:2;}
   box-shadow:3px 3px 0 #000;
 }
 
-/* ㄅㄆㄇ 彈一下 */
+/* ㄅㄆㄇ 按鈕彈一下 */
 .shop-link a.bpmf-pop{
   animation:bump .25s;
 }
 @keyframes bump{
   0%{transform:scale(1);}
   50%{transform:scale(1.06);}
-  100%{transform:scale(1);}
+ 100%{transform:scale(1);}
 }
 
-/* 彩帶掉落(變慢版 1.5s) */
-.confetti,
-.cute-fetti{
-  position:fixed;
-  top:-16px;
-  left:0;
-  pointer-events:none;
-  opacity:0;
-  animation:confettiDrop 1.5s ease-out forwards;
+/* 彩帶掉落：時間拉長一點 */
+.confetti, .cute-fetti{
+  position:fixed; top:-16px; left:0;
+  pointer-events:none; opacity:0;
+  animation:confettiDrop 1.2s ease-out forwards;
   z-index:300;
 }
 @keyframes confettiDrop{
-  0%{
-    transform:translateY(0) rotate(0deg);
-    opacity:1;
-  }
-  80%{
-    opacity:1;
-  }
-  100%{
-    transform:translateY(110vh) rotate(360deg);
-    opacity:0;
-  }
+  0%{transform:translateY(0) rotate(0deg); opacity:1;}
+ 80%{opacity:1;}
+100%{transform:translateY(110vh) rotate(360deg); opacity:0;}
 }
 
 /* 打卡彈窗 */
@@ -259,11 +241,17 @@ header{position:relative; z-index:2;}
   padding:18px 24px; max-width:280px;
   text-align:center;
 }
-  /* 打卡時間字變大一點 */
+.punch-dialog h2{
+  font-size:18px;
+  margin-bottom:8px;
+}
 #punchTime{
-  font-size:18px;      /* 字體變大 */
-  font-weight:700;     /* 粗體一點比較好讀 */
-  margin:10px 0 6px;   /* 跟標題、small 拉開一點距離 */
+  font-size:16px;
+  font-weight:700;
+  margin:4px 0 6px;
+}
+.punch-dialog small{
+  font-size:12px;
 }
 </style>
 </head>
@@ -282,8 +270,8 @@ header{position:relative; z-index:2;}
 <!-- 左側打卡 -->
 <div class="punch-rail">
   <div class="punch-track">
-    <img id="punchCard" src="punchcard.png" alt="">
-    <img id="punchMachine" src="punchmachine.png" alt="">
+    <img id="punchCard" src="punchcard.webp" alt="">
+    <img id="punchMachine" src="punchmachine.webp" alt="">
   </div>
 </div>
 
@@ -291,7 +279,7 @@ header{position:relative; z-index:2;}
 <header>
   <div class="bar">
     <div class="banner-box">
-      <img class="banner" src="banner-goodfunteam.png" alt="">
+      <img class="banner" src="banner-goodfunteam.webp" alt="GOOD FUN TEAM">
     </div>
   </div>
 </header>
@@ -332,12 +320,12 @@ header{position:relative; z-index:2;}
     <div class="panel-body">
       <div class="basket-wrap" style="position:relative;">
         <img class="basket-bg" id="mdBasket" alt="">
-        <img class="work-photo" id="mdPhoto" alt="">
+        <img class="work-photo" id="mdPhoto" alt="" loading="lazy">
       </div>
       <div>
         <div class="meta" id="mdMeta"></div>
         <div class="desc" id="mdDesc"></div>
-        <div class="shop-link" id="mdShop" style="display:none;">
+        <div class="shop-link" id="mdShop" style="margin-top:16px; display:none;">
           <a href="#" target="_blank" rel="noopener" id="mdShopText">前往購買頁面</a>
         </div>
       </div>
@@ -353,8 +341,9 @@ header{position:relative; z-index:2;}
     <small>點擊任意處關閉</small>
   </div>
 </div>
+
 <script>
-// ========= 語系 & 共用 pick =========
+/* ========= 語系 & 共用 pick ========= */
 let currentLang = 'zh';
 function pick(obj){
   if(!obj) return '';
@@ -363,7 +352,7 @@ function pick(obj){
   return obj.zh || '';
 }
 
-/* About 文字（完整版） */
+/* About 文字 */
 const ABOUT = {
   title:{
     zh:'孤芳小隊 GOOD FUN TEAM',
@@ -419,8 +408,8 @@ const SHOP_URL = 'https://myship.7-11.com.tw/general/detail/GM2511188554560';
 const WORKS = [
   {
     id:'softdrinks',
-    cover:'work-softdrinks.png',
-    basket:'basket_orange.png',
+    cover:'work-softdrinks.webp',
+    basket:'basket_orange.webp',
     title:{
       zh:'Soft Drinks《軟》罐裝絲巾',
       en:'Soft Drinks "Soft" Scarf in a Can',
@@ -447,8 +436,8 @@ const WORKS = [
   },
   {
     id:'handit',
-    cover:'work-handit.png',
-    basket:'basket_red.png',
+    cover:'work-handit.webp',
+    basket:'basket_red.webp',
     title:{
       zh:'Hand-it 手心貼',
       en:'Hand-it Palm Sticky Note',
@@ -475,8 +464,8 @@ const WORKS = [
   },
   {
     id:'hollow',
-    cover:'work-hollow.png',
-    basket:'basket_blue.png',
+    cover:'work-hollow.webp',
+    basket:'basket_blue.webp',
     title:{
       zh:'空心 IN PLACE',
       en:'Hollow IN PLACE',
@@ -503,8 +492,8 @@ const WORKS = [
   },
   {
     id:'thirty',
-    cover:'work-30hours.png',
-    basket:'basket_green.png',
+    cover:'work-30hours.webp',
+    basket:'basket_green.webp',
     title:{
       zh:'30時間 2nd Edition',
       en:'30 Hours 2nd Edition',
@@ -531,8 +520,8 @@ const WORKS = [
   },
   {
     id:'thirty_poster',
-    cover:'work-30hours-poster.png',
-    basket:'basket_green.png',
+    cover:'work-30hours-poster.webp',
+    basket:'basket_green.webp',
     title:{
       zh:'30時間 海報',
       en:'30 Hours Poster',
@@ -559,8 +548,8 @@ const WORKS = [
   },
   {
     id:'pasteport_street',
-    cover:'work-pasteport-street.png',
-    basket:'basket_blue.png',
+    cover:'work-pasteport-street.webp',
+    basket:'basket_blue.webp',
     title:{
       zh:'PASTE PORT - 上街',
       en:'PASTE PORT - Street',
@@ -587,8 +576,8 @@ const WORKS = [
   },
   {
     id:'pasteport_notice',
-    cover:'work-pasteport-notice.png',
-    basket:'basket_blue.png',
+    cover:'work-pasteport-notice.webp',
+    basket:'basket_blue.webp',
     title:{
       zh:'PASTE PORT - 注意',
       en:'PASTE PORT - Notice',
@@ -615,8 +604,8 @@ const WORKS = [
   },
   {
     id:'questioncandle',
-    cover:'work-questioncandle.png',
-    basket:'basket_orange.png',
+    cover:'work-questioncandle.webp',
+    basket:'basket_orange.webp',
     title:{
       zh:'蠟籤',
       en:'Question Candle Fortune',
@@ -643,8 +632,8 @@ const WORKS = [
   },
   {
     id:'horsecard',
-    cover:'work-horsecards.png',
-    basket:'basket_red.png',
+    cover:'work-horsecards.webp',
+    basket:'basket_red.webp',
     title:{
       zh:'孤芳小隊 2026 馬年賀卡',
       en:'GOOD FUN TEAM 2026 Horse New Year Card',
@@ -673,8 +662,8 @@ const WORKS = [
   /* 非賣品 */
   {
     id:'pipo',
-    cover:'work-pipo.png',
-    basket:'basket_green.png',
+    cover:'work-pipo.webp',
+    basket:'basket_green.webp',
     title:{
       zh:'ピーポくん 張り子',
       en:'PIPO-kun Papier-mâché',
@@ -701,8 +690,8 @@ const WORKS = [
   },
   {
     id:'radio',
-    cover:'work-radio.png',
-    basket:'basket_red.png',
+    cover:'work-radio.webp',
+    basket:'basket_red.webp',
     title:{
       zh:'孤芳收音機',
       en:'GOOD FUN RADIO',
@@ -729,8 +718,8 @@ const WORKS = [
   },
   {
     id:'snake2025',
-    cover:'work-snake2025.png',
-    basket:'basket_red.png',
+    cover:'work-snake2025.webp',
+    basket:'basket_red.webp',
     title:{
       zh:'意嘶易嘶啦 2025 蛇年賀卡',
       en:'Hiss-Hiss 2025 Snake New Year Card',
@@ -764,8 +753,8 @@ let currentOpenId = null;
 function renderGrid(){
   grid.innerHTML = WORKS.map(w=>`
     <article class="card" data-id="${w.id}">
-      <img class="star" src="sticker_yellow.png" alt="">
-      <img class="photo" src="${w.cover}" alt="">
+      <img class="star" src="sticker_yellow.webp" alt="" loading="lazy">
+      <img class="photo" src="${w.cover}" alt="" loading="lazy">
       ${w.notForSale ? `<div class="badge-nfs">${pick(UI_TEXT.nfs)}</div>` : ''}
       <div class="name">${pick(w.title)}</div>
     </article>
@@ -798,7 +787,6 @@ function fillModal(w){
   }
   mdShopA.textContent = pick(UI_TEXT.shop);
 }
-
 function openModal(id){
   const w = WORKS.find(x=>x.id===id);
   if(!w) return;
@@ -822,15 +810,13 @@ document.addEventListener('keydown', e=>{
   if(e.key === 'Escape') closeModal();
 });
 
-/* ========= 修正版 彩帶動畫 ========= */
+/* ========= 彩帶動畫 ========= */
 function dropConfetti(){
   const count = 22;
   const cuteMode = (currentLang === 'bpmf');
-
-  const cuteSymbols   = ['✧','❀','♡','⋆','｡'];
-  const normalSymbols = ['🎉','✨','⭐','💛'];
-
-  const symbols = cuteMode ? cuteSymbols : normalSymbols;
+  const symbols = cuteMode
+    ? ['✧','❀','♡','⋆','｡']
+    : ['🎉','✨','⭐','💛'];
 
   for(let i=0;i<count;i++){
     const el = document.createElement('div');
@@ -839,9 +825,7 @@ function dropConfetti(){
     el.style.left = (Math.random()*100) + 'vw';
     el.style.fontSize = (16 + Math.random()*10) + 'px';
     document.body.appendChild(el);
-
-    // 跟 CSS 1.5s 對應，稍微多留一點
-    setTimeout(()=> el.remove(), 1600);
+    setTimeout(()=>el.remove(), 1300);
   }
 }
 
@@ -909,13 +893,13 @@ langBtns.forEach(btn=>{
     applyLangToAbout();
 
     if(currentOpenId){
-      const w = WORKS.find(x=>x.id===currentOpenId);
+      const w = WORKS.find(x => x.id === currentOpenId);
       if(w) fillModal(w);
     }
   });
 });
 
-/* ㄅㄆㄇ模式購物鍵彈一下 */
+/* ㄅㄆㄇ模式：點購物鍵小彈一下 */
 mdShopA.addEventListener('click', ()=>{
   if(currentLang !== 'bpmf') return;
   mdShopA.classList.remove('bpmf-pop');
