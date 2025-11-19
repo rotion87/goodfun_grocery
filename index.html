@@ -131,6 +131,7 @@ header{position:relative; z-index:2;}
 .ig-icons{
   position:fixed; top:16px; right:20px; z-index:200;
   display:flex; flex-direction:column; gap:10px;
+  transition:transform .45s ease, opacity .45s ease;
 }
 .ig-icons img{
   width:44px; height:44px;
@@ -142,6 +143,7 @@ header{position:relative; z-index:2;}
 .lang-fab{
   position:fixed; right:14px; bottom:14px; z-index:150;
   display:flex; flex-direction:column; gap:6px;
+  transition:transform .45s ease, opacity .45s ease;
 }
 .lang-btn{
   min-width:80px;
@@ -155,6 +157,13 @@ header{position:relative; z-index:2;}
 }
 .lang-btn.active{
   outline:3px solid var(--orange);
+}
+
+/* 彈窗時：右上頭像＋語言鍵 掉出螢幕 */
+.float-drop{
+  transform:translateY(120vh);
+  opacity:0;
+  pointer-events:none;
 }
 
 /* 作品彈窗 */
@@ -256,7 +265,6 @@ header{position:relative; z-index:2;}
 }
 </style>
 </head>
-
 <body>
 <!-- IG -->
 <div class="ig-icons">
@@ -772,6 +780,10 @@ const mdBasket= document.getElementById('mdBasket');
 const mdShop  = document.getElementById('mdShop');
 const mdShopA = document.getElementById('mdShopText');
 
+/* 新增：要一起掉下去的 UI */
+const igIcons = document.querySelector('.ig-icons');
+const langFab = document.getElementById('langFab');
+
 function fillModal(w){
   mdTitle.textContent = pick(w.title);
   mdMeta.textContent  = pick(w.meta);
@@ -794,10 +806,18 @@ function openModal(id){
   currentOpenId = id;
   fillModal(w);
   modal.classList.add('show');
+
+  /* 彈窗打開：右上頭像＋語言鍵 掉出螢幕 */
+  igIcons && igIcons.classList.add('float-drop');
+  langFab && langFab.classList.add('float-drop');
 }
 function closeModal(){
   currentOpenId = null;
   modal.classList.remove('show');
+
+  /* 彈窗關閉：右上頭像＋語言鍵 回來 */
+  igIcons && igIcons.classList.remove('float-drop');
+  langFab && langFab.classList.remove('float-drop');
 }
 
 grid.addEventListener('click', e=>{
